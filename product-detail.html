@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU - 상품상세</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/detail.css">
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="./index.html" class="logo">
+                <img src="./assets/Logo-hodu.svg" alt="HODU">
+            </a>
+            <div class="search-bar">
+                <input type="text" placeholder="상품을 검색해보세요!">
+                <button type="button"></button>
+            </div>
+            <div class="user-menu">
+                <!-- Injected via common.js -->
+            </div>
+        </div>
+    </header>
+
+    <main class="container detail-container" id="product-detail-area">
+        <!-- Injected via detail.js -->
+        <div class="loading">Loading...</div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>HODU Inc.</p>
+        </div>
+    </footer>
+
+    <script src="./js/api.js"></script>
+    <script src="./js/common.js"></script>
+    <script src="./js/detail.js"></script>
+</body>
+</html>
