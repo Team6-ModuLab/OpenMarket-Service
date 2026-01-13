@@ -163,7 +163,7 @@ function lockWhenOutOfStock() {
 }
 
 function handleBuy() {
-  const token = localStorage.getItem('accessToken') || localStorage.getItem('access');
+  const token = localStorage.getItem('accessToken') || localStorage.getItem('accessToken');
   if (!token) return alert('로그인이 필요합니다.');
 
   const stock = Number(product.stock ?? 0);
@@ -173,7 +173,7 @@ function handleBuy() {
 }
 
 function handleCart() {
-  const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
+  const token = localStorage.getItem('accessToken') || localStorage.getItem('accessToken');
   if (!token) return alert('로그인이 필요합니다.');
 
   const stock = Number(product.stock ?? 0);
