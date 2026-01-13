@@ -2,15 +2,21 @@
 
 .detail-container {
     padding: 80px 0;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.product-main {
     display: flex;
     gap: 50px;
-    align-items: flex-start;
+    margin-bottom: 60px;
 }
 
 .detail-img {
     width: 600px;
+    min-width: 600px;
     height: 600px;
-    background-color: #fff;
+    background-color: #f2f2f2;
     border: 1px solid #c4c4c4;
     display: flex;
     align-items: center;
@@ -20,7 +26,7 @@
 .detail-img img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .detail-info {
@@ -29,7 +35,7 @@
 
 .detail-seller {
     font-size: 18px;
-    color: var(--color-sub-text);
+    color: #767676;
     margin-bottom: 16px;
 }
 
@@ -42,7 +48,7 @@
 .detail-price {
     font-size: 36px;
     font-weight: 700;
-    margin-bottom: 130px; /* Space for aesthetic */
+    margin-bottom: 130px;
 }
 
 .detail-price span {
@@ -52,7 +58,7 @@
 
 .delivery-info {
     font-size: 16px;
-    color: var(--color-sub-text);
+    color: #767676;
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 2px solid #C4C4C4;
@@ -73,6 +79,7 @@
     font-size: 20px;
     background-color: #F2F2F2;
     cursor: pointer;
+    border: none;
 }
 
 .quantity-control button:disabled {
@@ -86,6 +93,8 @@
     border-left: 1px solid #C4C4C4;
     border-right: 1px solid #C4C4C4;
     font-size: 18px;
+    border-top: none;
+    border-bottom: none;
 }
 
 .total-price-area {
@@ -103,7 +112,7 @@
 }
 
 .total-price-val {
-    color: var(--color-primary);
+    color: #21BF48;
     font-size: 36px;
     font-weight: 700;
 }
@@ -111,7 +120,7 @@
 .total-price-val span {
     font-size: 18px;
     font-weight: 400;
-    color: var(--color-primary);
+    color: #21BF48;
 }
 
 .action-buttons {
@@ -125,10 +134,12 @@
     font-size: 18px;
     font-weight: 700;
     border-radius: 5px;
+    cursor: pointer;
+    border: none;
 }
 
 .btn-buy {
-    background-color: var(--color-primary);
+    background-color: #21BF48;
     color: #fff;
     flex: 2;
 }
@@ -137,4 +148,79 @@
     background-color: #767676;
     color: #fff;
     flex: 1;
+}
+
+/* 탭 영역 */
+.product-tabs {
+    width: 100%;
+}
+
+/* 탭 버튼들 */
+.tab-buttons {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 20px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #767676;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.tab-btn:hover {
+    color: #21BF48;
+}
+
+.tab-btn.active {
+    color: #21BF48;
+    border-bottom-color: #21BF48;
+    font-weight: bold;
+}
+
+
+.tab-content {
+    padding: 40px 20px;
+    min-height: 300px;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.tab-panel h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.tab-panel ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.tab-panel li {
+    margin: 8px 0;
+    color: #767676;
+}
+
+
+@media (max-width: 1280px) {
+    .product-main {
+        flex-direction: column;
+    }
+    
+    .detail-img {
+        width: 100%;
+        min-width: auto;
+    }
 }
