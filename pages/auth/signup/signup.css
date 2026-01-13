@@ -1,215 +1,417 @@
-/* css/auth.css */
-
-.auth-header {
-    display: flex;
-    justify-content: center;
-    padding: 100px 0 70px;
-    box-shadow: none; 
-    margin-bottom: 0;
-    background-color: transparent;
+.logo-link {
+    text-decoration: none;
+    display: inline-block;
 }
 
-.auth-header img {
-    width: 230px;
+.logo-link:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 200px;
+    margin-bottom: 60px;
+}
+
+.logo img {
+    width: 100%;
     height: auto;
+    display: block;
 }
 
-.auth-container {
+.signup-box {
+    width: 100%;
+    border: 1px solid #c4c4c4;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.tab-container {
     display: flex;
-    justify-content: center;
-    padding-bottom: 100px;
-}
-
-.signup-wrapper, .auth-box {
-    width: 550px;
-}
-
-.auth-tabs {
-    display: flex;
-    position: relative;
-    z-index: 10;
+    border-bottom: 1px solid #c4c4c4;
 }
 
 .tab-btn {
     flex: 1;
-    padding: 20px 0;
-    background-color: #F2F2F2;
-    border: 1px solid #C4C4C4;
-    border-bottom: 1px solid #C4C4C4; /* Initial state */
-    font-size: 18px;
-    font-weight: 500;
-    color: #000;
-    border-radius: 10px 10px 0 0;
+    padding: 20px;
+    background-color: #ffffff;
+    border: none;
+    font-size: 16px;
+    color: #767676;
     cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 .tab-btn.active {
-    background-color: #fff;
-    border-bottom: 1px solid #fff; /* Blend with form */
-    z-index: 20;
-    /* Remove bottom border visually by covering it or transparent */
-    border-bottom-color: #fff; 
-}
-
-/* Ensure form connects to tab */
-#login-form, #signup-form {
-    background-color: #fff;
-    padding: 35px;
-    border: 1px solid #C4C4C4;
-    border-radius: 0 0 10px 10px;
-    position: relative;
-    top: -1px; /* Pull up to overlap tab bottom border */
-    z-index: 5;
-}
-
-/* Common Input Styles */
-.input-group {
-    margin-bottom: 6px;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 20px;
-    border: 1px solid #C4C4C4;
-    border-radius: 0; 
-    border-bottom-width: 1px;
-    outline: none;
-    font-size: 16px;
-}
-
-/* Login specific stacked inputs */
-body.login-page .input-group:first-child input {
-    border-radius: 5px 5px 0 0;
-    border-bottom: none;
-}
-body.login-page .input-group:nth-child(2) input {
-    border-radius: 0 0 5px 5px;
-}
-
-/* Signup Form Styles */
-.signup-input-wrap {
-    margin-bottom: 12px;
-}
-
-.signup-input-wrap label {
-    display: block;
-    color: var(--color-sub-text);
-    margin-bottom: 10px;
-    font-size: 16px; 
-}
-
-.signup-input-wrap input {
-    width: 100%;
-    padding: 16px; 
-    border: 1px solid #C4C4C4;
-    border-radius: 5px;
-    outline: none;
-    font-size: 16px;
-}
-
-/* ID Input & Button */
-.input-with-btn {
-    display: flex;
-    gap: 12px;
-}
-
-.input-with-btn input {
-    flex: 1; /* Takes remaining space */
-}
-
-.btn-check {
-    width: 122px;
-    background-color: var(--color-primary);
-    color: #fff;
-    border-radius: 5px;
-    font-weight: 500;
-    font-size: 16px;
-}
-
-/* Password Input with Icon */
-.input-with-icon {
-    position: relative;
-}
-
-.input-with-icon input {
-    background-image: url('../assets/icon-check-off.svg'); 
-    background-repeat: no-repeat;
-    background-position: right 16px center; /* Position icon */
-    background-size: 28px;
-}
-
-.input-with-icon.valid input {
-    background-image: url('../assets/icon-check-on.svg');
-}
-
-/* Phone Inputs */
-.phone-inputs {
-    display: flex;
-    gap: 12px;
-}
-
-.phone-inputs select {
-    width: 152px; /* Roughly 1/3 */
-    padding: 16px;
-    border: 1px solid #C4C4C4;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 16px;
-    /* appearance: none; */ /* Restore default arrow to avoid confusion if custom one looked like checkmark */
-    background-color: #fff;
-}
-
-.phone-inputs input {
-    flex: 1;
-    text-align: center;
-}
-
-/* Terms */
-.terms-check {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 30px;
-    font-size: 16px;
-}
-
-.terms-check input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--color-primary); /* Modern browsers */
-}
-
-.terms-check label {
-    font-size: 16px;
-    color: var(--color-main-text);
-}
-
-.terms-check label span {
-    text-decoration: underline;
+    background-color: #f2f2f2;
+    color: #000000;
     font-weight: 700;
+}
+
+.tab-btn:hover {
+    background-color: #f8f8f8;
+}
+
+.signup-form {
+    padding: 36px;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+label {
+    display: block;
+    font-size: 16px;
+    color: #767676;
+    margin-bottom: 10px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #21BF48;
+}
+
+.input-field.error {
+    border-color: #EB5757;
+}
+
+.input-field.success {
+    border-color: #21BF48;
+}
+
+.password-input-container {
+    position: relative;
+}
+
+/* ⭐ 이미지 경로 수정! */
+.password-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-image: url('../../../shared/assets/icons/icon-check-off.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: block;
+}
+
+.password-icon.show {
+    background-image: url('../../../shared/assets/icons/icon-check-on.svg');
+}
+
+.input-with-button {
+    display: flex;
+    gap: 12px;
+}
+
+.input-with-button .input-field {
+    flex: 1;
+}
+
+.check-btn {
+    padding: 16px 24px;
+    background-color: #21BF48;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0;
+}
+
+.check-btn:hover {
+    background-color: #1FA03F;
+}
+
+.validation-message {
+    margin-top: 8px;
+    font-size: 14px;
+    min-height: 20px;
+}
+
+.validation-message.error {
+    color: #EB5757;
+}
+
+.validation-message.success {
+    color: #21BF48;
+}
+
+.phone-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+.select-field {
+    width: 100%;
+    padding: 16px;
+    padding-right: 40px;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #ffffff;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23767676' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+}
+
+.select-field:focus {
+    outline: none;
+    border-color: #21BF48;
+}
+
+.phone-input {
+    width: 100%;
+}
+
+.checkbox-group {
+    margin-bottom: 32px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    position: relative;
+}
+
+/* ⭐ 체크박스 이미지 경로 수정! */
+.checkbox-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    margin-top: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url('../../../shared/assets/icons/check-box.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+}
+
+.checkbox-container input[type="checkbox"]:checked {
+    background-image: url('../../../shared/assets/icons/check-fill-box.svg');
+}
+
+.checkbox-text {
+    font-size: 16px;
+    color: #767676;
+    line-height: 1.5;
+}
+
+.link-text {
+    color: #767676;
+    text-decoration: underline;
+    font-weight: 400;
+}
+
+.link-text:hover {
+    color: #767676;
+}
+
+.signup-btn {
+    width: 100%;
+    padding: 19px;
+    background-color: #c4c4c4;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: not-allowed;
+    transition: background-color 0.3s ease;
+}
+
+.signup-btn.active {
+    background-color: #21BF48;
     cursor: pointer;
 }
 
-/* Submit Button */
-.btn-submit {
-    width: 100%;
-    padding: 19px 0;
-    background-color: var(--color-primary);
-    color: #fff;
-    font-size: 18px;
-    font-weight: 700;
-    border-radius: 5px;
-    margin-top: 30px;
-}
-.btn-submit:disabled {
-    background-color: #C4C4C4;
-    cursor: default;
+.signup-btn.active:hover {
+    background-color: #1FA03F;
 }
 
-/* Error Msg */
-.error-msg {
-    color: #EB5757;
-    font-size: 14px;
-    margin-top: 6px;
-    display: none; 
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 60px 40px 40px;
+    border-radius: 10px;
+    max-width: 360px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal-icon {
+    width: 60px;
+    height: 60px;
+    background-color: #21BF48;
+    border-radius: 50%;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.modal-text {
+    font-size: 16px;
+    color: #767676;
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+.modal-text .highlight {
+    color: #21BF48;
+    font-weight: 600;
+}
+
+.modal-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #21BF48;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-btn:hover {
+    background-color: #1FA03F;
+}
+
+.seller-only-fields {
+    display: block;
+}
+
+.seller-only-fields.hidden {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 20px 16px;
+    }
+
+    .logo {
+        width: 150px;
+        margin-bottom: 40px;
+    }
+
+    .tab-btn {
+        padding: 16px 12px;
+        font-size: 14px;
+    }
+
+    .signup-form {
+        padding: 24px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    .input-field,
+    .select-field {
+        padding: 14px;
+        font-size: 14px;
+    }
+
+    .check-btn {
+        padding: 14px 20px;
+        font-size: 14px;
+    }
+
+    .validation-message {
+        font-size: 13px;
+    }
+
+    .phone-container {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .checkbox-text {
+        font-size: 14px;
+    }
+
+    .signup-btn {
+        padding: 16px;
+        font-size: 16px;
+    }
+
+    .modal-content {
+        padding: 40px 24px 24px;
+    }
+
+    .modal-text {
+        font-size: 14px;
+    }
 }
