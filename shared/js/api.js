@@ -60,13 +60,22 @@ const mockProducts = [
 
 const mockUsers = []; // Will store users here
 
+const API_BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
+
 const API = {
     // Get all products
     getProducts: async () => {
-        // Simulate network delay
-        return new Promise(resolve => {
-            setTimeout(() => resolve(mockProducts), 500);
-        });
+        try {
+            const response = await fetch(`${API_BASE_URL}/products/`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            return data.results; // Return the results array from pagination response
+        } catch (error) {
+            console.error('Failed to fetch products:', error);
+            throw error;
+        }
     },
 
     // Get product by ID
