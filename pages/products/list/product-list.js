@@ -10,16 +10,16 @@ async function renderProducts() {
             const li = document.createElement('li');
             li.className = 'product-card';
             li.onclick = () => {
-                window.location.href = `../detail/index.html?id=${product.product_id}`;
+                window.location.href = `../detail/index.html?id=${product.id}`;
             };
 
             li.innerHTML = `
                 <div class="product-img">
-                    <img src="${product.image}" alt="${product.product_name}">
+                    <img src="${product.image}" alt="${product.name}">
                 </div>
                 <div class="product-info">
-                    <p class="seller-name">${product.seller_store}</p>
-                    <h3 class="product-name">${product.product_name}</h3>
+                    <p class="seller-name">${product.seller.store_name}</p>
+                    <h3 class="product-name">${product.name}</h3>
                     <p class="product-price">${formatPrice(product.price)}<span>원</span></p>
                 </div>
             `;
