@@ -14,7 +14,7 @@ function updateHeader() {
         if (userType === 'SELLER') {
              rightMenu.innerHTML = `
                 <div class="user-menu-item" id="btn-mypage">
-                    <img src="./assets/icon-user.svg" alt="마이페이지">
+                    <img src="../../../shared/assets/icons/icon-user.svg" alt="마이페이지">
                     <span>마이페이지</span>
                     <div class="user-dropdown">
                         <button id="menu-mypage">마이페이지</button>
@@ -22,7 +22,7 @@ function updateHeader() {
                     </div>
                 </div>
                 <div class="user-menu-item" style="background-color: var(--color-primary); color: #fff; padding: 10px 20px; border-radius: 5px; flex-direction: row; gap: 5px; cursor: pointer;">
-                    <img src="./assets/icon-shopping-cart.svg" style="filter: brightness(0) invert(1); width: 24px; height: 24px; margin:0;" alt="">
+                    <img src="../../../shared/assets/icons/icon-shopping-cart.svg" style="filter: brightness(0) invert(1); width: 24px; height: 24px; margin:0;" alt="">
                     <span>판매자 센터</span>
                 </div>
             `;
@@ -30,11 +30,11 @@ function updateHeader() {
              // BUYER
              rightMenu.innerHTML = `
                 <div class="user-menu-item" id="btn-cart">
-                    <img src="./assets/icon-shopping-cart.svg" alt="장바구니">
+                    <img src="../../../shared/assets/icons/icon-shopping-cart.svg" alt="장바구니">
                     <span>장바구니</span>
                 </div>
                  <div class="user-menu-item" id="btn-mypage">
-                    <img src="./assets/icon-user.svg" alt="마이페이지">
+                    <img src="../../../shared/assets/icons/icon-user.svg" alt="마이페이지">
                     <span>마이페이지</span>
                     <div class="user-dropdown">
                         <button id="menu-mypage">마이페이지</button>
@@ -45,7 +45,8 @@ function updateHeader() {
             
             // Buyer Cart Click
             document.getElementById('btn-cart').addEventListener('click', () => {
-                window.location.href = './cart.html'; // Or mock
+                alert('장바구니 페이지는 준비 중입니다.');
+                // window.location.href = '../../cart/index.html'; // 장바구니 페이지 생성 후 활성화
             });
         }
         
@@ -74,25 +75,25 @@ function updateHeader() {
              localStorage.removeItem('token');
              localStorage.removeItem('userType');
              alert('로그아웃 되었습니다.');
-             window.location.href = './index.html';
+             window.location.href = '../../../index.html';
         });
 
     } else {
         // Not Logged In
         rightMenu.innerHTML = `
             <div class="user-menu-item" id="btn-cart-guest">
-                <img src="./assets/icon-shopping-cart.svg" alt="장바구니">
+                <img src="../../../shared/assets/icons/icon-shopping-cart.svg" alt="장바구니">
                 <span>장바구니</span>
             </div>
             <div class="user-menu-item" id="btn-login">
-                <img src="./assets/icon-user.svg" alt="로그인">
+                <img src="../../../shared/assets/icons/icon-user.svg" alt="로그인">
                 <span>로그인</span>
             </div>
         `;
 
         // Event Listeners for Guest
         document.getElementById('btn-login').addEventListener('click', () => {
-            window.location.href = './login.html';
+            window.location.href = '../../auth/login/index.html';
         });
 
         document.getElementById('btn-cart-guest').addEventListener('click', () => {
@@ -146,7 +147,7 @@ function showLoginModal() {
         modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());
         modal.querySelector('.btn-no').addEventListener('click', () => modal.remove());
         modal.querySelector('.btn-yes').addEventListener('click', () => {
-             window.location.href = './login.html';
+             window.location.href = '../../auth/login/index.html';
         });
     }
 }
