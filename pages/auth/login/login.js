@@ -61,9 +61,9 @@ form.addEventListener('submit', async (e) => {
         
         // Go back to previous page or index
         // Requirement: "Move to previous page"
-        // Since we don't have robust routing history, we can default to index.html 
+        // Since we don't have robust routing history, we can default to index.html
         // or check document.referrer if it's same origin.
-        window.location.href = './index.html';
+        window.location.href = '../../products/list/index.html';
 
     } catch (error) {
         // Requirement: "If ID/PW mismatch, focus password and clear it."

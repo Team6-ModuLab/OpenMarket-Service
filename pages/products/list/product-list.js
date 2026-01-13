@@ -10,7 +10,7 @@ async function renderProducts() {
             const li = document.createElement('li');
             li.className = 'product-card';
             li.onclick = () => {
-                window.location.href = `./product-detail.html?id=${product.product_id}`;
+                window.location.href = `../detail/index.html?id=${product.product_id}`;
             };
 
             li.innerHTML = `
