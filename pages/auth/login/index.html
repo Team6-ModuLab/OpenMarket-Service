@@ -17,10 +17,7 @@
 
     <main class="auth-container">
         <div class="auth-box">
-            <div class="auth-tabs">
-                <button class="tab-btn active" data-type="BUYER">구매회원 로그인</button>
-                <button class="tab-btn" data-type="SELLER">판매회원 로그인</button>
-            </div>
+            <p class="login-letter">로그인</p>
             
             <form id="login-form">
                 <div class="input-group">
@@ -29,10 +26,9 @@
                 </div>
                 <div class="input-group">
                     <input type="password" id="password" placeholder="비밀번호">
-                     <p class="error-msg" id="error-pw">비밀번호를 입력해주세요.</p>
+                    <p class="error-msg" id="error-pw">비밀번호를 입력해주세요.</p>
                 </div>
-
-                <!-- Global Error Message for Login Failure -->
+                
                 <p class="login-error-msg hidden" id="login-fail-msg">아이디 또는 비밀번호가 일치하지 않습니다.</p>
 
                 <button type="submit" class="btn-submit">로그인</button>

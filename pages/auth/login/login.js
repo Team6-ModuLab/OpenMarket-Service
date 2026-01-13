@@ -1,18 +1,5 @@
 // js/login.js
 
-const tabs = document.querySelectorAll('.tab-btn');
-let currentType = 'BUYER';
-
-// Tab Switching
-tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        currentType = tab.dataset.type;
-    });
-});
-
-// Form Submission
 const form = document.getElementById('login-form');
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
@@ -20,57 +7,70 @@ const errorId = document.getElementById('error-id');
 const errorPw = document.getElementById('error-pw');
 const loginFailMsg = document.getElementById('login-fail-msg');
 
+// 2. 로그인 API 함수 (통신 역할만 수행)
+async function login(username, password) {
+    const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
+
+    const response = await fetch(`${BASE_URL}/accounts/login/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password,
+        }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+        return data; // 성공 시 결과 반환
+    } else {
+        // 실패 시 서버의 에러 메시지나 커스텀 에러를 던짐
+        throw new Error(data.FAIL_Message || 'AUTH_FAILED');
+    }
+}
+
+// 3. 폼 제출 이벤트 (UI 제어 및 예외 처리)
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Reset Errors
+    // 초기화
     errorId.style.display = 'none';
     errorPw.style.display = 'none';
     loginFailMsg.classList.add('hidden');
-    
+
     const username = usernameInput.value.trim();
     const password = passwordInput.value.trim();
 
-    let hasError = false;
-
+    // 유효성 검사 (입력창이 비었는지 확인)
     if (!username) {
         errorId.style.display = 'block';
         usernameInput.focus();
-        hasError = true;
+        return;
     }
-    
-    // Per requirements: If login button is pressed with empty fields, focus on the empty field. 
-    // If username is empty, focus there. If username is filled but password empty, focus password.
-    if (!username) {
-        // already handled
-    } else if (!password) {
+    if (!password) {
         errorPw.style.display = 'block';
         passwordInput.focus();
-        hasError = true;
+        return;
     }
 
-    if (hasError) return;
-
-    // Login Attempt
     try {
-        const result = await API.login(username, password, currentType);
-        
-        // Success
-        localStorage.setItem('token', result.token);
-        localStorage.setItem('userType', currentType);
-        
-        // Go back to previous page or index
-        // Requirement: "Move to previous page"
-        // Since we don't have robust routing history, we can default to index.html
-        // or check document.referrer if it's same origin.
+        const result = await login(username, password);
+
+        // 로그인 성공 시 토큰 저장
+        localStorage.setItem('access', result.access);
+        localStorage.setItem('refresh', result.refresh);
+        localStorage.setItem('userType', result.user.user_type);
+
+        // 메인으로 이동
         window.location.href = '../../products/list/index.html';
 
     } catch (error) {
-        // Requirement: "If ID/PW mismatch, focus password and clear it."
-        if (error === 'FAIL_MISMATCH') {
-            passwordInput.value = '';
-            passwordInput.focus();
-            loginFailMsg.classList.remove('hidden');
-        }
+        // 로그인 실패 시 처리 (아이디/비밀번호 불일치 등)
+        passwordInput.value = '';
+        passwordInput.focus();
+        loginFailMsg.classList.remove('hidden');
     }
 });
