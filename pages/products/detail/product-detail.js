@@ -1,4 +1,4 @@
-const urlParams = new URLSearchParams(window.location.search);
+const urlParams = new URLSearchParams (window.location.search);
 const productId = urlParams.get('id') || '1';
 
 let product = null;
