@@ -6,43 +6,40 @@
 
 ```
 OpenMarket-Service/
-├── public/
-│   └── assets/              # 공통 이미지, 아이콘, 로고
-│       └── icons/
-│
-├── src/
-│   ├── pages/
-│   │   ├── auth/
-│   │   │   ├── login/       # 👤 팀원 1: 로그인 페이지
-│   │   │   │   ├── index.html
-│   │   │   │   ├── login.js
-│   │   │   │   └── login.css
-│   │   │   │
-│   │   │   └── signup/      # 👤 팀원 2: 회원가입 페이지
-│   │   │       ├── index.html
-│   │   │       ├── signup.js
-│   │   │       └── signup.css
+├── pages/
+│   ├── auth/
+│   │   ├── login/           # 👤 팀원 1: 로그인 페이지
+│   │   │   ├── index.html
+│   │   │   ├── login.js
+│   │   │   └── login.css
 │   │   │
-│   │   └── products/
-│   │       ├── list/        # 👤 팀원 3: 상품 목록 페이지
-│   │       │   ├── index.html
-│   │       │   ├── product-list.js
-│   │       │   └── product-list.css
-│   │       │
-│   │       └── detail/      # 👤 팀원 4: 상품 상세 페이지
-│   │           ├── index.html
-│   │           ├── product-detail.js
-│   │           └── product-detail.css
+│   │   └── signup/          # 👤 팀원 2: 회원가입 페이지
+│   │       ├── index.html
+│   │       ├── signup.js
+│   │       └── signup.css
 │   │
-│   └── shared/              # 공통 코드 (협의 후 수정)
-│       ├── js/
-│       │   ├── api.js       # API 호출 관련
-│       │   └── utils.js     # 유틸리티 함수
+│   └── products/
+│       ├── list/            # 👤 팀원 3: 상품 목록 페이지
+│       │   ├── index.html
+│       │   ├── product-list.js
+│       │   └── product-list.css
 │       │
-│       └── css/
-│           ├── reset.css    # CSS 리셋
-│           ├── common.css   # 공통 스타일
-│           └── auth.css     # 인증 페이지 공통 스타일
+│       └── detail/          # 👤 팀원 4: 상품 상세 페이지
+│           ├── index.html
+│           ├── product-detail.js
+│           └── product-detail.css
+│
+├── shared/                  # 공통 코드 (협의 후 수정)
+│   ├── assets/              # 공통 이미지, 아이콘, 로고
+│   │   └── icons/
+│   ├── js/
+│   │   ├── api.js           # API 호출 관련
+│   │   └── utils.js         # 유틸리티 함수
+│   │
+│   └── css/
+│       ├── reset.css        # CSS 리셋
+│       ├── common.css       # 공통 스타일
+│       └── auth.css         # 인증 페이지 공통 스타일
 │
 └── index.html               # 진입점 (자동 리다이렉트)
 ```
@@ -50,22 +47,22 @@ OpenMarket-Service/
 ## 팀원별 작업 영역
 
 ### 👤 팀원 1: 로그인 페이지
-- **작업 폴더**: `src/pages/auth/login/`
+- **작업 폴더**: `pages/auth/login/`
 - **파일**: index.html, login.js, login.css
 - **브랜치**: `feature/login`
 
 ### 👤 팀원 2: 회원가입 페이지
-- **작업 폴더**: `src/pages/auth/signup/`
+- **작업 폴더**: `pages/auth/signup/`
 - **파일**: index.html, signup.js, signup.css
 - **브랜치**: `feature/signup`
 
 ### 👤 팀원 3: 상품 목록 페이지
-- **작업 폴더**: `src/pages/products/list/`
+- **작업 폴더**: `pages/products/list/`
 - **파일**: index.html, product-list.js, product-list.css
 - **브랜치**: `feature/product-list`
 
 ### 👤 팀원 4: 상품 상세 페이지
-- **작업 폴더**: `src/pages/products/detail/`
+- **작업 폴더**: `pages/products/detail/`
 - **파일**: index.html, product-detail.js, product-detail.css
 - **브랜치**: `feature/product-detail`
 
@@ -78,7 +75,7 @@ OpenMarket-Service/
    - 다른 팀원의 폴더는 절대 수정하지 않음
 
 2. **공통 코드 수정**
-   - `src/shared/` 폴더 수정 시 반드시 팀원들과 사전 협의
+   - `shared/` 폴더 수정 시 반드시 팀원들과 사전 협의
    - 협의 후 별도 브랜치(`feature/shared-update`)에서 작업
    - PR을 통해 리뷰 후 병합
 
@@ -125,7 +122,7 @@ git checkout -b feature/product-detail
 
 ## 페이지 접근 경로
 
-- **메인(상품 목록)**: `/` → 자동으로 `/src/pages/products/list/index.html`로 이동
-- **로그인**: `/src/pages/auth/login/index.html`
-- **회원가입**: `/src/pages/auth/signup/index.html`
-- **상품 상세**: `/src/pages/products/detail/index.html`
+- **메인(상품 목록)**: `/` → 자동으로 `/pages/products/list/index.html`로 이동
+- **로그인**: `/pages/auth/login/index.html`
+- **회원가입**: `/pages/auth/signup/index.html`
+- **상품 상세**: `/pages/products/detail/index.html`
