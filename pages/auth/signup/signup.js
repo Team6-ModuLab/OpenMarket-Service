@@ -1,113 +1,224 @@
-// js/signup.js
+// 탭전환
+const buyerTab = document.getElementById('buyer-tab');
+const sellerTab = document.getElementById('seller-tab');
+const sellerFields = document.querySelector('.seller-only-fields');
+const businessNumber = document.getElementById('business-number');
+const storeName = document.getElementById('store-name');
 
-const tabs = document.querySelectorAll('.tab-btn');
-let currentType = 'BUYER';
-let isIdChecked = false;
-
-// Tabs
-tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        currentType = tab.dataset.type;
-        // Logic for Seller specific fields could go here (Registration Number, etc.)
-        // But design shows same fields for Buyer for now, or just switches context.
-    });
+// 구매회원
+buyerTab.addEventListener('click', () => {
+    buyerTab.classList.add('active');
+    sellerTab.classList.remove('active');
+    sellerFields.classList.add('hidden');
+    checkFormValidity();
 });
 
-// Elements
-const signupForm = document.getElementById('signup-form');
-const btnSignup = document.getElementById('btn-signup');
-const termsCheck = document.getElementById('terms-check');
-const idInput = document.getElementById('id-input');
-const btnCheckDup = document.getElementById('btn-check-dup');
-const errorIdDup = document.getElementById('error-id-dup');
-const pwInput = document.getElementById('pw-input');
-const pwConfirmInput = document.getElementById('pw-confirm-input');
-const errorPwMatch = document.getElementById('error-pw-match');
-const nameInput = document.getElementById('name-input');
-const phone2 = document.getElementById('phone-2');
-const phone3 = document.getElementById('phone-3');
+// 판매회원
+sellerTab.addEventListener('click', () => {
+    sellerTab.classList.add('active');
+    buyerTab.classList.remove('active');
+    sellerFields.classList.remove('hidden');
+    checkFormValidity();
+});
 
-// Validation function to enable button
-function checkValidation() {
-    const isPwMatch = pwInput.value && pwConfirmInput.value && (pwInput.value === pwConfirmInput.value);
-    const isAllFilled = idInput.value && nameInput.value && phone2.value && phone3.value;
-    const isTerms = termsCheck.checked;
+// 상태
+let isIdChecked = false;
+let isIdAvailable = false;
+let isPasswordValid = false;
+let isPasswordMatch = false;
+let isBusinessChecked = false;
 
-    if (isIdChecked && isPwMatch && isAllFilled && isTerms) {
-        btnSignup.disabled = false;
-        btnSignup.style.backgroundColor = 'var(--color-primary)';
+// 이미사용중인아이디
+const usedIds = ['jeju1234', 'test1234', 'hodu1234'];
+
+// DOM
+const userIdInput = document.getElementById('user-id');
+const idMessage = document.getElementById('id-message');
+const checkBtn = document.querySelector('.check-btn');
+const passwordInput = document.getElementById('password');
+const passwordConfirmInput = document.getElementById('password-confirm');
+const passwordMessage = document.getElementById('password-message');
+const passwordIcon = document.getElementById('password-icon');
+const passwordConfirmIcon = document.getElementById('password-confirm-icon');
+const signupForm = document.querySelector('.signup-form');
+const signupBtn = document.querySelector('.signup-btn');
+const termsCheckbox = document.getElementById('terms-agree');
+const businessCheckBtn = document.getElementById('business-check-btn');
+const phoneMiddle = document.getElementById('phone-middle');
+const phoneLast = document.getElementById('phone-last');
+
+// 아이디입력
+userIdInput.addEventListener('input', () => {
+    isIdChecked = false;
+    isIdAvailable = false;
+    idMessage.textContent = '';
+    idMessage.className = 'validation-message';
+    userIdInput.classList.remove('error', 'success');
+    checkFormValidity();
+});
+
+// 중복확인
+checkBtn.addEventListener('click', () => {
+    const userId = userIdInput.value.trim();
+
+    if (!userId) {
+        idMessage.textContent = '아이디를 입력해주세요.';
+        idMessage.className = 'validation-message error';
+        userIdInput.classList.add('error');
+        return;
+    }
+    if (userId.length < 8) {
+        alert('아이디는 8자 이상 입력해주세요.');
+        userIdInput.classList.add('error');
+        userIdInput.classList.remove('success');
+        isIdChecked = false;
+        isIdAvailable = false;
+        return;
+    }
+    if (usedIds.includes(userId)) {
+        idMessage.textContent = '이미 사용중인 아이디입니다.';
+        idMessage.className = 'validation-message error';
+        userIdInput.classList.add('error');
+        isIdChecked = true;
+        isIdAvailable = false;
     } else {
-        btnSignup.disabled = true;
-        btnSignup.style.backgroundColor = '#C4C4C4';
+        idMessage.textContent = '멋진 아이디네요 :)';
+        idMessage.className = 'validation-message success';
+        userIdInput.classList.remove('error');
+        userIdInput.classList.add('success');
+        isIdChecked = true;
+        isIdAvailable = true;
+    }
+    checkFormValidity();
+});
+
+// 사업자등록번호인증
+if (businessCheckBtn) {
+    businessCheckBtn.addEventListener('click', () => {
+        if (!businessNumber.value.trim()) {
+            alert('사업자 등록번호를 입력해주세요.');
+            return;
+        }
+        alert('사업자 등록번호가 인증되었습니다.');
+        isBusinessChecked = true;
+        businessNumber.classList.add('success');
+        checkFormValidity();
+    });
+}
+
+// 사업자등록번호
+businessNumber.addEventListener('input', function () {
+    if (this.value.length > 10) {
+        this.value = this.value.slice(0, 10);
+    }
+    isBusinessChecked = false;
+    businessNumber.classList.remove('success');
+    checkFormValidity();
+});
+
+// 비밀번호유효성
+passwordInput.addEventListener('input', () => {
+    if (passwordInput.value.length >= 8) {
+        isPasswordValid = true;
+        passwordInput.classList.add('success');
+        passwordIcon.classList.add('show');
+    } else {
+        isPasswordValid = false;
+        passwordInput.classList.remove('success');
+        passwordIcon.classList.remove('show');
+    }
+    if (passwordConfirmInput.value) {
+        checkPasswordMatch();
+    }
+    checkFormValidity();
+});
+
+// 비밀번호재확인
+passwordConfirmInput.addEventListener('input', checkPasswordMatch);
+function checkPasswordMatch() {
+    const password = passwordInput.value;
+    const confirm = passwordConfirmInput.value;
+
+    if (!confirm) {
+        passwordMessage.textContent = '';
+        passwordMessage.className = 'validation-message';
+        passwordConfirmInput.classList.remove('error', 'success');
+        passwordConfirmIcon.classList.remove('show');
+        isPasswordMatch = false;
+        checkFormValidity();
+        return;
+    }
+    if (password !== confirm) {
+        passwordMessage.textContent = '비밀번호가 일치하지 않습니다.';
+        passwordMessage.className = 'validation-message error';
+        passwordConfirmInput.classList.add('error');
+        passwordConfirmInput.classList.remove('success');
+        passwordConfirmIcon.classList.remove('show');
+        isPasswordMatch = false;
+    } else {
+        passwordMessage.textContent = '';
+        passwordMessage.className = 'validation-message';
+        passwordConfirmInput.classList.remove('error');
+        passwordConfirmInput.classList.add('success');
+        passwordConfirmIcon.classList.add('show');
+        isPasswordMatch = true;
+    }
+    checkFormValidity();
+}
+
+// 휴대폰번호
+phoneMiddle.addEventListener('input', function () {
+    if (this.value.length > 4) {
+        this.value = this.value.slice(0, 4);
+    }
+    checkFormValidity();
+});
+phoneLast.addEventListener('input', function () {
+    if (this.value.length > 4) {
+        this.value = this.value.slice(0, 4);
+    }
+    checkFormValidity();
+});
+
+// 폼유효성
+function checkFormValidity() {
+    const isSeller = sellerTab.classList.contains('active');
+
+    let sellerValid = true;
+    if (isSeller) {
+        sellerValid =
+            businessNumber.value.trim() &&
+            isBusinessChecked &&
+            storeName.value.trim();
+    }
+    if (
+        userIdInput.value &&
+        isIdChecked &&
+        isIdAvailable &&
+        isPasswordValid &&
+        isPasswordMatch &&
+        document.getElementById('name').value &&
+        phoneMiddle.value &&
+        phoneLast.value &&
+        termsCheckbox.checked &&
+        sellerValid
+    ) {
+        signupBtn.classList.add('active');
+        signupBtn.disabled = false;
+    } else {
+        signupBtn.classList.remove('active');
+        signupBtn.disabled = true;
     }
 }
 
-// Events
-[idInput, pwInput, pwConfirmInput, nameInput, phone2, phone3].forEach(input => {
-    input.addEventListener('input', checkValidation);
-});
+document.getElementById('name').addEventListener('input', checkFormValidity);
+termsCheckbox.addEventListener('change', checkFormValidity);
+if (storeName) storeName.addEventListener('input', checkFormValidity);
 
-termsCheck.addEventListener('change', checkValidation);
-
-// ID Duplicate Check
-btnCheckDup.addEventListener('click', async () => {
-    const id = idInput.value.trim();
-    if (!id) return;
-
-    const isAvailable = await API.checkIdDuplicate(id);
-    if (!isAvailable) {
-        errorIdDup.style.display = 'block';
-        errorIdDup.style.color = ''; // Reset to default red (or explicitly '#EB5757')
-        errorIdDup.innerText = "이미 사용중인 아이디입니다.";
-        isIdChecked = false;
-    } else {
-        errorIdDup.style.display = 'block';
-        errorIdDup.style.color = 'var(--color-primary)';
-        errorIdDup.innerText = "사용 가능한 아이디입니다.";
-        isIdChecked = true;
-    }
-    checkValidation();
-});
-
-// Password Match Check
-pwInput.addEventListener('input', () => { // Also check on input
-    const wrap = document.getElementById('pw-wrap');
-    if (pwInput.value.length > 0) wrap.classList.add('valid');
-    else wrap.classList.remove('valid');
-    checkValidation();
-});
-
-pwConfirmInput.addEventListener('input', () => {
-    const wrap = document.getElementById('pw-check-wrap');
-    if (pwConfirmInput.value.length > 0 && pwConfirmInput.value === pwInput.value) {
-        wrap.classList.add('valid');
-        errorPwMatch.style.display = 'none';
-    } else {
-        wrap.classList.remove('valid');
-        if (pwConfirmInput.value.length > 0) errorPwMatch.style.display = 'block';
-    }
-    checkValidation();
-});
-
-
-// Submit
-signupForm.addEventListener('submit', async (e) => {
+// 폼제출 - 로그인 페이지로 이동
+signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (btnSignup.disabled) return;
-
-    try {
-        await API.signup({
-            username: idInput.value,
-            password: pwInput.value,
-            name: nameInput.value,
-            user_type: currentType
-        });
-        
-        alert('회원가입이 완료되었습니다.');
-        window.location.href = './login.html';
-    } catch (error) {
-        alert('가입 중 오류가 발생했습니다.');
-    }
+    if (!signupBtn.classList.contains('active')) return;
+    alert('회원가입이 완료되었습니다.');
+    window.location.href = '../login/index.html';
 });
