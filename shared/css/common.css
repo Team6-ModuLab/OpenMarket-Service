@@ -59,7 +59,7 @@ header {
     transform: translateY(-50%);
     width: 28px;
     height: 28px;
-    background: url('../assets/icon-search.svg') no-repeat center/contain; /* need asset */
+    background: url('../assets/icons/icon-search.svg') no-repeat center/contain;
 }
 
 /* User Menu (Cart, MyPage, Login) */
@@ -128,8 +128,11 @@ header {
     gap: 14px;
 }
 
-.social-icons a svg {
-    display: block; /* Remove inline-block gap */
+.social-icons a svg,
+.social-icons a img {
+    display: block;
+    width: 32px;
+    height: 32px;
 }
 
 .footer-bottom .company-name {
