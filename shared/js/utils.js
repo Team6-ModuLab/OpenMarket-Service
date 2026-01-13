@@ -1,7 +1,7 @@
 // js/common.js
 
 function updateHeader() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access');
     const userType = localStorage.getItem('userType'); // 'BUYER' or 'SELLER'
     const rightMenu = document.querySelector('.user-menu');
 
@@ -72,7 +72,7 @@ function updateHeader() {
 
         // Logout
         btnLogout.addEventListener('click', () => {
-             localStorage.removeItem('token');
+             localStorage.removeItem('access');
              localStorage.removeItem('userType');
              alert('로그아웃 되었습니다.');
              window.location.href = '../../../index.html';
