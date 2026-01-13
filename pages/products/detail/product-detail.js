@@ -1,5 +1,5 @@
-const urlParams = new URLSearchParams (window.location.search);
-const productId = urlParams.get('id') || '1';
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get('id');
 
 let product = null;
 let quantity = 1;
@@ -14,12 +14,18 @@ function normalizeProduct(raw) {
     price: raw.price,
     shippingFee: raw.shipping_fee ?? raw.shippingFee ?? 0,
     stock: raw.stock ?? raw.stock_quantity ?? 0,
-    storeName: raw.seller?.store_name ?? raw.seller_store ?? raw.store_name ?? "",
-    info: raw.product_info ?? raw.info ?? raw.description ?? ""
+    storeName: raw.seller?.store_name ?? raw.seller_store ?? raw.store_name ?? '',
+    info: raw.product_info ?? raw.info ?? raw.description ?? ''
   };
 }
 
 async function loadProduct() {
+  if (!productId) {
+    alert('잘못된 접근입니다.');
+    window.location.href = '../list/index.html';
+    return;
+  }
+
   try {
     const raw = await API.getProductDetail(productId);
     product = normalizeProduct(raw);
@@ -28,13 +34,13 @@ async function loadProduct() {
     console.log('샘플 데이터 사용');
     const rawSample = {
       product_id: 1,
-      product_name: "Hack Your Life 개발자 노트북 파우치",
-      image: "https://openmarket.weniv.co.kr/media/products/2026/01/11/IMG_01.jpg",
+      product_name: 'Hack Your Life 개발자 노트북 파우치',
+      image: 'https://openmarket.weniv.co.kr/media/products/2026/01/11/IMG_01.jpg',
       price: 29000,
       shipping_fee: 3000,
       stock: 50,
-      seller_store: "우당탕탕 라이켓의 실험실",
-      product_info: "개발자를 위한 힙한 노트북 파우치입니다."
+      seller_store: '우당탕탕 라이켓의 실험실',
+      product_info: '개발자를 위한 힙한 노트북 파우치입니다.'
     };
     product = normalizeProduct(rawSample);
     renderDetail();
@@ -42,6 +48,8 @@ async function loadProduct() {
 }
 
 function renderDetail() {
+  quantity = 1;
+
   detailArea.innerHTML = `
     <div class="product-main">
       <div class="detail-img">
@@ -70,6 +78,8 @@ function renderDetail() {
           </div>
         </div>
 
+        ${Number(product.stock ?? 0) <= 0 ? `<p class="stock-alert">현재 재고가 없습니다.</p>` : ``}
+
         <div class="action-buttons">
           <button class="btn-buy" type="button">바로 구매</button>
           <button class="btn-cart" type="button">장바구니</button>
@@ -79,7 +89,7 @@ function renderDetail() {
 
     <div class="product-tabs">
       <div class="tab-buttons">
-        <button class="tab-btn active" data-tab="detail">버튼</button>
+        <button class="tab-btn active" data-tab="detail">상세</button>
         <button class="tab-btn" data-tab="review">리뷰</button>
         <button class="tab-btn" data-tab="qna">Q&A</button>
         <button class="tab-btn" data-tab="return">반품/교환정보</button>
@@ -114,6 +124,7 @@ function renderDetail() {
   document.querySelector('.btn-cart').addEventListener('click', handleCart);
 
   checkStockLimit();
+  lockWhenOutOfStock();
   setupTabs();
 }
 
@@ -141,15 +152,33 @@ function checkStockLimit() {
   btnPlus.disabled = stock <= 0 || quantity >= stock;
 }
 
+function lockWhenOutOfStock() {
+  const stock = Number(product.stock ?? 0);
+  if (stock > 0) return;
+
+  document.getElementById('btn-minus').disabled = true;
+  document.getElementById('btn-plus').disabled = true;
+  document.querySelector('.btn-buy').disabled = true;
+  document.querySelector('.btn-cart').disabled = true;
+}
+
 function handleBuy() {
   const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
   if (!token) return alert('로그인이 필요합니다.');
+
+  const stock = Number(product.stock ?? 0);
+  if (stock <= 0) return alert('현재 품절된 상품입니다.');
+
   alert(`[구매 완료] ${product.name} ${quantity}개를 구매했습니다.`);
 }
 
 function handleCart() {
   const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
   if (!token) return alert('로그인이 필요합니다.');
+
+  const stock = Number(product.stock ?? 0);
+  if (stock <= 0) return alert('현재 품절된 상품입니다.');
+
   alert(`[장바구니 담기] ${product.name}`);
 }
 
@@ -170,3 +199,4 @@ function setupTabs() {
 }
 
 loadProduct();
+
