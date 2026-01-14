@@ -24,6 +24,8 @@ async function loadProduct() {
 
   try {
     product = await getRealProductDetail(productId);
+    console.log (product);
+
     renderDetail();
   } catch (error) {
     console.error('상품 불러오기 실패:', error);
@@ -42,12 +44,12 @@ function renderDetail() {
         <img src="${product.image}" alt="${product.name}">
       </div>
       <div class="detail-info">
-        <p class="detail-seller">${product.storeName}</p>
-        <h2 class="detail-name">${product.name}</h2>
-        <p class="detail-price">${formatPrice(product.price)}<span>원</span></p>
+       <p class="detail-seller">${product.seller?.store_name || ''}</p>
+      <h2 class="detail-name">${product.name}</h2>    
+      <p class="detail-price">${formatPrice(product.price)}<span>원</span></p>
 
-        <p class="delivery-info">
-          택배배송 / ${product.shippingFee > 0 ? formatPrice(product.shippingFee) + '원' : '무료배송'}
+      <p class="delivery-info">
+       택배배송 / ${product.shipping_fee > 0 ? formatPrice(product.shipping_fee) + '원' : '무료배송'}
         </p>
 
         <div class="quantity-control">
