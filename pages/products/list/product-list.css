@@ -145,3 +145,15 @@
     font-weight: 400;
     margin-left: 2px;
 }
+
+/* ===== 검색 결과 없을 때 ===== */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.no-results p {
+    font-size: 20px;
+    color: #767676;
+}

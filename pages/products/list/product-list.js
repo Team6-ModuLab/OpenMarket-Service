@@ -91,11 +91,29 @@ function stopAutoPlay() {
 }
 
 // ===== Product List =====
-async function renderProducts() {
+async function renderProducts(searchQuery = '') {
     const productList = document.getElementById('product-list');
     
     try {
-        const products = await API.getProducts(); // Fetch mock products
+        let url = 'https://api.wenivops.co.kr/services/open-market/products/';
+        if (searchQuery) {
+            url += `?search=${encodeURIComponent(searchQuery)}`;
+        }
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        const products = data.results;
+
+        productList.innerHTML = '';
+
+        if (products.length === 0) {
+            productList.innerHTML = `
+                <div class="no-results">
+                    <p>검색 결과가 없습니다.</p>
+                </div>
+            `;
+            return;
+        }
 
         products.forEach(product => {
             const li = document.createElement('li');
@@ -122,6 +140,36 @@ async function renderProducts() {
     }
 }
 
+function setupSearch() {
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+
+    if (!searchInput || !searchBtn) return;
+
+    function performSearch() {
+        const query = searchInput.value.trim();
+        if (query) {
+            window.location.href = `?search=${encodeURIComponent(query)}`;
+        } else {
+            window.location.href = 'index.html';
+        }
+    }
+
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') performSearch();
+    });
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+const searchQuery = urlParams.get('search') || '';
+
+const searchInput = document.getElementById('search-input');
+if (searchInput && searchQuery) {
+    searchInput.value = searchQuery;
+}
+
 // Initial Load
 initBanner();
-renderProducts();
+renderProducts(searchQuery);
+setupSearch();

@@ -42,7 +42,7 @@ function renderDetail() {
       </div>
       <div class="detail-info">
         <p class="detail-seller">${product.seller?.store_name || ''}</p>
-        <h2 class="detail-name">${product.name}</h2>    
+        <h2 class="detail-name">${product.name}</h2>
         <p class="detail-price">${formatPrice(product.price)}<span>원</span></p>
 
         <p class="delivery-info">
@@ -109,7 +109,6 @@ function renderDetail() {
   document.querySelector('.btn-cart').addEventListener('click', handleCart);
 
   checkStockLimit();
-  // lockWhenOutOfStock();  // 
   setupTabs();
 }
 
@@ -138,21 +137,16 @@ function checkStockLimit() {
 }
 
 function handleBuy() {
-  console.log('구매 버튼 클릭! 재고:', product.stock);
-  
   const token = localStorage.getItem('accessToken') || localStorage.getItem('access');
-  
+
   if (!token) {
-    console.log('로그인 필요');
     showLoginModal();
     return;
   }
 
   const stock = Number(product.stock ?? 0);
-  
-  
+
   if (stock <= 0 || quantity > stock) {
-    console.log('재고 부족 모달 표시');
     showStockExceededModal();
     return;
   }
@@ -161,29 +155,22 @@ function handleBuy() {
 }
 
 function handleCart() {
-  console.log('장바구니 버튼 클릭! 재고:', product.stock);
-
   const token = localStorage.getItem('accessToken') || localStorage.getItem('access');
 
   if (!token) {
-    console.log('로그인 필요');
     showLoginModal();
     return;
   }
 
   const stock = Number(product.stock ?? 0);
 
-
   if (stock <= 0 || quantity > stock) {
-    console.log('재고 부족 모달 표시');
     showStockExceededModal();
     return;
   }
 
   // 장바구니에 상품 추가
   const added = addToCart(productId, quantity);
-
-  console.log('장바구니 성공 모달 표시');
   showCartSuccessModal(added);
 }
 
@@ -223,10 +210,7 @@ function setupTabs() {
   });
 }
 
-
 function showCartSuccessModal(isNewItem) {
-  console.log('showCartSuccessModal 함수 실행됨!');
-
   const existing = document.getElementById('cart-success-modal');
   if (existing) {
     existing.remove();
@@ -250,39 +234,23 @@ function showCartSuccessModal(isNewItem) {
   `;
 
   document.body.insertAdjacentHTML('beforeend', modalHTML);
-  console.log('모달 HTML 추가 완료');
 
   const modal = document.getElementById('cart-success-modal');
-  console.log('모달 요소:', modal);
 
-  modal.querySelector('.close-btn').addEventListener('click', () => {
-    console.log('X 버튼 클릭');
-    modal.remove();
-  });
-
-  modal.querySelector('.btn-no').addEventListener('click', () => {
-    console.log('아니오 버튼 클릭');
-    modal.remove();
-  });
-
+  modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());
+  modal.querySelector('.btn-no').addEventListener('click', () => modal.remove());
   modal.querySelector('.btn-yes').addEventListener('click', () => {
-    console.log('예 버튼 클릭 - 장바구니로 이동');
     window.location.href = '../../cart/index.html';
   });
 
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
-      console.log('배경 클릭');
       modal.remove();
     }
   });
 }
 
-
 function showStockExceededModal() {
-  console.log('showStockExceededModal 함수 실행됨!');
-  
-
   const existing = document.getElementById('stock-exceeded-modal');
   if (existing) {
     existing.remove();
@@ -300,10 +268,9 @@ function showStockExceededModal() {
       </div>
     </div>
   `;
-  
+
   document.body.insertAdjacentHTML('beforeend', modalHTML);
-  console.log('재고 초과 모달 HTML 추가 완료');
-  
+
   const modal = document.getElementById('stock-exceeded-modal');
 
   modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());
@@ -317,4 +284,26 @@ function showStockExceededModal() {
   });
 }
 
+function setupSearch() {
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+
+    if (!searchInput || !searchBtn) return;
+
+    function performSearch() {
+        const query = searchInput.value.trim();
+        if (!query) {
+            window.location.href = '../list/index.html';
+            return;
+        }
+        window.location.href = `../list/index.html?search=${encodeURIComponent(query)}`;
+    }
+
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') performSearch();
+    });
+}
+
 loadProduct();
+setupSearch();
