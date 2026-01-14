@@ -21,7 +21,7 @@ function updateHeader() {
                         <button id="menu-logout">로그아웃</button>
                     </div>
                 </div>
-                <div class="user-menu-item" style="background-color: var(--color-primary); color: #fff; padding: 10px 20px; border-radius: 5px; flex-direction: row; gap: 5px; cursor: pointer;">
+                <div class="user-menu-item" id="btn-seller-center" style="background-color: var(--color-primary); color: #fff; padding: 10px 20px; border-radius: 5px; flex-direction: row; gap: 5px; cursor: pointer;">
                     <img src="../../../shared/assets/icons/icon-shopping-cart.svg" style="filter: brightness(0) invert(1); width: 24px; height: 24px; margin:0;" alt="">
                     <span>판매자 센터</span>
                 </div>
@@ -50,6 +50,14 @@ function updateHeader() {
             });
         }
         
+        // Seller Center Click
+        const btnSellerCenter = document.getElementById('btn-seller-center');
+        if (btnSellerCenter) {
+            btnSellerCenter.addEventListener('click', () => {
+                window.location.href = '../../seller/seller-center/index.html';
+            });
+        }
+
         // Dropdown Logic
         const btnMyPage = document.querySelector('#btn-mypage');
         const dropdown = btnMyPage.querySelector('.user-dropdown');

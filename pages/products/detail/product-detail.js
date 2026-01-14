@@ -35,6 +35,33 @@ async function loadProduct() {
 function renderDetail() {
   quantity = 1;
 
+  const userType = localStorage.getItem('userType');
+  const loggedInSeller = localStorage.getItem('account_name') || localStorage.getItem('username'); // Consistency check needed
+  // API product.seller: { username: "...", name: "...", store_name: "..." }
+  // Usually `username` is the ID used for login.
+  const isMyProduct = (userType === 'SELLER' && product.seller && (product.seller.username === loggedInSeller || product.seller.account_name === loggedInSeller));
+
+  let actionButtonsHTML = '';
+  if (isMyProduct) {
+      actionButtonsHTML = `
+        <div class="action-buttons">
+          <button class="btn-cart" type="button" disabled style="background:#ccc; cursor:not-allowed;">장바구니</button>
+          <button class="btn-buy" type="button" disabled style="background:#ccc; cursor:not-allowed;">바로 구매</button>
+        </div>
+        <div style="margin-top: 10px; display:flex; gap:14px;">
+            <button id="btn-edit-product" style="flex:1; background:var(--color-primary); color:#fff; padding:19px 0; border:none; font-size:18px; font-weight:700; border-radius:5px; cursor:pointer;">수정</button>
+            <button id="btn-delete-product" style="flex:1; background:#fff; color:#767676; border:1px solid #c4c4c4; padding:19px 0; font-size:18px; font-weight:700; border-radius:5px; cursor:pointer;">삭제</button>
+        </div>
+      `;
+  } else {
+      actionButtonsHTML = `
+        <div class="action-buttons">
+          <button class="btn-buy" type="button">바로 구매</button>
+          <button class="btn-cart" type="button">장바구니</button>
+        </div>
+      `;
+  }
+
   detailArea.innerHTML = `
     <div class="product-main">
       <div class="detail-img">
@@ -65,10 +92,7 @@ function renderDetail() {
 
         ${Number(product.stock ?? 0) <= 0 ? `<p class="stock-alert">현재 재고가 없습니다.</p>` : ``}
 
-        <div class="action-buttons">
-          <button class="btn-buy" type="button">바로 구매</button>
-          <button class="btn-cart" type="button">장바구니</button>
-        </div>
+        ${actionButtonsHTML}
       </div>
     </div>
 
@@ -105,8 +129,26 @@ function renderDetail() {
 
   document.getElementById('btn-minus').addEventListener('click', () => updateQuantity(-1));
   document.getElementById('btn-plus').addEventListener('click', () => updateQuantity(1));
-  document.querySelector('.btn-buy').addEventListener('click', handleBuy);
-  document.querySelector('.btn-cart').addEventListener('click', handleCart);
+  
+  if (isMyProduct) {
+      document.getElementById('btn-edit-product').addEventListener('click', () => {
+          window.location.href = `../../seller/seller-product-upload/index.html?id=${product.id}`;
+      });
+      document.getElementById('btn-delete-product').addEventListener('click', async () => {
+           if(confirm('정말 삭제하시겠습니까?')) {
+               try {
+                   await API.deleteProduct(product.id);
+                   alert('상품이 삭제되었습니다.');
+                   window.location.href = '../../seller/seller-center/index.html';
+               } catch (err) {
+                   alert(err.message);
+               }
+           }
+      });
+  } else {
+      document.querySelector('.btn-buy').addEventListener('click', handleBuy);
+      document.querySelector('.btn-cart').addEventListener('click', handleCart);
+  }
 
   checkStockLimit();
   // lockWhenOutOfStock();  // 

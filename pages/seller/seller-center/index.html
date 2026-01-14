@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU - 판매자 센터</title>
+    <link rel="stylesheet" href="../../../shared/css/reset.css">
+    <link rel="stylesheet" href="../../../shared/css/common.css">
+    <link rel="stylesheet" href="./seller-center.css">
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <div class="left-section">
+                <a href="../../../index.html" class="logo">
+                     <img src="../../../shared/assets/icons/Logo-hodu.png" alt="HODU">
+                </a>
+                <span class="page-title">판매자 센터</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container seller-layout">
+        <aside class="sidebar">
+            <div class="menu-group">
+                <h3>대시보드 <span class="seller-name" id="seller-name"></span></h3>
+                <ul>
+                    <li><a href="#" class="active">판매중인 상품(<span id="product-count-sidebar">0</span>)</a></li>
+                    <li><a href="#">주문/배송 <span class="badge">2</span></a></li>
+                    <li><a href="#">문의/리뷰 <span class="badge">1</span></a></li>
+                    <li><a href="#">통계</a></li>
+                    <li><a href="#">스토어 설정</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <section class="content">
+            <div class="content-header">
+                <h2>대시보드 <span class="seller-distinct">백엔드글로벌</span></h2>
+                 <a href="../../seller/seller-product-upload/index.html" class="btn-upload">
+                    <img src="../../../shared/assets/icons/icon-plus.svg" alt=""> 
+                    상품 업로드
+                </a>
+            </div>
+
+            <div class="product-dashboard">
+                <div class="dashboard-header">
+                    <div class="col-info">상품정보</div>
+                    <div class="col-price">판매가격</div>
+                    <div class="col-edit">수정</div>
+                    <div class="col-delete">삭제</div>
+                </div>
+                <!-- Product List -->
+                <ul class="product-list" id="product-list">
+                    <!-- Items Injected Here -->
+                     <div class="loading">Loading products...</div>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script src="../../../shared/js/api.js"></script>
+    <script src="../../../shared/js/utils.js"></script>
+    <script src="./seller-center.js"></script>
+</body>
+</html>

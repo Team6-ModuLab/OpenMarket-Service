@@ -1,0 +1,242 @@
+/* Seller Center CSS */
+
+/* Header Override */
+header {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.page-title {
+    font-size: 30px;
+    font-weight: 500;
+}
+
+/* Layout */
+.seller-layout {
+    display: flex;
+    margin-top: 40px;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+}
+.menu-group h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.seller-name {
+    color: var(--color-primary);
+}
+.menu-group ul li {
+    margin-bottom: 10px;
+}
+.menu-group ul li a {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+}
+.menu-group ul li a:hover {
+    background-color: #EFFFF3;
+}
+.menu-group ul li a.active {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+.badge {
+    background-color: #EB5757;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+.menu-group ul li a.active .badge {
+    background-color: #fff;
+    color: var(--color-primary);
+}
+
+
+/* Content */
+.content {
+    flex-grow: 1;
+}
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.content-header h2 {
+    font-size: 18px;
+    font-weight: 400; /* As per design, mostly "Dashboard <SellerName>" */
+    display: none; /* Design shows specific layout, header has title, but here main content title is subtle or merged */
+}
+/* Re-check design: Title "대시보드 백엔드글로벌" is in sidebar top? No, it's sidebar top. 
+   Main content area starts with tabs or empty? 
+   Let's follow the first image: Sidebar has "대시보드 백엔드글로벌". 
+   Main content has "판매중인 상품(3)" as a green tab/button or just header. 
+   Wait, the design image 1 shows "대시보드 백엔드글로벌" text at top left of sidebar? 
+   Actually, let's look closely at image 1.
+   Header: HODU 판매자 센터.
+   Body: Left Sidebar with "판매중인 상품(3)" (Green Active), "주문/배송", etc.
+   Top of Sidebar or Main area? "대시보드 백엔드글로벌" seems to be the Main Header title of the page below the nav bar.
+   Right: "상품 업로드" button.
+   Let's adjust.
+*/
+
+/* Adjusting based on Image 1 analysis */
+.seller-layout { /* Main container */ }
+
+.content-header {
+    /* Contains "대시보드 <NAME>" and "상품 업로드" button based on visual hierarchy? 
+       Actually, image shows:
+       Left col: "판매중인 상품(3)" active button.
+       Right col area: Table.
+       Above Left col: "대시보드 백엔드글로벌".
+       Top Right: "상품 업로드" button.
+    */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.content-header h2 {
+    display: block;
+    font-size: 36px;
+    font-weight: 700;
+}
+.seller-distinct {
+    color: var(--color-primary);
+}
+
+.btn-upload {
+    background-color: var(--color-primary);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-upload img {
+    /* icon-plus */
+    width: 24px; height: 24px;
+    filter: brightness(0) invert(1);
+}
+
+/* Dashboard Table Style */
+.product-dashboard {
+    border: 1px solid #C4C4C4;
+    border-radius: 5px;
+    background: #F2F2F2;
+    min-height: 500px;
+}
+.dashboard-header {
+    display: grid;
+    grid-template-columns: 5fr 2fr 1fr 1fr;
+    background: #fff;
+    border-bottom: 1px solid #C4C4C4;
+    padding: 18px 30px;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+}
+.dashboard-header .col-info { text-align: left; }
+
+.product-list {
+    background: #fff;
+}
+.product-item {
+    display: grid;
+    grid-template-columns: 5fr 2fr 1fr 1fr;
+    border-bottom: 1px solid #C4C4C4;
+    padding: 16px 30px;
+    align-items: center;
+    background: #fff;
+}
+.product-item:last-child {
+    border-bottom: none;
+}
+
+.item-info {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.item-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #C4C4C4;
+}
+.item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.item-name {
+    font-size: 18px;
+    font-weight: 400;
+}
+.item-stock {
+    font-size: 16px;
+    color: #767676;
+}
+
+.item-price {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.item-btn-col {
+    text-align: center;
+}
+
+.btn-edit {
+    background-color: var(--color-primary);
+    color: #fff;
+    padding: 10px 0;
+    width: 80px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.btn-delete {
+    background-color: #fff;
+    border: 1px solid #C4C4C4;
+    color: #767676;
+    padding: 10px 0;
+    width: 80px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.btn-delete:hover {
+    border-color: #767676;
+    color: #000;
+}
+
+.loading {
+    padding: 50px;
+    text-align: center;
+    font-size: 18px;
+    color: #767676;
+}
