@@ -38,6 +38,8 @@ form.addEventListener('submit', async (e) => {
         localStorage.setItem('access', result.access);
         localStorage.setItem('refresh', result.refresh);
         localStorage.setItem('userType', result.user.user_type);
+        localStorage.setItem('sellerName', result.user.name); // 판매자 이름 (or 사용자 이름)
+        localStorage.setItem('account_name', result.user.username); // 로그인 ID (account_name)
 
         // 메인으로 이동
         window.location.href = '../../products/list/index.html';
