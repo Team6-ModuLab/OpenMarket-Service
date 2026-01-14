@@ -95,15 +95,16 @@ idCheckBtn.addEventListener('click', async () => {
     try {
         const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
         
-        const response = await fetch(`${BASE_URL}/accounts/signup_valid/?username=${username}`, {
-            method: 'GET',
+        const response = await fetch(`${BASE_URL}/accounts/signup_valid/`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-            }
+            },
+            body: JSON.stringify({ username: username })
         });
 
         const data = await response.json();
-        console.log('Response:', data);
+        console.log('Response:', response.status, data);
 
         if (response.ok) {
             showSuccess(idMessage, '사용 가능한 아이디입니다.');
