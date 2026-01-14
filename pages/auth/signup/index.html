@@ -61,22 +61,30 @@
                 </div>
 
                 <!-- 휴대폰번호 -->
-                <div class="form-group">
-                    <label for="phone-prefix">휴대폰번호</label>
-                    <div class="phone-container">
-                        <select id="phone-prefix" class="select-field">
-                            <option value="010">010</option>
-                            <option value="011">011</option>
-                            <option value="016">016</option>
-                            <option value="017">017</option>
-                            <option value="018">018</option>
-                            <option value="019">019</option>
-                        </select>
-                        <input type="text" id="phone-middle" class="input-field phone-input" maxlength="4" inputmode="numeric">
-                        <input type="text" id="phone-last" class="input-field phone-input" maxlength="4" inputmode="numeric">
-                    </div>
-                    <p class="validation-message" id="phone-message"></p>
+<div class="form-group">
+    <label for="phone-prefix">휴대폰번호</label>
+    <div class="phone-container">
+        <!-- ⭐ select 태그를 커스텀 div로 교체 -->
+        <div class="custom-select-wrapper">
+            <div class="custom-select" id="phone-prefix-custom">
+                <div class="custom-select-trigger">010</div>
+                <div class="custom-options">
+                    <div class="custom-option selected" data-value="010">010</div>
+                    <div class="custom-option" data-value="011">011</div>
+                    <div class="custom-option" data-value="016">016</div>
+                    <div class="custom-option" data-value="017">017</div>
+                    <div class="custom-option" data-value="018">018</div>
+                    <div class="custom-option" data-value="019">019</div>
                 </div>
+            </div>
+            <!-- ⭐ 실제 값을 저장할 hidden input -->
+            <input type="hidden" id="phone-prefix" value="010">
+        </div>
+        <input type="text" id="phone-middle" class="input-field phone-input" maxlength="4" inputmode="numeric">
+        <input type="text" id="phone-last" class="input-field phone-input" maxlength="4" inputmode="numeric">
+    </div>
+    <p class="validation-message" id="phone-message"></p>
+</div>
 
                 <!-- 판매회원 전용 필드 -->
                 <div class="seller-only-fields hidden">

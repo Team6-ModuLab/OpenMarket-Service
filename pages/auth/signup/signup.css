@@ -184,28 +184,115 @@ label {
     gap: 12px;
 }
 
-.select-field {
+/* 커스텀 셀렉트 */
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select-trigger {
     width: 100%;
     padding: 16px;
-    padding-right: 40px;
+    padding-right: 50px;  /* ⭐ 오른쪽 여백 증가 */
     border: 1px solid #c4c4c4;
     border-radius: 5px;
     font-size: 16px;
     background-color: #ffffff;
     cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23767676' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
+    text-align: center;
+    transition: border-color 0.3s ease;
+    position: relative;  /* ⭐ 추가 */
 }
 
-.select-field:focus {
-    outline: none;
+/* 아래 화살표 (▼) */
+.custom-select-trigger::after {
+    content: '';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #767676;  /* ⭐ 아래 화살표 */
+    transition: transform 0.3s ease;
+}
+
+/* 열렸을 때 위 화살표 (▲) */
+.custom-select.open .custom-select-trigger::after {
+    border-top: none;  /* ⭐ 위쪽 삭제 */
+    border-bottom: 5px solid #767676;  /* ⭐ 아래쪽 추가 → 위 화살표 */
+    transform: translateY(-50%);
+}
+
+.custom-select-trigger:hover,
+.custom-select.open .custom-select-trigger {
     border-color: #21BF48;
+}
+
+/* 드롭다운 박스 */
+.custom-options {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    max-height: 184px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-select.open .custom-options {
+    display: block;
+}
+
+/* 옵션 하나하나 */
+.custom-option {
+    padding: 14px 16px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.custom-option:hover {
+    background-color: #f8f8f8;
+}
+
+.custom-option.selected {
+    background-color: #E8F5E9;
+    border-bottom: 2px solid #21BF48;
+}
+
+/* 스크롤바 */
+.custom-options::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-options::-webkit-scrollbar-thumb {
+    background: #c4c4c4;
+    border-radius: 4px;
+}
+
+/* ⭐ 드롭다운 옵션 가운데 정렬 + 스크롤 */
+.select-field option {
+    text-align: center;  /* ⭐ 옵션 가운데 정렬 */
+    padding: 12px;
+    font-size: 16px;
 }
 
 .phone-input {
     width: 100%;
+    text-align: center;
 }
 
 .checkbox-group {
