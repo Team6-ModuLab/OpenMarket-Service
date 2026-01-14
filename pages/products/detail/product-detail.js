@@ -8,24 +8,11 @@ const detailArea = document.getElementById('product-detail-area');
 
 
 async function getRealProductDetail(id) {
-  const response = await fetch(`https://api.wenivops.co.kr/services/open-market/products/${id}/`);
+  const response = await fetch(`https://api.wenivops.co.kr/services/open-market/products/${productId}/`);
   if (!response.ok) {
     throw new Error('상품을 찾을 수 없습니다.');
   }
   return await response.json();
-}
-
-function normalizeProduct(raw) {
-  return {
-    id: raw.id ?? raw.product_id,
-    name: raw.name ?? raw.product_name,
-    image: raw.image,
-    price: raw.price,
-    shippingFee: raw.shipping_fee ?? raw.shippingFee ?? 0,
-    stock: raw.stock ?? raw.stock_quantity ?? 0,
-    storeName: raw.seller?.store_name ?? raw.seller_store ?? raw.store_name ?? '',
-    info: raw.product_info ?? raw.info ?? raw.description ?? ''
-  };
 }
 
 async function loadProduct() {
@@ -36,8 +23,7 @@ async function loadProduct() {
   }
 
   try {
-    const raw = await getRealProductDetail(productId);  
-    product = normalizeProduct(raw);
+    product = await getRealProductDetail(productId);
     renderDetail();
   } catch (error) {
     console.error('상품 불러오기 실패:', error);
