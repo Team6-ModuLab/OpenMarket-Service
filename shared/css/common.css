@@ -9,13 +9,27 @@
     --font-family: 'Spoqa Han Sans Neo', sans-serif;
 }
 
+/* Sticky Footer Pattern - 줌 대응 레이아웃 */
+html {
+    height: 100%;
+}
+
 body {
     font-family: var(--font-family);
     color: var(--color-main-text);
+    min-height: 100%;
+    min-width: 900px; /* viewport가 이보다 좁으면 가로 스크롤 발생 */
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
 }
 
 .container {
-    width: 1280px;
+    max-width: 1280px;
+    width: 100%;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -86,9 +100,10 @@ header {
 /* Footer (Simple placeholder) */
 /* Footer */
 #footer {
+    flex-shrink: 0;
     background-color: var(--color-bg-grey);
     padding: 60px 0;
-    margin-top: 100px;
+    margin-top: auto;
     color: var(--color-main-text);
     font-size: 14px;
 }
