@@ -226,3 +226,78 @@
         min-width: auto;
     }
 }
+
+/* ===== 모달 스타일 ===== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 40px 60px;
+    text-align: center;
+    position: relative;
+    border: 1px solid #c4c4c4;
+    border-radius: 10px;
+}
+
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #767676;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.modal-buttons button {
+    width: 100px;
+    padding: 10px 0;
+    border: 1px solid #c4c4c4;
+    background: #fff;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.modal-buttons .btn-yes {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+}
+
+.modal-buttons .btn-yes:hover {
+    opacity: 0.9;
+}
+
+.modal-buttons .btn-no:hover {
+    background: #f8f8f8;
+}
