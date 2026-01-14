@@ -1,0 +1,228 @@
+/* Seller Product Upload CSS */
+
+header {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.header-inner {
+    display: flex;
+    align-items: center;
+}
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.page-title {
+    font-size: 30px;
+    font-weight: 500;
+}
+
+/* Main Layout */
+.page-heading {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 40px 0;
+}
+
+.upload-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* Guide Sidebar */
+.upload-guide {
+    width: 320px;
+    flex-shrink: 0;
+}
+.upload-guide h3 {
+    font-size: 16px;
+    color: #EB5757;
+    margin-bottom: 20px;
+}
+.guide-content {
+    background: #FFEFD9; /* Light reddish/orange bg */
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #000;
+}
+
+/* Form Area */
+.product-form {
+    flex-grow: 1;
+}
+
+.form-row-top {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.image-upload-area {
+    width: 454px; /* From design measure approx */
+    flex-shrink: 0;
+}
+.img-label {
+    display: block;
+    margin-bottom: 10px;
+    color: #767676;
+}
+.img-preview-box {
+    width: 454px;
+    height: 454px;
+    background: #C4C4C4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+}
+.img-preview-box img.icon-placeholder {
+    width: 50px;
+    height: 50px;
+    filter: brightness(0.5); /* Darker gray */
+}
+.img-preview-box img.preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.input-fields-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group label {
+    display: block;
+    color: #767676;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.input-wrapper {
+    position: relative;
+    border: 1px solid #C4C4C4;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    height: 54px;
+}
+.input-wrapper input {
+    border: none;
+    width: 100%;
+    height: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    background: transparent;
+}
+.input-wrapper input:focus {
+    outline: none;
+}
+.char-count {
+    position: absolute;
+    right: 15px;
+    color: #C4C4C4;
+    font-size: 14px;
+}
+
+/* Input with Unit */
+.input-wrapper.with-unit {
+    display: flex;
+}
+.input-wrapper.with-unit input {
+    flex-grow: 1;
+}
+.input-wrapper.with-unit .unit {
+    width: 54px;
+    height: 100%;
+    background: #C4C4C4;
+    color: #fff; /* Design has white text on gray bg */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+/* Shipping Buttons */
+.shipping-buttons {
+    display: flex;
+    gap: 10px;
+}
+.btn-shipping {
+    flex: 1;
+    height: 54px;
+    border: 1px solid #C4C4C4;
+    background: #fff;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #767676;
+    cursor: pointer;
+}
+.btn-shipping.active {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+}
+
+/* Editor Area */
+.form-row-bottom {
+    margin-bottom: 40px;
+}
+.editor-area {
+    width: 100%;
+    height: 400px; /* Or large enough */
+    background: #F2F2F2;
+    border-radius: 5px;
+    /* display: flex; justify-content: center; align-items: center; */
+    padding: 20px;
+}
+.editor-area textarea {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    resize: none;
+    font-size: 16px;
+}
+.editor-area textarea:focus {
+    outline: none;
+}
+.editor-placeholder {
+    color: #C4C4C4;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Actions */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+}
+.btn-cancel, .btn-save {
+    width: 200px;
+    height: 60px;
+    font-size: 18px;
+    border-radius: 5px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn-cancel {
+    background: #fff;
+    border: 1px solid #C4C4C4;
+    color: #767676;
+}
+.btn-save {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+}
