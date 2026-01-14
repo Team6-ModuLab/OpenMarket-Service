@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU - 장바구니</title>
+    <link rel="stylesheet" href="../../shared/css/reset.css">
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="./cart.css">
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="../products/list/index.html" class="logo">
+                <img src="../../shared/assets/icons/Logo-hodu.png" alt="HODU">
+            </a>
+            <div class="search-bar">
+                <input type="text" placeholder="상품을 검색해보세요!">
+                <button type="button"></button>
+            </div>
+            <div class="user-menu">
+                <!-- Injected via utils.js -->
+            </div>
+        </div>
+    </header>
+
+    <main class="cart-page">
+        <div class="container">
+            <h1 class="cart-page__title">장바구니</h1>
+
+            <!-- 테이블 헤더 -->
+            <div class="cart-page__table-header">
+                <div class="cart-page__col cart-page__col--check">
+                    <label class="cart-page__checkbox">
+                        <input type="checkbox" id="select-all" checked>
+                        <span class="cart-page__checkbox-custom"></span>
+                    </label>
+                </div>
+                <div class="cart-page__col cart-page__col--info">상품정보</div>
+                <div class="cart-page__col cart-page__col--quantity">수량</div>
+                <div class="cart-page__col cart-page__col--price">상품금액</div>
+            </div>
+
+            <!-- 장바구니 아이템 리스트 -->
+            <div class="cart-page__items" id="cart-items">
+                <!-- JS에서 렌더링 -->
+            </div>
+
+            <!-- 빈 장바구니 상태 -->
+            <div class="cart-page__empty hidden" id="cart-empty">
+                <p class="cart-page__empty-title">장바구니에 담긴 상품이 없습니다.</p>
+                <p class="cart-page__empty-subtitle">원하는 상품을 장바구니에 담아보세요!</p>
+            </div>
+
+            <!-- 합계 박스 -->
+            <div class="cart-page__summary" id="cart-summary">
+                <div class="cart-page__summary-item">
+                    <span class="cart-page__summary-label">총 상품금액</span>
+                    <span class="cart-page__summary-value" id="total-product-price">0<span class="cart-page__summary-unit">원</span></span>
+                </div>
+                <span class="cart-page__summary-operator">-</span>
+                <div class="cart-page__summary-item">
+                    <span class="cart-page__summary-label">상품 할인</span>
+                    <span class="cart-page__summary-value" id="total-discount">0<span class="cart-page__summary-unit">원</span></span>
+                </div>
+                <span class="cart-page__summary-operator">+</span>
+                <div class="cart-page__summary-item">
+                    <span class="cart-page__summary-label">배송비</span>
+                    <span class="cart-page__summary-value" id="total-shipping">0<span class="cart-page__summary-unit">원</span></span>
+                </div>
+                <div class="cart-page__summary-total">
+                    <span class="cart-page__summary-label">결제 예정 금액</span>
+                    <span class="cart-page__summary-total-value" id="total-payment">0<span class="cart-page__summary-unit">원</span></span>
+                </div>
+            </div>
+
+            <!-- 주문하기 버튼 -->
+            <div class="cart-page__order-wrap" id="order-btn-wrap">
+                <button type="button" class="cart-page__order-btn" id="order-btn">주문하기</button>
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-top-inner">
+                <div class="footer-links">
+                    <a href="#">호두샵 소개</a>
+                    <span class="divider">|</span>
+                    <a href="#">이용약관</a>
+                    <span class="divider">|</span>
+                    <a href="#" class="bold">개인정보처리방침</a>
+                    <span class="divider">|</span>
+                    <a href="#">전자금융거래약관</a>
+                    <span class="divider">|</span>
+                    <a href="#">청소년보호정책</a>
+                    <span class="divider">|</span>
+                    <a href="#">제휴문의</a>
+                </div>
+                <div class="social-icons">
+                    <a href="#"><img src="../../shared/assets/icons/icon-insta.svg" alt="Instagram"></a>
+                    <a href="#"><img src="../../shared/assets/icons/icon-fb.svg" alt="Facebook"></a>
+                    <a href="#"><img src="../../shared/assets/icons/icon-yt.svg" alt="YouTube"></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="company-name">(주)HODU SHOP</p>
+                <address>
+                    제주특별자치도 제주시 동광고 137 제주코딩베이스캠프<br>
+                    사업자 번호 : 000-00-00000 | 통신판매업<br>
+                    대표 : 김호두
+                </address>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 삭제 확인 모달 -->
+    <div class="cart-page__modal-overlay hidden" id="delete-modal">
+        <div class="cart-page__modal">
+            <button class="cart-page__modal-close" id="modal-close">
+                <img src="../../shared/assets/icons/icon-delete.svg" alt="닫기">
+            </button>
+            <p class="cart-page__modal-text">상품을 삭제하시겠습니까?</p>
+            <div class="cart-page__modal-buttons">
+                <button type="button" class="cart-page__modal-btn cart-page__modal-btn--cancel" id="modal-cancel">취소</button>
+                <button type="button" class="cart-page__modal-btn cart-page__modal-btn--confirm" id="modal-confirm">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../shared/js/api.js"></script>
+    <script src="../../shared/js/utils.js"></script>
+    <script src="./cart.js"></script>
+</body>
+</html>

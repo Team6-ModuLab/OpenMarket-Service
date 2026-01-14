@@ -162,9 +162,9 @@ function handleBuy() {
 
 function handleCart() {
   console.log('장바구니 버튼 클릭! 재고:', product.stock);
-  
+
   const token = localStorage.getItem('accessToken') || localStorage.getItem('access');
-  
+
   if (!token) {
     console.log('로그인 필요');
     showLoginModal();
@@ -172,17 +172,39 @@ function handleCart() {
   }
 
   const stock = Number(product.stock ?? 0);
-  
-  
+
+
   if (stock <= 0 || quantity > stock) {
     console.log('재고 부족 모달 표시');
     showStockExceededModal();
     return;
   }
 
+  // 장바구니에 상품 추가
+  const added = addToCart(productId, quantity);
 
   console.log('장바구니 성공 모달 표시');
-  showCartSuccessModal();
+  showCartSuccessModal(added);
+}
+
+// 장바구니에 상품 추가 (localStorage)
+function addToCart(productId, qty) {
+  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  // 이미 있는 상품인지 확인
+  const existingIndex = cart.findIndex(item => item.productId === productId);
+
+  if (existingIndex > -1) {
+    // 이미 있으면 수량 추가
+    cart[existingIndex].quantity += qty;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    return false; // 이미 있는 상품
+  } else {
+    // 새로 추가
+    cart.push({ productId: productId, quantity: qty });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    return true; // 새로 추가된 상품
+  }
 }
 
 function setupTabs() {
@@ -202,20 +224,23 @@ function setupTabs() {
 }
 
 
-function showCartSuccessModal() {
+function showCartSuccessModal(isNewItem) {
   console.log('showCartSuccessModal 함수 실행됨!');
-  
 
   const existing = document.getElementById('cart-success-modal');
   if (existing) {
     existing.remove();
   }
 
+  const message = isNewItem
+    ? '장바구니에 상품을 담았습니다.<br>장바구니로 이동하시겠습니까?'
+    : '이미 장바구니에 있는 상품입니다.<br>수량을 추가했습니다. 장바구니로 이동하시겠습니까?';
+
   const modalHTML = `
     <div id="cart-success-modal" class="modal-overlay">
       <div class="modal-content">
         <button class="close-btn">&times;</button>
-        <p>이미 장바구니에 있는 상품입니다.<br>장바구니로 이동하시겠습니까?</p>
+        <p>${message}</p>
         <div class="modal-buttons">
           <button class="btn-no">아니오</button>
           <button class="btn-yes">예</button>
@@ -223,10 +248,10 @@ function showCartSuccessModal() {
       </div>
     </div>
   `;
-  
+
   document.body.insertAdjacentHTML('beforeend', modalHTML);
   console.log('모달 HTML 추가 완료');
-  
+
   const modal = document.getElementById('cart-success-modal');
   console.log('모달 요소:', modal);
 
@@ -234,17 +259,15 @@ function showCartSuccessModal() {
     console.log('X 버튼 클릭');
     modal.remove();
   });
-  
+
   modal.querySelector('.btn-no').addEventListener('click', () => {
     console.log('아니오 버튼 클릭');
     modal.remove();
   });
-  
+
   modal.querySelector('.btn-yes').addEventListener('click', () => {
     console.log('예 버튼 클릭 - 장바구니로 이동');
-    // window.location.href = '../../cart/index.html';
-    alert('장바구니 페이지로 이동합니다!'); // 임시
-    modal.remove();
+    window.location.href = '../../cart/index.html';
   });
 
   modal.addEventListener('click', (e) => {
