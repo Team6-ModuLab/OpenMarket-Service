@@ -24,14 +24,32 @@
         </div>
     </header>
 
-    <main class="container">
-        <!-- Banner Carousel (Optional based on screenshot, but let's stick to product list first) -->
-        
-        <section class="product-list-wrapper">
+    <main>
+        <!-- Event Banner Carousel -->
+        <section class="banner-section" aria-label="이벤트 배너">
+            <div class="banner-container">
+                <div class="banner-track" id="banner-track">
+                    <!-- Banner slides injected via JS -->
+                </div>
+                <button type="button" class="banner-btn banner-btn-prev" aria-label="이전 배너">
+                    <img src="../../../shared/assets/icons/icon-swiper-1.svg" alt="">
+                </button>
+                <button type="button" class="banner-btn banner-btn-next" aria-label="다음 배너">
+                    <img src="../../../shared/assets/icons/icon-swiper-2.svg" alt="">
+                </button>
+            </div>
+            <div class="banner-dots" id="banner-dots">
+                <!-- Dots injected via JS -->
+            </div>
+        </section>
+
+        <div class="container">
+            <section class="product-list-wrapper">
              <ul id="product-list" class="product-grid">
                  <!-- Products injected here -->
              </ul>
-        </section>
+            </section>
+        </div>
     </main>
 
     <footer id="footer">
