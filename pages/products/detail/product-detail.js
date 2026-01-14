@@ -6,6 +6,15 @@ let quantity = 1;
 
 const detailArea = document.getElementById('product-detail-area');
 
+
+async function getRealProductDetail(id) {
+  const response = await fetch(`https://api.wenivops.co.kr/services/open-market/products/${id}/`);
+  if (!response.ok) {
+    throw new Error('상품을 찾을 수 없습니다.');
+  }
+  return await response.json();
+}
+
 function normalizeProduct(raw) {
   return {
     id: raw.id ?? raw.product_id,
@@ -27,25 +36,16 @@ async function loadProduct() {
   }
 
   try {
-    const raw = await API.getProductDetail(productId);
+    const raw = await getRealProductDetail(productId);  
     product = normalizeProduct(raw);
     renderDetail();
   } catch (error) {
-    console.log('샘플 데이터 사용');
-    const rawSample = {
-      product_id: 1,
-      product_name: 'Hack Your Life 개발자 노트북 파우치',
-      image: 'https://openmarket.weniv.co.kr/media/products/2026/01/11/IMG_01.jpg',
-      price: 29000,
-      shipping_fee: 3000,
-      stock: 50,
-      seller_store: '우당탕탕 라이켓의 실험실',
-      product_info: '개발자를 위한 힙한 노트북 파우치입니다.'
-    };
-    product = normalizeProduct(rawSample);
-    renderDetail();
+    console.error('상품 불러오기 실패:', error);
+    alert('상품 정보를 불러올 수 없습니다.');
+    window.location.href = '../list/index.html';
   }
 }
+
 
 function renderDetail() {
   quantity = 1;
@@ -199,4 +199,3 @@ function setupTabs() {
 }
 
 loadProduct();
-
