@@ -4,8 +4,8 @@
 
 // 아이콘 경로 (교체 포인트)
 const ICON_DELETE = '../../shared/assets/icons/icon-delete.svg';
-const ICON_MINUS = '../../shared/assets/icons/icon-minus-line.svg';
-const ICON_PLUS = '../../shared/assets/icons/icon-plus-line.svg';
+const ICON_MINUS = '../../shared/assets/icons/minus-icon_2.png';
+const ICON_PLUS = '../../shared/assets/icons/plus-icon_2.png';
 
 // 장바구니 아이템 (API에서 가져온 상품 정보 + localStorage 수량)
 let cartItems = [];
