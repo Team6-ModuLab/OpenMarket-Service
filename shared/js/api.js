@@ -17,6 +17,20 @@ const API = {
         }
     },
 
+    // Get single product by ID
+    getProduct: async (productId) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/products/${productId}/`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error(`Failed to fetch product ${productId}:`, error);
+            throw error;
+        }
+    },
+
     login: async(username, password) => {
         const response = await fetch(`${API_BASE_URL}/accounts/login/`, {
             method: 'POST',

@@ -42,7 +42,7 @@ function renderDetail() {
       </div>
       <div class="detail-info">
         <p class="detail-seller">${product.seller?.store_name || ''}</p>
-        <h2 class="detail-name">${product.name}</h2>    
+        <h2 class="detail-name">${product.name}</h2>
         <p class="detail-price">${formatPrice(product.price)}<span>원</span></p>
 
         <p class="delivery-info">
@@ -138,14 +138,14 @@ function checkStockLimit() {
 
 function handleBuy() {
   const token = localStorage.getItem('accessToken') || localStorage.getItem('access');
-  
+
   if (!token) {
     showLoginModal();
     return;
   }
 
   const stock = Number(product.stock ?? 0);
-  
+
   if (stock <= 0 || quantity > stock) {
     showStockExceededModal();
     return;
@@ -156,20 +156,42 @@ function handleBuy() {
 
 function handleCart() {
   const token = localStorage.getItem('accessToken') || localStorage.getItem('access');
-  
+
   if (!token) {
     showLoginModal();
     return;
   }
 
   const stock = Number(product.stock ?? 0);
-  
+
   if (stock <= 0 || quantity > stock) {
     showStockExceededModal();
     return;
   }
 
-  showCartSuccessModal();
+  // 장바구니에 상품 추가
+  const added = addToCart(productId, quantity);
+  showCartSuccessModal(added);
+}
+
+// 장바구니에 상품 추가 (localStorage)
+function addToCart(productId, qty) {
+  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  // 이미 있는 상품인지 확인
+  const existingIndex = cart.findIndex(item => item.productId === productId);
+
+  if (existingIndex > -1) {
+    // 이미 있으면 수량 추가
+    cart[existingIndex].quantity += qty;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    return false; // 이미 있는 상품
+  } else {
+    // 새로 추가
+    cart.push({ productId: productId, quantity: qty });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    return true; // 새로 추가된 상품
+  }
 }
 
 function setupTabs() {
@@ -188,17 +210,21 @@ function setupTabs() {
   });
 }
 
-function showCartSuccessModal() {
+function showCartSuccessModal(isNewItem) {
   const existing = document.getElementById('cart-success-modal');
   if (existing) {
     existing.remove();
   }
 
+  const message = isNewItem
+    ? '장바구니에 상품을 담았습니다.<br>장바구니로 이동하시겠습니까?'
+    : '이미 장바구니에 있는 상품입니다.<br>수량을 추가했습니다. 장바구니로 이동하시겠습니까?';
+
   const modalHTML = `
     <div id="cart-success-modal" class="modal-overlay">
       <div class="modal-content">
         <button class="close-btn">&times;</button>
-        <p>이미 장바구니에 있는 상품입니다.<br>장바구니로 이동하시겠습니까?</p>
+        <p>${message}</p>
         <div class="modal-buttons">
           <button class="btn-no">아니오</button>
           <button class="btn-yes">예</button>
@@ -206,16 +232,15 @@ function showCartSuccessModal() {
       </div>
     </div>
   `;
-  
+
   document.body.insertAdjacentHTML('beforeend', modalHTML);
-  
+
   const modal = document.getElementById('cart-success-modal');
 
   modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());
   modal.querySelector('.btn-no').addEventListener('click', () => modal.remove());
   modal.querySelector('.btn-yes').addEventListener('click', () => {
-    alert('장바구니 페이지로 이동합니다!');
-    modal.remove();
+    window.location.href = '../../cart/index.html';
   });
 
   modal.addEventListener('click', (e) => {
@@ -243,9 +268,9 @@ function showStockExceededModal() {
       </div>
     </div>
   `;
-  
+
   document.body.insertAdjacentHTML('beforeend', modalHTML);
-  
+
   const modal = document.getElementById('stock-exceeded-modal');
 
   modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());

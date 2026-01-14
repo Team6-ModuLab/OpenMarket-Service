@@ -45,8 +45,7 @@ function updateHeader() {
             
             // Buyer Cart Click
             document.getElementById('btn-cart').addEventListener('click', () => {
-                alert('장바구니 페이지는 준비 중입니다.');
-                // window.location.href = '../../cart/index.html'; // 장바구니 페이지 생성 후 활성화
+                window.location.href = '../../cart/index.html';
             });
         }
         
