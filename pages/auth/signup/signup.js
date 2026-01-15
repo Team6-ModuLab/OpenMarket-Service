@@ -237,14 +237,6 @@ document.addEventListener('click', (e) => {
 
 phoneMiddle.addEventListener('input', (e) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    // 입력값 변경 시 상태 초기화
-    fieldStates.phone = false;
-    clearMessage(phoneMessage);
-    checkAllFields();
-});
-
-phoneMiddle.addEventListener('input', (e) => {
-    e.target.value = e.target.value.replace(/[^0-9]/g, '');
     fieldStates.phone = false;
     clearMessage(phoneMessage);
     checkAllFields();
