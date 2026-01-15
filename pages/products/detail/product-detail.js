@@ -193,7 +193,24 @@ function handleBuy() {
     return;
   }
 
-  alert(`[구매 완료]\n${product.name}\n수량: ${quantity}개\n총 금액: ${formatPrice(product.price * quantity)}원`);
+  // 주문 페이지로 데이터 전달 (localStorage)
+  const orderData = {
+    order_kind: 'direct_order',
+    product_id: product.id,
+    quantity: quantity,
+    // UI 표시를 위한 최소한의 정보
+    item_info: {
+        product_id: product.id,
+        name: product.name,
+        price: product.price,
+        shipping_fee: product.shipping_fee,
+        image: product.image,
+        seller: product.seller?.store_name || '판매자'
+    }
+  };
+
+  localStorage.setItem('order_data', JSON.stringify(orderData));
+  window.location.href = '../../order/index.html';
 }
 
 function handleCart() {

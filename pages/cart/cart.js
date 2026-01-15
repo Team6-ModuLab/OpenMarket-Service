@@ -217,8 +217,15 @@ function bindEvents() {
             const id = itemOrderBtn.dataset.id;
             const item = cartItems.find(i => String(i.id) === id);
             if (item) {
-                console.log('개별 주문하기:', item);
-                alert(`"${item.name}" 상품을 주문합니다.`);
+                // 단일 품목은 direct_order로 처리 (수량 문제 해결)
+                const orderData = {
+                    order_kind: 'direct_order',
+                    product_id: item.id,
+                    quantity: item.quantity,
+                    item_info: item 
+                };
+                localStorage.setItem('order_data', JSON.stringify(orderData));
+                window.location.href = '../order/index.html';
             }
             return;
         }
@@ -231,8 +238,38 @@ function bindEvents() {
             alert('주문할 상품을 선택해주세요.');
             return;
         }
-        console.log('선택 상품 주문하기:', selectedItems);
-        alert(`${selectedItems.length}개 상품을 주문합니다.`);
+
+        // 단일 품목일 경우 direct_order로 전환
+        if (selectedItems.length === 1) {
+            const item = selectedItems[0];
+            const orderData = {
+                order_kind: 'direct_order',
+                product_id: item.id,
+                quantity: item.quantity,
+                item_info: item
+            };
+            localStorage.setItem('order_data', JSON.stringify(orderData));
+            window.location.href = '../order/index.html';
+            return;
+        }
+
+        // 다중 품목일 경우 cart_order 유지
+        // 전체 ID 리스트 생성 (수량만큼 포함)
+        const allItemIds = [];
+        selectedItems.forEach(item => {
+            for(let k=0; k<item.quantity; k++) {
+                allItemIds.push(item.id);
+            }
+        });
+
+        const orderData = {
+            order_kind: 'cart_order',
+            cart_items: allItemIds,
+            items_info: selectedItems
+        };
+        
+        localStorage.setItem('order_data', JSON.stringify(orderData));
+        window.location.href = '../order/index.html';
     });
 
     // 모달 닫기

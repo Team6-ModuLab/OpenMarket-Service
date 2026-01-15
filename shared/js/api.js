@@ -145,6 +145,101 @@ const API = {
             console.error('Failed to delete product:', error);
             throw error;
         }
+    },
+
+    // ============================================
+    // Order API
+    // ============================================
+
+    // Create Order
+    createOrder: async (orderData) => {
+        const token = localStorage.getItem('access');
+        try {
+            const response = await fetch(`${API_BASE_URL}/order/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderData)
+            });
+
+            const data = await response.json();
+            
+            if (!response.ok) {
+                // Return data to handle validation errors in UI
+                return { success: false, data: data };
+            }
+            return { success: true, data: data };
+        } catch (error) {
+            console.error('Failed to create order:', error);
+            throw error;
+        }
+    },
+
+    // Get Order List
+    getOrders: async () => {
+        const token = localStorage.getItem('access');
+        try {
+            const response = await fetch(`${API_BASE_URL}/order/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Failed to fetch orders:', error);
+            throw error;
+        }
+    },
+
+    // Get Single Order
+    getOrder: async (orderId) => {
+        const token = localStorage.getItem('access');
+        try {
+            const response = await fetch(`${API_BASE_URL}/order/${orderId}/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error(`Failed to fetch order ${orderId}:`, error);
+            throw error;
+        }
+    },
+
+    // Delete (Cancel) Order
+    deleteOrder: async (orderId) => {
+        const token = localStorage.getItem('access');
+        try {
+            const response = await fetch(`${API_BASE_URL}/order/${orderId}/`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            // DELETE usually returns 204 No Content or a success message
+            if (response.status === 204) return true;
+
+            const data = await response.json();
+            if (!response.ok) {
+                 throw new Error(data.detail || 'Failed to cancel order');
+            }
+            return data;
+        } catch (error) {
+            console.error(`Failed to cancel order ${orderId}:`, error);
+            throw error;
+        }
     }
 };
 

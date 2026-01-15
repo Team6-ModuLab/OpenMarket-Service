@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU - 주문/결제</title>
+    <link rel="stylesheet" href="../../shared/css/reset.css">
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="./order.css">
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="../products/list/index.html" class="logo">
+                <img src="../../shared/assets/icons/Logo-hodu.png" alt="HODU">
+            </a>
+            <div class="search-bar">
+                <input type="text" placeholder="상품을 검색해보세요!">
+                <button type="button"></button>
+            </div>
+            <div class="user-menu">
+                <!-- Injected via utils.js -->
+            </div>
+        </div>
+    </header>
+
+    <main class="order-page">
+        <div class="container">
+            <h1 class="order-page__title">주문/결제하기</h1>
+
+            <!-- 주문 상품 정보 -->
+            <section class="order-section">
+                <div class="section-header">
+                    <h2>주문 상품 정보</h2>
+                </div>
+                <!-- 테이블 헤더 -->
+                <div class="order-table-header">
+                    <div class="col-info">상품정보</div>
+                    <div class="col-discount">할인</div>
+                    <div class="col-shipping">배송비</div>
+                    <div class="col-price">주문금액</div>
+                </div>
+                <!-- 주문 아이템 리스트 -->
+                <div id="order-items-list" class="order-items-list">
+                    <!-- JS 렌더링 -->
+                </div>
+                <div class="order-total-price">
+                    총 주문 금액 <span id="total-order-price">0원</span>
+                </div>
+            </section>
+
+            <!-- 배송지 정보 -->
+            <section class="order-section">
+                <div class="section-header">
+                    <h2>배송지 정보</h2>
+                </div>
+                <div class="delivery-form">
+                    <div class="form-group">
+                        <label>수령인 확인</label>
+                        <div class="form-content">
+                            <input type="hidden" id="delivery-receiver-type"> <!-- Myself or New -->
+                            <!-- 이름 -->
+                            <div class="input-row">
+                                <label for="receiver-name" class="input-label">이름</label>
+                                <input type="text" id="receiver-name" required>
+                            </div>
+                            <!-- 휴대폰 -->
+                            <div class="input-row">
+                                <label for="receiver-phone" class="input-label">휴대폰</label>
+                                <div class="phone-inputs">
+                                    <input type="text" id="phone-1" maxlength="3" value="010">
+                                    <span>-</span>
+                                    <input type="text" id="phone-2" maxlength="4">
+                                    <span>-</span>
+                                    <input type="text" id="phone-3" maxlength="4">
+                                </div>
+                            </div>
+                            <!-- 배송주소 -->
+                            <div class="input-row align-top">
+                                <label class="input-label">배송주소</label>
+                                <div class="address-inputs">
+                                    <div class="zip-code-row">
+                                        <input type="text" id="zip-code" placeholder="우편번호" >
+                                        <button type="button" class="btn-zip-search">우편번호 조회</button>
+                                    </div>
+                                    <input type="text" id="address-1" placeholder="주소" class="full-width">
+                                    <input type="text" id="address-2" placeholder="상세주소" class="full-width">
+                                </div>
+                            </div>
+                            <!-- 배송 메시지 -->
+                            <div class="input-row">
+                                <label for="delivery-message" class="input-label">배송 메시지</label>
+                                <input type="text" id="delivery-message" placeholder="배송 메시지를 입력해주세요." class="full-width">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="order-bottom-layout">
+                <!-- 결제 수단 -->
+                <section class="order-section payment-method-section">
+                    <div class="section-header">
+                        <h2>결제 수단</h2>
+                    </div>
+                    <div class="payment-methods">
+                        <div class="payment-option">
+                            <input type="radio" name="payment_method" id="pay-card" value="card" checked>
+                            <label for="pay-card">신용/체크카드</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" name="payment_method" id="pay-deposit" value="deposit">
+                            <label for="pay-deposit">무통장 입금</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" name="payment_method" id="pay-phone" value="phone">
+                            <label for="pay-phone">휴대폰 결제</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" name="payment_method" id="pay-naver" value="naverpay">
+                            <label for="pay-naver">네이버페이</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" name="payment_method" id="pay-kakao" value="kakaopay">
+                            <label for="pay-kakao">카카오페이</label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 최종 결제 정보 (Sticky Right) -->
+                <aside class="final-payment-aside">
+                    <h2>최종 결제 정보</h2>
+                    <div class="payment-summary">
+                        <div class="summary-row">
+                            <span>- 상품금액</span>
+                            <span id="final-product-price">0원</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>- 할인금액</span>
+                            <span id="final-discount">0원</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>- 배송비</span>
+                            <span id="final-shipping">0원</span>
+                        </div>
+                        <div class="summary-total-row">
+                            <span>결제금액</span>
+                            <span class="total-amount" id="final-total-price">0원</span>
+                        </div>
+                    </div>
+                    
+                    <div class="agreement-area">
+                        <label>
+                            <input type="checkbox" id="agree-all">
+                            <span class="custom-checkbox"></span>
+                            주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.
+                        </label>
+                    </div>
+
+                    <button type="button" class="btn-pay" id="btn-pay">결제하기</button>
+                </aside>
+            </div>
+
+        </div>
+    </main>
+    
+    <footer id="footer">
+        <!-- Reused from cart/index.html structure (simplified if needed, or JS loaded) -->
+        <div class="container">
+            <div class="footer-top-inner">
+                <div class="footer-links">
+                    <a href="#">호두샵 소개</a>
+                    <span class="divider">|</span>
+                    <a href="#">이용약관</a>
+                    <span class="divider">|</span>
+                    <a href="#" class="bold">개인정보처리방침</a>
+                    <span class="divider">|</span>
+                    <a href="#">전자금융거래약관</a>
+                    <span class="divider">|</span>
+                    <a href="#">청소년보호정책</a>
+                    <span class="divider">|</span>
+                    <a href="#">제휴문의</a>
+                </div>
+                <div class="social-icons">
+                    <a href="#"><img src="../../shared/assets/icons/icon-insta.svg" alt="Instagram"></a>
+                    <a href="#"><img src="../../shared/assets/icons/icon-fb.svg" alt="Facebook"></a>
+                    <a href="#"><img src="../../shared/assets/icons/icon-yt.svg" alt="YouTube"></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="company-name">(주)HODU SHOP</p>
+                <address>
+                    제주특별자치도 제주시 동광고 137 제주코딩베이스캠프<br>
+                    사업자 번호 : 000-00-00000 | 통신판매업<br>
+                    대표 : 김호두
+                </address>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../shared/js/api.js"></script>
+    <script src="../../shared/js/utils.js"></script>
+    <script src="./order.js"></script>
+</body>
+</html>
