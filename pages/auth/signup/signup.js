@@ -214,12 +214,12 @@ document.addEventListener('click', (e) => {
 
 phoneMiddle.addEventListener('input', (e) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, '');
+<<<<<<< HEAD
     if (e.target.value.length > 4) {
         e.target.value = e.target.value.slice(0, 4);
     }
     fieldStates.phone = false;
     clearMessage(phoneMessage);
-    // 이 부분이 추가된 거예요
     if (e.target.value.length >= 3 && phoneLast.value.length === 4) {
         checkPhone();
     }

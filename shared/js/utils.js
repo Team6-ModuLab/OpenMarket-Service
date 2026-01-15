@@ -63,10 +63,6 @@ function updateHeader() {
         const btnLogout = dropdown.querySelector('#menu-logout');
 
         btnMyPage.addEventListener('click', (e) => {
-             // Prevent triggering if clicked on the dropdown buttons themselves (handled by their listeners, but bubbling issue)
-             // Actually, if we click the container, toggle.
-             // If we click the button inside, the event propagates. 
-             // Let's toggle only if not clicked on children buttons or handle specifically.
              dropdown.classList.toggle('show');
         });
 
@@ -162,6 +158,28 @@ function showLoginModal() {
 // Convert price to string with commas
 function formatPrice(price) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// Setup search functionality
+function setupSearch(searchResultPath = '') {
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+
+    if (!searchInput || !searchBtn) return;
+
+    function performSearch() {
+        const query = searchInput.value.trim();
+        if (query) {
+            window.location.href = `${searchResultPath}?search=${encodeURIComponent(query)}`;
+        } else {
+            window.location.href = searchResultPath || 'index.html';
+        }
+    }
+
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') performSearch();
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
