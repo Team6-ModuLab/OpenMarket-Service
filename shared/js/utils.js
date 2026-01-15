@@ -1,5 +1,18 @@
 // js/common.js
 
+// 현재 페이지에서 pages 폴더까지의 상대 경로 계산
+function getPagesBasePath() {
+    const path = window.location.pathname;
+    const match = path.match(/\/pages\/(.+)/);
+    if (match) {
+        const afterPages = match[1];
+        const parts = afterPages.split('/');
+        const folderCount = parts.length - 1;
+        return '../'.repeat(folderCount);
+    }
+    return './';
+}
+
 function updateHeader() {
     const token = localStorage.getItem('access');
     const userType = localStorage.getItem('userType'); // 'BUYER' or 'SELLER'
@@ -45,7 +58,7 @@ function updateHeader() {
             
             // Buyer Cart Click
             document.getElementById('btn-cart').addEventListener('click', () => {
-                window.location.href = '../../cart/index.html';
+                window.location.href = `${getPagesBasePath()}cart/index.html`;
             });
         }
         
@@ -53,7 +66,7 @@ function updateHeader() {
         const btnSellerCenter = document.getElementById('btn-seller-center');
         if (btnSellerCenter) {
             btnSellerCenter.addEventListener('click', () => {
-                window.location.href = '../../seller/seller-center/index.html';
+                window.location.href = `${getPagesBasePath()}seller/seller-center/index.html`;
             });
         }
 
@@ -78,7 +91,7 @@ function updateHeader() {
              localStorage.removeItem('access');
              localStorage.removeItem('userType');
              alert('로그아웃 되었습니다.');
-             window.location.href = '../../../index.html';
+             window.location.href = `${getPagesBasePath()}../index.html`;
         });
 
     } else {
@@ -96,7 +109,7 @@ function updateHeader() {
 
         // Event Listeners for Guest
         document.getElementById('btn-login').addEventListener('click', () => {
-            window.location.href = '../../auth/login/index.html';
+            window.location.href = `${getPagesBasePath()}auth/login/index.html`;
         });
 
         document.getElementById('btn-cart-guest').addEventListener('click', () => {
@@ -150,7 +163,7 @@ function showLoginModal() {
         modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());
         modal.querySelector('.btn-no').addEventListener('click', () => modal.remove());
         modal.querySelector('.btn-yes').addEventListener('click', () => {
-             window.location.href = '../../auth/login/index.html';
+             window.location.href = `${getPagesBasePath()}auth/login/index.html`;
         });
     }
 }
