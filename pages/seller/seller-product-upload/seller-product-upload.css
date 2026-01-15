@@ -178,6 +178,7 @@ header {
     margin-bottom: 40px;
 }
 .form-row-bottom label {
+    display: block;
     margin-bottom: 10px;
 }
 .editor-area {
