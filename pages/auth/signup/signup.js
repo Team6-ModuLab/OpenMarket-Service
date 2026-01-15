@@ -214,7 +214,6 @@ document.addEventListener('click', (e) => {
 
 phoneMiddle.addEventListener('input', (e) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, '');
-<<<<<<< HEAD
     if (e.target.value.length > 4) {
         e.target.value = e.target.value.slice(0, 4);
     }
