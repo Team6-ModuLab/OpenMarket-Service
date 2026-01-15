@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- 7. 로고 클릭 시 로그인 페이지로 이동 -->
+        <!-- 로고 클릭 시 로그인 페이지로 이동 -->
         <a href="../login/index.html" class="logo-link">
             <div class="logo">
                 <img src="../../../shared/assets/icons/Logo-hodu.png" alt="HODU 로고">
@@ -17,7 +17,7 @@
 
         <div class="signup-box">
             <div class="tab-container">
-                <!-- 3. 구매회원/판매회원 구분 -->
+                <!-- 구매회원/판매회원 구분 -->
                 <button type="button" class="tab-btn active" id="buyer-tab" data-type="BUYER">구매회원가입</button>
                 <button type="button" class="tab-btn" id="seller-tab" data-type="SELLER">판매회원가입</button>
             </div>
@@ -61,37 +61,37 @@
                 </div>
 
                 <!-- 휴대폰번호 -->
-<div class="form-group">
-    <label for="phone-prefix">휴대폰번호</label>
-    <div class="phone-container">
-        <!-- ⭐ select 태그를 커스텀 div로 교체 -->
-        <div class="custom-select-wrapper">
-            <div class="custom-select" id="phone-prefix-custom">
-                <div class="custom-select-trigger">010</div>
-                <div class="custom-options">
-                    <div class="custom-option selected" data-value="010">010</div>
-                    <div class="custom-option" data-value="011">011</div>
-                    <div class="custom-option" data-value="016">016</div>
-                    <div class="custom-option" data-value="017">017</div>
-                    <div class="custom-option" data-value="018">018</div>
-                    <div class="custom-option" data-value="019">019</div>
+                <div class="form-group">
+                    <label for="phone-prefix">휴대폰번호</label>
+                    <div class="phone-container">
+                        <!-- 커스텀 select -->
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select" id="phone-prefix-custom">
+                                <div class="custom-select-trigger">010</div>
+                                <div class="custom-options">
+                                    <div class="custom-option selected" data-value="010">010</div>
+                                    <div class="custom-option" data-value="011">011</div>
+                                    <div class="custom-option" data-value="016">016</div>
+                                    <div class="custom-option" data-value="017">017</div>
+                                    <div class="custom-option" data-value="018">018</div>
+                                    <div class="custom-option" data-value="019">019</div>
+                                </div>
+                            </div>
+                            <!-- 실제 값을 저장할 hidden input -->
+                            <input type="hidden" id="phone-prefix" value="010">
+                        </div>
+                        <input type="text" id="phone-middle" class="input-field phone-input" maxlength="4" inputmode="numeric">
+                        <input type="text" id="phone-last" class="input-field phone-input" maxlength="4" inputmode="numeric">
+                    </div>
+                    <p class="validation-message" id="phone-message"></p>
                 </div>
-            </div>
-            <!-- ⭐ 실제 값을 저장할 hidden input -->
-            <input type="hidden" id="phone-prefix" value="010">
-        </div>
-        <input type="text" id="phone-middle" class="input-field phone-input" maxlength="4" inputmode="numeric">
-        <input type="text" id="phone-last" class="input-field phone-input" maxlength="4" inputmode="numeric">
-    </div>
-    <p class="validation-message" id="phone-message"></p>
-</div>
 
                 <!-- 판매회원 전용 필드 -->
                 <div class="seller-only-fields hidden">
                     <div class="form-group">
                         <label for="business-number">사업자 등록번호</label>
                         <div class="input-with-button">
-                            <input type="text" id="business-number" class="input-field" maxlength="10" inputmode="numeric">
+                            <input type="text" id="business-number" class="input-field" maxlength="12" inputmode="numeric" placeholder="000-00-00000">
                             <button type="button" class="check-btn" id="business-check-btn">인증</button>
                         </div>
                         <p class="validation-message" id="business-message"></p>
