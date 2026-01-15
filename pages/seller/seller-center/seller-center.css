@@ -31,18 +31,21 @@ header {
 .sidebar {
     width: 250px;
     flex-shrink: 0;
+    margin-top: 80px;
 }
-.menu-group h3 {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
+
 .seller-name {
     color: var(--color-primary);
 }
 .menu-group ul li {
     margin-bottom: 10px;
 }
+
+.menu-group ul li:first-child a {
+    display: flex;
+    justify-content: flex-start;
+}
+
 .menu-group ul li a {
     display: flex;
     justify-content: space-between;
@@ -82,47 +85,10 @@ header {
     align-items: center;
     margin-bottom: 30px;
 }
-.content-header h2 {
-    font-size: 18px;
-    font-weight: 400; /* As per design, mostly "Dashboard <SellerName>" */
-    display: none; /* Design shows specific layout, header has title, but here main content title is subtle or merged */
-}
-/* Re-check design: Title "대시보드 백엔드글로벌" is in sidebar top? No, it's sidebar top. 
-   Main content area starts with tabs or empty? 
-   Let's follow the first image: Sidebar has "대시보드 백엔드글로벌". 
-   Main content has "판매중인 상품(3)" as a green tab/button or just header. 
-   Wait, the design image 1 shows "대시보드 백엔드글로벌" text at top left of sidebar? 
-   Actually, let's look closely at image 1.
-   Header: HODU 판매자 센터.
-   Body: Left Sidebar with "판매중인 상품(3)" (Green Active), "주문/배송", etc.
-   Top of Sidebar or Main area? "대시보드 백엔드글로벌" seems to be the Main Header title of the page below the nav bar.
-   Right: "상품 업로드" button.
-   Let's adjust.
-*/
 
-/* Adjusting based on Image 1 analysis */
-.seller-layout { /* Main container */ }
-
-.content-header {
-    /* Contains "대시보드 <NAME>" and "상품 업로드" button based on visual hierarchy? 
-       Actually, image shows:
-       Left col: "판매중인 상품(3)" active button.
-       Right col area: Table.
-       Above Left col: "대시보드 백엔드글로벌".
-       Top Right: "상품 업로드" button.
-    */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
 .content-header h2 {
-    display: block;
     font-size: 36px;
     font-weight: 700;
-}
-.seller-distinct {
-    color: var(--color-primary);
 }
 
 .btn-upload {
@@ -212,22 +178,21 @@ header {
     text-align: center;
 }
 
-.btn-edit {
-    background-color: var(--color-primary);
-    color: #fff;
+.item-btn-col button {
     padding: 10px 0;
     width: 80px;
     border-radius: 5px;
     font-size: 16px;
 }
+
+.btn-edit {
+    background-color: var(--color-primary);
+    color: #fff;
+}
 .btn-delete {
     background-color: #fff;
     border: 1px solid #C4C4C4;
     color: #767676;
-    padding: 10px 0;
-    width: 80px;
-    border-radius: 5px;
-    font-size: 16px;
 }
 .btn-delete:hover {
     border-color: #767676;

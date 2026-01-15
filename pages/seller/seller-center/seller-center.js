@@ -11,43 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Since we don't have the seller name stored explicitly in localstorage as 'sellerName' usually,
-    // we might need to rely on what information we have.
-    // The previous login API response saves 'access', 'refresh', 'userType'.
-    // Does it verify account name?
-    // Let's assume for now we might need to fetch profile or similar, API spec doesn't show "Get Profile".
-    // However, the `getSellerProducts` requires `seller_name`. 
-    // Wait, usually the login response or a decoded token might have it. 
-    // IF NOT, we might be stuck. 
-    // CHECK: When logging in login() returns data. 
-    // Does login return user info?
-    // API Spec for Login (from memory or typical): usually returns token + user info.
-    // If we didn't save it, we might need to.
-    
-    // WORKAROUND: For now, I'll attempt to use a stored 'account_name' if I can find where I saved it.
-    // If not saved, I need to modify login logic to save it. 
-    // BUT I can't modify login page logic right now easily if it's in another file I didn't plan to touch much (auth/login.js).
-    // Let's check `shared/js/api.js` login function again. It returns `data`. 
-    // The `auth/login/login.js` (which I haven't seen but assume exists) likely handles saving token.
-    // I should check `localStorage` items.
-    
-    // For this implementation step, let's assume `localStorage.getItem('account_name')` exists.
-    // If testing reveals it's missing, I'll have to add it to the login flow.
-    // I will add a fallback or check.
-
-    /*
-     * Note: In a real scenario, I would check `auth/login.js` to see what it saves.
-     * I'll proceed assuming 'account_name' or 'username' is stored.
-     * If not, I will prompt the user (myself) to fix it, but let's write defensive code.
-     */
-    
-    // seller-center.js
-    
-    // Trying to get seller name. Logic: If I logged in, I should know who I am.
-    // Use 'account_name' (ID) for API calls if required, but the prompt asked to use 'name' stored in localStorage.
-    // The prompt: "seller name을 localStorage에 저장된 name을 통해서"
     const sellerName = localStorage.getItem('sellerName'); // API requires 'seller_name' (user.name) as per user instruction
-    const sellerDisplayName = localStorage.getItem('sellerName'); // For Display
     
     if (!sellerName) {
         alert('판매자 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
@@ -56,8 +20,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Update Sidebar/Header Name
-    const nameElements = document.querySelectorAll('.seller-distinct, #seller-name');
-    nameElements.forEach(el => el.textContent = sellerDisplayName || sellerName);
+    const nameElements = document.querySelectorAll('.seller-name');
+    nameElements.forEach(el => el.textContent = sellerName);
 
     // Fetch Products
     const productListContainer = document.getElementById('product-list');
@@ -73,8 +37,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         productListContainer.innerHTML = '';
         
         if (products.length === 0) {
-           productListContainer.innerHTML = '<div class="loading">등록된 상품이 없습니다.</div>';
-           return;
+            productListContainer.innerHTML = '<div class="loading">등록된 상품이 없습니다.</div>';
+            return;
         }
 
         products.forEach(product => {
@@ -93,10 +57,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
                 <div class="item-price">${priceFormatted}원</div>
                 <div class="item-btn-col">
-                     <button class="btn-edit" data-id="${product.id}">수정</button>
+                    <button class="btn-edit" data-id="${product.id}">수정</button>
                 </div>
                 <div class="item-btn-col">
-                     <button class="btn-delete" data-id="${product.id}">삭제</button>
+                    <button class="btn-delete" data-id="${product.id}">삭제</button>
                 </div>
             `;
             productListContainer.appendChild(item);
