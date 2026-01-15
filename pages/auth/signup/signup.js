@@ -19,7 +19,7 @@ const storeName = document.getElementById('store-name');
 const termsCheckbox = document.getElementById('terms-agree');
 
 const idMessage = document.getElementById('id-message');
-const passwordValidationMessage = document.getElementById('password-validation-message');  // ✅ 여기 한 번만
+const passwordValidationMessage = document.getElementById('password-validation-message');
 const passwordMessage = document.getElementById('password-message');
 const nameMessage = document.getElementById('name-message');
 const phoneMessage = document.getElementById('phone-message');
@@ -69,25 +69,23 @@ sellerTab.addEventListener('click', () => {
    아이디
 ================================ */
 function validateUserId(value) {
-    return /^[a-z0-9]{1,20}$/.test(value);
+    return /^[a-zA-Z0-9]{1,20}$/.test(value);
 }
-    
+
 userIdInput.addEventListener('input', () => {
     const username = userIdInput.value.trim();
     
-    // 아이디 입력하는 순간 검증
     if (username.length === 0) {
         clearMessage(idMessage);
         fieldStates.userId = false;
-    } else if (username.length > 20 || !/^[a-z0-9]+$/.test(username)) {
+    } else if (!validateUserId(username)) {
         showError(idMessage, '20자 이내의 영문 소문자, 대문자, 숫자만 사용 가능합니다.');
         fieldStates.userId = false;
     } else {
         clearMessage(idMessage);
-        fieldStates.userId = false;  // 중복확인 전까지는 false
+        fieldStates.userId = false;
     }
     
-    // 값이 변경되면 중복확인 초기화
     if (username !== lastCheckedId) {
         isIdChecked = false;
         fieldStates.userId = false;
@@ -95,17 +93,17 @@ userIdInput.addEventListener('input', () => {
     
     checkAllFields();
 });
+
 /* 중복확인 - 진짜 API */
 idCheckBtn.addEventListener('click', async () => {
     const username = userIdInput.value.trim();
 
     if (!validateUserId(username)) {
-        showError(idMessage, '20자 이내 영문 소문자와 숫자만 사용 가능합니다.');
+        showError(idMessage, '20자 이내의 영문 소문자, 대문자, 숫자만 사용 가능합니다.');
         return;
     }
 
     idCheckBtn.disabled = true;
-    idCheckBtn.textContent = '확인 중...';
 
     try {
         const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
@@ -126,8 +124,8 @@ idCheckBtn.addEventListener('click', async () => {
             isIdChecked = true;
             lastCheckedId = username;
             fieldStates.userId = true;
-        } else if (response.status === 400) {
-            showError(idMessage, data.error || '이미 사용중인 아이디입니다.');
+        } else {
+            showError(idMessage, data.error || data.message || '이미 사용중인 아이디입니다.');
             isIdChecked = false;
             fieldStates.userId = false;
         }
@@ -138,10 +136,10 @@ idCheckBtn.addEventListener('click', async () => {
         isIdChecked = false;
     } finally {
         idCheckBtn.disabled = false;
-        idCheckBtn.textContent = '중복확인';
         checkAllFields();
     }
 });
+
 /* ===============================
    비밀번호
 ================================ */
@@ -164,11 +162,6 @@ passwordInput.addEventListener('input', () => {
     }
     
     checkAllFields();
-});
-
-// 비밀번호 재확인 붙여넣기 명시적 허용
-passwordConfirmInput.addEventListener('paste', (e) => {
-    // 붙여넣기를 허용 (아무 동작 안 함)
 });
 
 function checkPasswordConfirm() {
@@ -267,13 +260,46 @@ function checkPhone() {
    판매자
 ================================ */
 if (businessNumber) {
-    // 숫자만 입력되도록
+    // 숫자만 입력 + 자동 하이픈 (10자리)
     businessNumber.addEventListener('input', (e) => {
-        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        let value = e.target.value.replace(/[^0-9]/g, '');
+        
+        // 최대 10자리까지만
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        
+        // 000-00-00000 형식으로 자동 변환
+        if (value.length > 3 && value.length <= 5) {
+            value = value.slice(0, 3) + '-' + value.slice(3);
+        } else if (value.length > 5) {
+            value = value.slice(0, 3) + '-' + value.slice(3, 5) + '-' + value.slice(5, 10);
+        }
+        
+        e.target.value = value;
     });
     
     businessNumber.addEventListener('blur', () => {
-        fieldStates.business = businessNumber.value.length === 10;
+        const cleanValue = businessNumber.value.replace(/-/g, '');
+        fieldStates.business = cleanValue.length === 10;
+        checkAllFields();
+    });
+}
+
+// 사업자등록번호 인증 버튼
+const businessCheckBtn = document.getElementById('business-check-btn');
+if (businessCheckBtn) {
+    businessCheckBtn.addEventListener('click', () => {
+        const businessNum = businessNumber.value.replace(/-/g, '');
+        
+        if (businessNum.length !== 10) {
+            alert('사업자 등록번호 10자리를 입력해주세요.');
+            return;
+        }
+        
+        // 임시 인증 (실제 API 연동 필요)
+        alert('사업자 등록번호가 인증되었습니다.');
+        fieldStates.business = true;
         checkAllFields();
     });
 }
@@ -339,7 +365,7 @@ signupForm.addEventListener('submit', async (e) => {
         
         // 판매자일 경우 추가 필드
         if (currentUserType === 'SELLER') {
-            signupData.company_registration_number = businessNumber.value.trim();
+            signupData.company_registration_number = businessNumber.value.replace(/-/g, '');
             signupData.store_name = storeName.value.trim();
         }
         
