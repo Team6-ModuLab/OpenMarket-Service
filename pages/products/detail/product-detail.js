@@ -326,26 +326,5 @@ function showStockExceededModal() {
   });
 }
 
-function setupSearch() {
-    const searchInput = document.getElementById('search-input');
-    const searchBtn = document.getElementById('search-btn');
-
-    if (!searchInput || !searchBtn) return;
-
-    function performSearch() {
-        const query = searchInput.value.trim();
-        if (!query) {
-            window.location.href = '../list/index.html';
-            return;
-        }
-        window.location.href = `../list/index.html?search=${encodeURIComponent(query)}`;
-    }
-
-    searchBtn.addEventListener('click', performSearch);
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') performSearch();
-    });
-}
-
 loadProduct();
-setupSearch();
+setupSearch('../list/index.html');

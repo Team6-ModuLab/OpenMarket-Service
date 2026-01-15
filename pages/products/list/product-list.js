@@ -140,26 +140,6 @@ async function renderProducts(searchQuery = '') {
     }
 }
 
-function setupSearch() {
-    const searchInput = document.getElementById('search-input');
-    const searchBtn = document.getElementById('search-btn');
-
-    if (!searchInput || !searchBtn) return;
-
-    function performSearch() {
-        const query = searchInput.value.trim();
-        if (query) {
-            window.location.href = `?search=${encodeURIComponent(query)}`;
-        } else {
-            window.location.href = 'index.html';
-        }
-    }
-
-    searchBtn.addEventListener('click', performSearch);
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') performSearch();
-    });
-}
 
 const urlParams = new URLSearchParams(window.location.search);
 const searchQuery = urlParams.get('search') || '';
