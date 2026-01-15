@@ -57,9 +57,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Shipping Method Toggle
     btnsShipping.forEach(btn => {
         btn.addEventListener('click', () => {
-             btnsShipping.forEach(b => b.classList.remove('active'));
-             btn.classList.add('active');
-             shippingMethodInput.value = btn.getAttribute('data-value');
+            btnsShipping.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            shippingMethodInput.value = btn.getAttribute('data-value');
         });
     });
 
@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (currentImgFile) {
             formData.append('image', currentImgFile);
         } else if (!isEditMode) {
-             alert('이미지를 등록해주세요.');
-             return;
+            alert('이미지를 등록해주세요.');
+            return;
         }
 
         try {
@@ -98,8 +98,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 alert(isEditMode ? '상품이 수정되었습니다.' : '상품이 등록되었습니다.');
                 window.location.href = '../seller-center/index.html';
             } else {
-                // Determine error message from result.data
-                // Example: { "name": ["필수항목"] }
                 let msg = '오류가 발생했습니다.\n';
                 if (result.data) {
                     for (const [key, value] of Object.entries(result.data)) {
@@ -122,12 +120,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     function previewImage(file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-             imgPreviewBox.innerHTML = `<img src="${e.target.result}" class="preview-img" alt="Preview">`;
+            imgPreviewBox.innerHTML = `<img src="${e.target.result}" class="preview-img" alt="Preview">`;
         };
         reader.readAsDataURL(file);
     }
 
-    // Helper: Validate
     function validateForm() {
         return true;
     }
@@ -168,7 +165,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             history.back();
         }
     }
-    
-    // Auto-format numbers (Optional polish)
-    // For MVP, just assuming user enters numbers.
 });
