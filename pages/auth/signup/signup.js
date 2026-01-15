@@ -1,12 +1,9 @@
-/* ===============================
-   DOM
-================================ */
+const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
 const buyerTab = document.getElementById('buyer-tab');
 const sellerTab = document.getElementById('seller-tab');
 const sellerFields = document.querySelector('.seller-only-fields');
 const signupForm = document.getElementById('signup-form');
 const signupBtn = document.querySelector('.signup-btn');
-
 const userIdInput = document.getElementById('user-id');
 const passwordInput = document.getElementById('password');
 const passwordConfirmInput = document.getElementById('password-confirm');
@@ -17,27 +14,19 @@ const phoneLast = document.getElementById('phone-last');
 const businessNumber = document.getElementById('business-number');
 const storeName = document.getElementById('store-name');
 const termsCheckbox = document.getElementById('terms-agree');
-
 const idMessage = document.getElementById('id-message');
 const passwordValidationMessage = document.getElementById('password-validation-message');
 const passwordMessage = document.getElementById('password-message');
 const nameMessage = document.getElementById('name-message');
 const phoneMessage = document.getElementById('phone-message');
-const businessMessage = document.getElementById('business-message');
-const storeMessage = document.getElementById('store-message');
-
 const idCheckBtn = document.getElementById('id-check-btn');
 
-/* ===============================
-   상태
-================================ */
 let currentUserType = 'BUYER';
 let isIdChecked = false;
 let lastCheckedId = '';
 let isBusinessChecked = false;
 let lastCheckedBusiness = '';
 let lastCheckedPhone = '';
-
 let fieldStates = {
     userId: false,
     password: false,
@@ -49,9 +38,6 @@ let fieldStates = {
     terms: false
 };
 
-/* ===============================
-   탭
-================================ */
 buyerTab.addEventListener('click', () => {
     buyerTab.classList.add('active');
     sellerTab.classList.remove('active');
@@ -68,16 +54,12 @@ sellerTab.addEventListener('click', () => {
     checkAllFields();
 });
 
-/* ===============================
-   아이디
-================================ */
 function validateUserId(value) {
     return /^[a-zA-Z0-9]{1,20}$/.test(value);
 }
 
 userIdInput.addEventListener('input', () => {
     const username = userIdInput.value.trim();
-    
     if (username.length === 0) {
         clearMessage(idMessage);
         fieldStates.userId = false;
@@ -88,29 +70,21 @@ userIdInput.addEventListener('input', () => {
         clearMessage(idMessage);
         fieldStates.userId = false;
     }
-    
     if (username !== lastCheckedId) {
         isIdChecked = false;
         fieldStates.userId = false;
     }
-    
     checkAllFields();
 });
 
-/* 중복확인 - 진짜 API */
 idCheckBtn.addEventListener('click', async () => {
     const username = userIdInput.value.trim();
-
     if (!validateUserId(username)) {
         showError(idMessage, '20자 이내의 영문 소문자, 대문자, 숫자만 사용 가능합니다.');
         return;
     }
-
     idCheckBtn.disabled = true;
-
     try {
-        const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
-        
         const response = await fetch(`${BASE_URL}/accounts/validate-username/`, {
             method: 'POST',
             headers: {
@@ -118,11 +92,9 @@ idCheckBtn.addEventListener('click', async () => {
             },
             body: JSON.stringify({ username: username })
         });
-
         const data = await response.json();
         console.log('Response:', response.status, data);
-
-        if (response.status === 200) {
+        if (response.ok) {
             showSuccess(idMessage, data.message || '사용 가능한 아이디입니다.');
             isIdChecked = true;
             lastCheckedId = username;
@@ -132,7 +104,6 @@ idCheckBtn.addEventListener('click', async () => {
             isIdChecked = false;
             fieldStates.userId = false;
         }
-
     } catch (e) {
         console.error('Error:', e);
         showError(idMessage, '서버 연결에 실패했습니다. 다시 시도해주세요.');
@@ -143,12 +114,8 @@ idCheckBtn.addEventListener('click', async () => {
     }
 });
 
-/* ===============================
-   비밀번호
-================================ */
 passwordInput.addEventListener('input', () => {
     const password = passwordInput.value;
-    
     if (password.length === 0) {
         clearMessage(passwordValidationMessage);
         fieldStates.password = false;
@@ -159,18 +126,21 @@ passwordInput.addEventListener('input', () => {
         showSuccess(passwordValidationMessage, '사용 가능한 비밀번호입니다.');
         fieldStates.password = true;
     }
-    
     if (passwordConfirmInput.value) {
         checkPasswordConfirm();
     }
-    
     checkAllFields();
+});
+
+passwordInput.addEventListener('focus', () => {
+    if (!fieldStates.userId) {
+        showError(idMessage, '필수 정보입니다.');
+    }
 });
 
 function checkPasswordConfirm() {
     const password = passwordInput.value;
     const passwordConfirm = passwordConfirmInput.value;
-    
     if (passwordConfirm.length === 0) {
         clearMessage(passwordMessage);
         fieldStates.passwordConfirm = false;
@@ -188,48 +158,50 @@ passwordConfirmInput.addEventListener('input', () => {
     checkAllFields();
 });
 
-/* ===============================
-   이름
-================================ */
+passwordConfirmInput.addEventListener('focus', () => {
+    if (!fieldStates.password) {
+        showError(passwordValidationMessage, '필수 정보입니다.');
+    }
+});
+
 nameInput.addEventListener('blur', () => {
-    fieldStates.name = !!nameInput.value.trim();
+    const value = nameInput.value.trim();
+    if (!value) {
+        showError(nameMessage, '필수 정보입니다.');
+        fieldStates.name = false;
+    } else {
+        clearMessage(nameMessage);
+        fieldStates.name = true;
+    }
     checkAllFields();
 });
 
-/* ===============================
-   휴대폰
-================================ */
-// 커스텀 select 기능
+nameInput.addEventListener('focus', () => {
+    if (!fieldStates.passwordConfirm) {
+        showError(passwordMessage, '필수 정보입니다.');
+    }
+});
+
 const customSelect = document.getElementById('phone-prefix-custom');
 const customSelectTrigger = customSelect.querySelector('.custom-select-trigger');
-const customOptions = customSelect.querySelector('.custom-options');
 const customOptionsList = customSelect.querySelectorAll('.custom-option');
 const phonePrefixInput = document.getElementById('phone-prefix');
 
-// select 열기/닫기
 customSelectTrigger.addEventListener('click', () => {
     customSelect.classList.toggle('open');
 });
 
-// 옵션 선택
 customOptionsList.forEach(option => {
     option.addEventListener('click', () => {
         const value = option.getAttribute('data-value');
-        
-        // 선택된 값 표시
         customSelectTrigger.textContent = value;
         phonePrefixInput.value = value;
-        
-        // 선택 상태 업데이트
         customOptionsList.forEach(opt => opt.classList.remove('selected'));
         option.classList.add('selected');
-        
-        // 드롭다운 닫기
         customSelect.classList.remove('open');
     });
 });
 
-// 외부 클릭 시 닫기
 document.addEventListener('click', (e) => {
     if (!customSelect.contains(e.target)) {
         customSelect.classList.remove('open');
@@ -238,26 +210,28 @@ document.addEventListener('click', (e) => {
 
 phoneMiddle.addEventListener('input', (e) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    // 입력값 변경 시 상태 초기화
+    if (e.target.value.length > 4) {
+        e.target.value = e.target.value.slice(0, 4);
+    }
     fieldStates.phone = false;
     clearMessage(phoneMessage);
     checkAllFields();
 });
 
-phoneMiddle.addEventListener('input', (e) => {
-    e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    fieldStates.phone = false;
-    clearMessage(phoneMessage);
-    checkAllFields();
+phoneMiddle.addEventListener('focus', () => {
+    if (!fieldStates.name) {
+        showError(nameMessage, '필수 정보입니다.');
+    }
 });
 
 phoneLast.addEventListener('input', (e) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    if (e.target.value.length > 4) {
+        e.target.value = e.target.value.slice(0, 4);
+    }
     fieldStates.phone = false;
     clearMessage(phoneMessage);
-    
-    // ⭐ 4자리 입력 완료 시 바로 중복 확인
-    if (e.target.value.length === 4 && phoneMiddle.value.length >= 3) {
+    if (e.target.value.length === 4 && phoneMiddle.value.length === 4) {
         checkPhone();
     } else {
         checkAllFields();
@@ -268,26 +242,18 @@ async function checkPhone() {
     const prefix = phonePrefixInput.value;
     const middle = phoneMiddle.value;
     const last = phoneLast.value;
-    
-    // 길이 체크
-    if (prefix.length < 2 || middle.length < 3 || last.length < 4) {
+    if (middle.length < 4 || last.length < 4) {
         fieldStates.phone = false;
         checkAllFields();
         return;
     }
-    
     const fullPhone = prefix + middle + last;
-    
-    // 이미 확인한 번호면 재확인 안 함
-    if (fullPhone === lastCheckedPhone) {
+    if (fullPhone === lastCheckedPhone && fieldStates.phone) {
         checkAllFields();
         return;
     }
-    
-    // ⭐ API로 중복 확인
+    console.log('휴대폰 중복 확인 시작:', fullPhone);
     try {
-        const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
-        
         const response = await fetch(`${BASE_URL}/accounts/validate-phone/`, {
             method: 'POST',
             headers: {
@@ -295,52 +261,37 @@ async function checkPhone() {
             },
             body: JSON.stringify({ phone_number: fullPhone })
         });
-
         const data = await response.json();
-        console.log('휴대폰 중복확인:', response.status, data);
-
-        if (response.status === 200) {
-            clearMessage(phoneMessage);
+        console.log('휴대폰 중복확인 응답:', response.status, data);
+        if (response.ok) {
+            showSuccess(phoneMessage, '사용 가능한 휴대폰 번호입니다.');
             lastCheckedPhone = fullPhone;
             fieldStates.phone = true;
         } else {
-            showError(phoneMessage, '이미 등록된 전화번호입니다.');
+            showError(phoneMessage, data.error || data.message || '이미 등록된 전화번호입니다.');
             fieldStates.phone = false;
         }
-
     } catch (e) {
         console.error('휴대폰 중복확인 에러:', e);
-        // 서버 오류 시 일단 통과
-        clearMessage(phoneMessage);
-        fieldStates.phone = true;
+        showError(phoneMessage, '서버 연결에 실패했습니다. 다시 시도해주세요.');
+        fieldStates.phone = false;
+    } finally {
+        checkAllFields();
     }
-    
-    checkAllFields();
 }
 
-/* ===============================
-   판매자
-================================ */
 if (businessNumber) {
-    // 숫자만 입력 + 자동 하이픈 (10자리)
     businessNumber.addEventListener('input', (e) => {
         let value = e.target.value.replace(/[^0-9]/g, '');
-        
-        // 최대 10자리까지만
         if (value.length > 10) {
             value = value.slice(0, 10);
         }
-        
-        // 000-00-00000 형식으로 자동 변환
         if (value.length > 3 && value.length <= 5) {
             value = value.slice(0, 3) + '-' + value.slice(3);
         } else if (value.length > 5) {
             value = value.slice(0, 3) + '-' + value.slice(3, 5) + '-' + value.slice(5, 10);
         }
-        
         e.target.value = value;
-        
-        // 입력값 변경 시 인증 상태 초기화
         const cleanValue = value.replace(/-/g, '');
         if (cleanValue !== lastCheckedBusiness) {
             isBusinessChecked = false;
@@ -359,22 +310,16 @@ if (businessNumber) {
     });
 }
 
-// ⭐ 사업자등록번호 인증 버튼 - API 추가
 const businessCheckBtn = document.getElementById('business-check-btn');
 if (businessCheckBtn) {
     businessCheckBtn.addEventListener('click', async () => {
         const businessNum = businessNumber.value.replace(/-/g, '');
-        
         if (businessNum.length !== 10) {
             alert('사업자 등록번호 10자리를 입력해주세요.');
             return;
         }
-        
         businessCheckBtn.disabled = true;
-        
         try {
-            const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
-            
             const response = await fetch(`${BASE_URL}/accounts/seller/validate-registration-number/`, {
                 method: 'POST',
                 headers: {
@@ -382,11 +327,9 @@ if (businessCheckBtn) {
                 },
                 body: JSON.stringify({ company_registration_number: businessNum })
             });
-            
             const data = await response.json();
             console.log('사업자번호 Response:', response.status, data);
-            
-            if (response.status === 200) {
+            if (response.ok) {
                 alert('사업자 등록번호가 인증되었습니다.');
                 isBusinessChecked = true;
                 lastCheckedBusiness = businessNum;
@@ -396,7 +339,6 @@ if (businessCheckBtn) {
                 isBusinessChecked = false;
                 fieldStates.business = false;
             }
-            
         } catch (e) {
             console.error('사업자번호 Error:', e);
             alert('서버 연결에 실패했습니다. 다시 시도해주세요.');
@@ -415,17 +357,11 @@ if (storeName) {
     });
 }
 
-/* ===============================
-   약관
-================================ */
 termsCheckbox.addEventListener('change', () => {
     fieldStates.terms = termsCheckbox.checked;
     checkAllFields();
 });
 
-/* ===============================
-   버튼 활성화
-================================ */
 function checkAllFields() {
     let valid =
         fieldStates.userId &&
@@ -434,87 +370,76 @@ function checkAllFields() {
         fieldStates.name &&
         fieldStates.phone &&
         fieldStates.terms;
-
     if (currentUserType === 'SELLER') {
         valid = valid && fieldStates.business && fieldStates.store;
     }
-
     signupBtn.disabled = !valid;
     signupBtn.classList.toggle('active', valid);
 }
 
-/* 회원가입 submit */
 signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-
     if (!isIdChecked) {
         alert('아이디 중복확인을 해주세요.');
         return;
     }
-    
     if (currentUserType === 'SELLER' && !isBusinessChecked) {
         alert('사업자등록번호 인증을 해주세요.');
         return;
     }
-
+    if (!fieldStates.phone) {
+        alert('휴대폰번호를 확인해주세요.');
+        return;
+    }
+    
     const signupData = {
         username: userIdInput.value.trim(),
         password: passwordInput.value,
         name: nameInput.value.trim(),
         phone_number: phonePrefixInput.value + phoneMiddle.value + phoneLast.value
     };
-
+    
     try {
-        const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
-        
-        // 구매자/판매자에 따라 엔드포인트 분기
         const endpoint = currentUserType === 'BUYER' 
             ? `${BASE_URL}/accounts/buyer/signup/`
             : `${BASE_URL}/accounts/seller/signup/`;
-        
-        // 판매자일 경우 추가 필드
         if (currentUserType === 'SELLER') {
             signupData.company_registration_number = businessNumber.value.replace(/-/g, '');
             signupData.store_name = storeName.value.trim();
         }
-        
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(signupData)
         });
-
         const data = await response.json();
         console.log('Response:', response.status, data);
-
-if (response.ok) {
-    alert('회원가입이 완료되었습니다.');
-    location.href = '../login/index.html';
-} else {
-    // ⭐ 휴대폰번호 에러일 경우 화면에 표시
-    if (data.phone_number) {
-        showError(phoneMessage, data.phone_number[0] || '이미 등록된 전화번호입니다.');
-    } else {
-        alert(data.FAIL_Message || JSON.stringify(data));
-    }
-}
+        if (response.ok) {
+            alert('회원가입이 완료되었습니다.');
+            location.href = '../login/index.html';
+        } else {
+            if (data.phone_number) {
+                showError(phoneMessage, data.phone_number[0] || '이미 등록된 전화번호입니다.');
+            } else {
+                alert(data.FAIL_Message || JSON.stringify(data));
+            }
+        }
     } catch (e) {
         console.error('Error:', e);
         alert('회원가입 중 서버 오류가 발생했습니다.');
     }
 });
 
-/* ===============================
-   메시지 유틸
-================================ */
 function showError(el, msg) {
     el.textContent = msg;
     el.className = 'validation-message error';
 }
+
 function showSuccess(el, msg) {
     el.textContent = msg;
     el.className = 'validation-message success';
 }
+
 function clearMessage(el) {
     el.textContent = '';
     el.className = 'validation-message';
