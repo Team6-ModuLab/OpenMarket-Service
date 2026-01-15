@@ -179,7 +179,7 @@ function checkStockLimit() {
 }
 
 function handleBuy() {
-  const token = localStorage.getItem('accessToken') || localStorage.getItem('access');
+  const token = localStorage.getItem('access');
 
   if (!token) {
     showLoginModal();
@@ -197,7 +197,7 @@ function handleBuy() {
 }
 
 function handleCart() {
-  const token = localStorage.getItem('accessToken') || localStorage.getItem('access');
+  const token = localStorage.getItem('access');
 
   if (!token) {
     showLoginModal();
