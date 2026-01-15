@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Fetch Data for Edit
     async function fetchProductData(id) {
         try {
-            const product = await API.getProductDetail(id);
+            const product = await API.getProduct(id);
             
             // Fill fields
             productNameInput.value = product.name;
