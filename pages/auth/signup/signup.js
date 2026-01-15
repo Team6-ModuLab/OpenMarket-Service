@@ -97,7 +97,6 @@ userIdInput.addEventListener('input', () => {
     checkAllFields();
 });
 
-/* 중복확인 - 진짜 API */
 idCheckBtn.addEventListener('click', async () => {
     const username = userIdInput.value.trim();
 
@@ -234,14 +233,6 @@ document.addEventListener('click', (e) => {
     if (!customSelect.contains(e.target)) {
         customSelect.classList.remove('open');
     }
-});
-
-phoneMiddle.addEventListener('input', (e) => {
-    e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    // 입력값 변경 시 상태 초기화
-    fieldStates.phone = false;
-    clearMessage(phoneMessage);
-    checkAllFields();
 });
 
 phoneMiddle.addEventListener('input', (e) => {
@@ -443,7 +434,6 @@ function checkAllFields() {
     signupBtn.classList.toggle('active', valid);
 }
 
-/* 회원가입 submit */
 signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 

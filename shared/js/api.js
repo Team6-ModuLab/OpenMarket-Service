@@ -145,20 +145,6 @@ const API = {
             console.error('Failed to delete product:', error);
             throw error;
         }
-    },
-    
-    // Get product detail
-    getProductDetail: async (productId) => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/products/${productId}/`);
-             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return await response.json();
-        } catch (error) {
-            console.error('Failed to fetch product detail:', error);
-             throw error;
-        }
     }
 };
 
