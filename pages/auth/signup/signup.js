@@ -34,6 +34,9 @@ const idCheckBtn = document.getElementById('id-check-btn');
 let currentUserType = 'BUYER';
 let isIdChecked = false;
 let lastCheckedId = '';
+let isBusinessChecked = false;
+let lastCheckedBusiness = '';
+let lastCheckedPhone = '';
 
 let fieldStates = {
     userId: false,
@@ -233,26 +236,85 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// 숫자만 입력되도록
 phoneMiddle.addEventListener('input', (e) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    if (e.target.value.length >= 3) {
-        checkPhone();
-    }
+    // 입력값 변경 시 상태 초기화
+    fieldStates.phone = false;
+    clearMessage(phoneMessage);
+    checkAllFields();
+});
+
+phoneMiddle.addEventListener('input', (e) => {
+    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    fieldStates.phone = false;
+    clearMessage(phoneMessage);
+    checkAllFields();
 });
 
 phoneLast.addEventListener('input', (e) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    if (e.target.value.length >= 4) {
+    fieldStates.phone = false;
+    clearMessage(phoneMessage);
+    
+    // ⭐ 4자리 입력 완료 시 바로 중복 확인
+    if (e.target.value.length === 4 && phoneMiddle.value.length >= 3) {
         checkPhone();
+    } else {
+        checkAllFields();
     }
 });
 
-function checkPhone() {
-    fieldStates.phone =
-        phonePrefixInput.value.length >= 2 &&
-        phoneMiddle.value.length >= 3 &&
-        phoneLast.value.length === 4;
+async function checkPhone() {
+    const prefix = phonePrefixInput.value;
+    const middle = phoneMiddle.value;
+    const last = phoneLast.value;
+    
+    // 길이 체크
+    if (prefix.length < 2 || middle.length < 3 || last.length < 4) {
+        fieldStates.phone = false;
+        checkAllFields();
+        return;
+    }
+    
+    const fullPhone = prefix + middle + last;
+    
+    // 이미 확인한 번호면 재확인 안 함
+    if (fullPhone === lastCheckedPhone) {
+        checkAllFields();
+        return;
+    }
+    
+    // ⭐ API로 중복 확인
+    try {
+        const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
+        
+        const response = await fetch(`${BASE_URL}/accounts/validate-phone/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ phone_number: fullPhone })
+        });
+
+        const data = await response.json();
+        console.log('휴대폰 중복확인:', response.status, data);
+
+        if (response.status === 200) {
+            clearMessage(phoneMessage);
+            lastCheckedPhone = fullPhone;
+            fieldStates.phone = true;
+        } else {
+            showError(phoneMessage, '이미 등록된 전화번호입니다.');
+            fieldStates.phone = false;
+        }
+
+    } catch (e) {
+        console.error('휴대폰 중복확인 에러:', e);
+        // 서버 오류 시 일단 통과
+        clearMessage(phoneMessage);
+        fieldStates.phone = true;
+    }
+    
     checkAllFields();
 }
 
@@ -277,19 +339,30 @@ if (businessNumber) {
         }
         
         e.target.value = value;
+        
+        // 입력값 변경 시 인증 상태 초기화
+        const cleanValue = value.replace(/-/g, '');
+        if (cleanValue !== lastCheckedBusiness) {
+            isBusinessChecked = false;
+            fieldStates.business = false;
+        }
     });
     
     businessNumber.addEventListener('blur', () => {
         const cleanValue = businessNumber.value.replace(/-/g, '');
-        fieldStates.business = cleanValue.length === 10;
+        if (cleanValue.length === 10 && isBusinessChecked) {
+            fieldStates.business = true;
+        } else {
+            fieldStates.business = false;
+        }
         checkAllFields();
     });
 }
 
-// 사업자등록번호 인증 버튼
+// ⭐ 사업자등록번호 인증 버튼 - API 추가
 const businessCheckBtn = document.getElementById('business-check-btn');
 if (businessCheckBtn) {
-    businessCheckBtn.addEventListener('click', () => {
+    businessCheckBtn.addEventListener('click', async () => {
         const businessNum = businessNumber.value.replace(/-/g, '');
         
         if (businessNum.length !== 10) {
@@ -297,10 +370,41 @@ if (businessCheckBtn) {
             return;
         }
         
-        // 임시 인증 (실제 API 연동 필요)
-        alert('사업자 등록번호가 인증되었습니다.');
-        fieldStates.business = true;
-        checkAllFields();
+        businessCheckBtn.disabled = true;
+        
+        try {
+            const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
+            
+            const response = await fetch(`${BASE_URL}/accounts/seller/validate-registration-number/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ company_registration_number: businessNum })
+            });
+            
+            const data = await response.json();
+            console.log('사업자번호 Response:', response.status, data);
+            
+            if (response.status === 200) {
+                alert('사업자 등록번호가 인증되었습니다.');
+                isBusinessChecked = true;
+                lastCheckedBusiness = businessNum;
+                fieldStates.business = true;
+            } else {
+                alert(data.error || data.message || '이미 등록된 사업자 등록번호입니다.');
+                isBusinessChecked = false;
+                fieldStates.business = false;
+            }
+            
+        } catch (e) {
+            console.error('사업자번호 Error:', e);
+            alert('서버 연결에 실패했습니다. 다시 시도해주세요.');
+            isBusinessChecked = false;
+        } finally {
+            businessCheckBtn.disabled = false;
+            checkAllFields();
+        }
     });
 }
 
@@ -347,6 +451,11 @@ signupForm.addEventListener('submit', async (e) => {
         alert('아이디 중복확인을 해주세요.');
         return;
     }
+    
+    if (currentUserType === 'SELLER' && !isBusinessChecked) {
+        alert('사업자등록번호 인증을 해주세요.');
+        return;
+    }
 
     const signupData = {
         username: userIdInput.value.trim(),
@@ -378,12 +487,17 @@ signupForm.addEventListener('submit', async (e) => {
         const data = await response.json();
         console.log('Response:', response.status, data);
 
-        if (response.ok) {
-            alert('회원가입이 완료되었습니다.');
-            location.href = '../login/index.html';
-        } else {
-            alert(data.FAIL_Message || JSON.stringify(data));
-        }
+if (response.ok) {
+    alert('회원가입이 완료되었습니다.');
+    location.href = '../login/index.html';
+} else {
+    // ⭐ 휴대폰번호 에러일 경우 화면에 표시
+    if (data.phone_number) {
+        showError(phoneMessage, data.phone_number[0] || '이미 등록된 전화번호입니다.');
+    } else {
+        alert(data.FAIL_Message || JSON.stringify(data));
+    }
+}
     } catch (e) {
         console.error('Error:', e);
         alert('회원가입 중 서버 오류가 발생했습니다.');
