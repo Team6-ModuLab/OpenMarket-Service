@@ -184,7 +184,6 @@ label {
     gap: 12px;
 }
 
-/* 커스텀 셀렉트 */
 .custom-select-wrapper {
     position: relative;
     width: 100%;
@@ -198,7 +197,7 @@ label {
 .custom-select-trigger {
     width: 100%;
     padding: 16px;
-    padding-right: 50px;  /* ⭐ 오른쪽 여백 증가 */
+    padding-right: 50px;
     border: 1px solid #c4c4c4;
     border-radius: 5px;
     font-size: 16px;
@@ -206,10 +205,9 @@ label {
     cursor: pointer;
     text-align: center;
     transition: border-color 0.3s ease;
-    position: relative;  /* ⭐ 추가 */
+    position: relative;
 }
 
-/* 아래 화살표 (▼) */
 .custom-select-trigger::after {
     content: '';
     position: absolute;
@@ -220,14 +218,13 @@ label {
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid #767676;  /* ⭐ 아래 화살표 */
+    border-top: 5px solid #767676;
     transition: transform 0.3s ease;
 }
 
-/* 열렸을 때 위 화살표 (▲) */
 .custom-select.open .custom-select-trigger::after {
-    border-top: none;  /* ⭐ 위쪽 삭제 */
-    border-bottom: 5px solid #767676;  /* ⭐ 아래쪽 추가 → 위 화살표 */
+    border-top: none;
+    border-bottom: 5px solid #767676;
     transform: translateY(-50%);
 }
 
@@ -236,7 +233,6 @@ label {
     border-color: #21BF48;
 }
 
-/* 드롭다운 박스 */
 .custom-options {
     position: absolute;
     top: calc(100% + 4px);
@@ -256,7 +252,6 @@ label {
     display: block;
 }
 
-/* 옵션 하나하나 */
 .custom-option {
     padding: 14px 16px;
     text-align: center;
@@ -273,7 +268,6 @@ label {
     border-bottom: 2px solid #21BF48;
 }
 
-/* 스크롤바 */
 .custom-options::-webkit-scrollbar {
     width: 8px;
 }
@@ -283,9 +277,8 @@ label {
     border-radius: 4px;
 }
 
-/* ⭐ 드롭다운 옵션 가운데 정렬 + 스크롤 */
 .select-field option {
-    text-align: center;  /* ⭐ 옵션 가운데 정렬 */
+    text-align: center;
     padding: 12px;
     font-size: 16px;
 }

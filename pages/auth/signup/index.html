@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- 로고 클릭 시 로그인 페이지로 이동 -->
         <a href="../login/index.html" class="logo-link">
             <div class="logo">
                 <img src="../../../shared/assets/icons/Logo-hodu.png" alt="HODU 로고">
@@ -17,13 +16,15 @@
 
         <div class="signup-box">
             <div class="tab-container">
-                <!-- 구매회원/판매회원 구분 -->
-                <button type="button" class="tab-btn active" id="buyer-tab" data-type="BUYER">구매회원가입</button>
-                <button type="button" class="tab-btn" id="seller-tab" data-type="SELLER">판매회원가입</button>
+                <button type="button" class="tab-btn active" id="buyer-tab" data-type="BUYER">
+                    구매회원가입
+                </button>
+                <button type="button" class="tab-btn" id="seller-tab" data-type="SELLER">
+                    판매회원가입
+                </button>
             </div>
 
             <form class="signup-form" id="signup-form">
-                <!-- 아이디 -->
                 <div class="form-group">
                     <label for="user-id">아이디</label>
                     <div class="input-with-button">
@@ -33,7 +34,6 @@
                     <p class="validation-message" id="id-message"></p>
                 </div>
 
-                <!-- 비밀번호 -->
                 <div class="form-group">
                     <label for="password">비밀번호</label>
                     <div class="password-input-container">
@@ -43,7 +43,6 @@
                     <p class="validation-message" id="password-validation-message"></p>
                 </div>
 
-                <!-- 비밀번호 재확인 -->
                 <div class="form-group">
                     <label for="password-confirm">비밀번호 재확인</label>
                     <div class="password-input-container">
@@ -53,18 +52,15 @@
                     <p class="validation-message" id="password-message"></p>
                 </div>
 
-                <!-- 이름 -->
                 <div class="form-group">
                     <label for="name">이름</label>
                     <input type="text" id="name" class="input-field" autocomplete="name">
                     <p class="validation-message" id="name-message"></p>
                 </div>
 
-                <!-- 휴대폰번호 -->
                 <div class="form-group">
                     <label for="phone-prefix">휴대폰번호</label>
                     <div class="phone-container">
-                        <!-- 커스텀 select -->
                         <div class="custom-select-wrapper">
                             <div class="custom-select" id="phone-prefix-custom">
                                 <div class="custom-select-trigger">010</div>
@@ -77,7 +73,6 @@
                                     <div class="custom-option" data-value="019">019</div>
                                 </div>
                             </div>
-                            <!-- 실제 값을 저장할 hidden input -->
                             <input type="hidden" id="phone-prefix" value="010">
                         </div>
                         <input type="text" id="phone-middle" class="input-field phone-input" maxlength="4" inputmode="numeric">
@@ -86,7 +81,6 @@
                     <p class="validation-message" id="phone-message"></p>
                 </div>
 
-                <!-- 판매회원 전용 필드 -->
                 <div class="seller-only-fields hidden">
                     <div class="form-group">
                         <label for="business-number">사업자 등록번호</label>
@@ -104,15 +98,16 @@
                     </div>
                 </div>
 
-                <!-- 약관 동의 -->
                 <div class="form-group checkbox-group">
                     <label class="checkbox-container">
                         <input type="checkbox" id="terms-agree">
-                        <span class="checkbox-text">호두샵의 <a href="#" class="link-text">이용약관</a> 및 <a href="#" class="link-text">개인정보처리방침</a>에 대한 내용을 확인하였고 동의합니다.</span>
+                        <span class="checkbox-text">
+                            호두샵의 <a href="#" class="link-text">이용약관</a> 및 
+                            <a href="#" class="link-text">개인정보처리방침</a>에 대한 내용을 확인하였고 동의합니다.
+                        </span>
                     </label>
                 </div>
 
-                <!-- 가입하기 버튼 -->
                 <button type="submit" class="signup-btn" disabled>가입하기</button>
             </form>
         </div>
