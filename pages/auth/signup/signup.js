@@ -106,7 +106,7 @@ idCheckBtn.addEventListener('click', async () => {
         }
     } catch (e) {
         console.error('Error:', e);
-        showError(idMessage, '서버 연결에 실패했습니다. 다시 시도해주세요.');
+        showError(idMessage, '서버 연결에 실패했습니다.');
         isIdChecked = false;
     } finally {
         idCheckBtn.disabled = false;
@@ -141,14 +141,18 @@ passwordInput.addEventListener('focus', () => {
 function checkPasswordConfirm() {
     const password = passwordInput.value;
     const passwordConfirm = passwordConfirmInput.value;
+    const passwordConfirmIcon = document.getElementById('password-confirm-icon');
     if (passwordConfirm.length === 0) {
         clearMessage(passwordMessage);
+        passwordConfirmIcon.className = 'password-icon';
         fieldStates.passwordConfirm = false;
     } else if (password !== passwordConfirm) {
         showError(passwordMessage, '비밀번호가 일치하지 않습니다.');
+        passwordConfirmIcon.className = 'password-icon';
         fieldStates.passwordConfirm = false;
     } else {
         showSuccess(passwordMessage, '비밀번호가 일치합니다.');
+        passwordConfirmIcon.className = 'password-icon checked';
         fieldStates.passwordConfirm = true;
     }
 }
@@ -215,6 +219,10 @@ phoneMiddle.addEventListener('input', (e) => {
     }
     fieldStates.phone = false;
     clearMessage(phoneMessage);
+    // 이 부분이 추가된 거예요
+    if (e.target.value.length >= 3 && phoneLast.value.length === 4) {
+        checkPhone();
+    }
     checkAllFields();
 });
 
@@ -229,29 +237,26 @@ phoneLast.addEventListener('input', (e) => {
     if (e.target.value.length > 4) {
         e.target.value = e.target.value.slice(0, 4);
     }
-    fieldStates.phone = false;
     clearMessage(phoneMessage);
-    if (e.target.value.length === 4 && phoneMiddle.value.length === 4) {
-        checkPhone();
+    if (e.target.value.length === 4 && phoneMiddle.value.length >= 3) {
+        fieldStates.phone = true;
+        showSuccess(phoneMessage, '휴대폰 번호가 입력되었습니다.');
     } else {
-        checkAllFields();
+        fieldStates.phone = false;
     }
+    checkAllFields();
 });
 
 async function checkPhone() {
     const prefix = phonePrefixInput.value;
     const middle = phoneMiddle.value;
     const last = phoneLast.value;
-    if (middle.length < 4 || last.length < 4) {
-        fieldStates.phone = false;
-        checkAllFields();
-        return;
-    }
+    
     const fullPhone = prefix + middle + last;
     if (fullPhone === lastCheckedPhone && fieldStates.phone) {
-        checkAllFields();
-        return;
+        return;  // 이미 확인한 번호면 스킵
     }
+    
     console.log('휴대폰 중복 확인 시작:', fullPhone);
     try {
         const response = await fetch(`${BASE_URL}/accounts/validate-phone/`, {
@@ -268,18 +273,17 @@ async function checkPhone() {
             lastCheckedPhone = fullPhone;
             fieldStates.phone = true;
         } else {
-            showError(phoneMessage, data.error || data.message || '이미 등록된 전화번호입니다.');
+            showError(phoneMessage, data.error || data.message || '해당 사용자 전화번호는 이미 존재합니다.');
             fieldStates.phone = false;
         }
     } catch (e) {
         console.error('휴대폰 중복확인 에러:', e);
-        showError(phoneMessage, '서버 연결에 실패했습니다. 다시 시도해주세요.');
+        showError(phoneMessage, '서버 연결에 실패했습니다.');
         fieldStates.phone = false;
     } finally {
         checkAllFields();
     }
 }
-
 if (businessNumber) {
     businessNumber.addEventListener('input', (e) => {
         let value = e.target.value.replace(/[^0-9]/g, '');
@@ -341,7 +345,7 @@ if (businessCheckBtn) {
             }
         } catch (e) {
             console.error('사업자번호 Error:', e);
-            alert('서버 연결에 실패했습니다. 다시 시도해주세요.');
+            alert('서버 연결에 실패했습니다.');
             isBusinessChecked = false;
         } finally {
             businessCheckBtn.disabled = false;
@@ -387,11 +391,7 @@ signupForm.addEventListener('submit', async (e) => {
         alert('사업자등록번호 인증을 해주세요.');
         return;
     }
-    if (!fieldStates.phone) {
-        alert('휴대폰번호를 확인해주세요.');
-        return;
-    }
-    
+
     const signupData = {
         username: userIdInput.value.trim(),
         password: passwordInput.value,
@@ -426,7 +426,7 @@ signupForm.addEventListener('submit', async (e) => {
         }
     } catch (e) {
         console.error('Error:', e);
-        alert('회원가입 중 서버 오류가 발생했습니다.');
+        alert('서버 연결에 실패했습니다.');
     }
 });
 
