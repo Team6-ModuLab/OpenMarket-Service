@@ -97,7 +97,6 @@ userIdInput.addEventListener('input', () => {
     checkAllFields();
 });
 
-/* 중복확인 - 진짜 API */
 idCheckBtn.addEventListener('click', async () => {
     const username = userIdInput.value.trim();
 
@@ -443,7 +442,6 @@ function checkAllFields() {
     signupBtn.classList.toggle('active', valid);
 }
 
-/* 회원가입 submit */
 signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 

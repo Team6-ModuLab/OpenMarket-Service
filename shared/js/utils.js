@@ -63,10 +63,6 @@ function updateHeader() {
         const btnLogout = dropdown.querySelector('#menu-logout');
 
         btnMyPage.addEventListener('click', (e) => {
-             // Prevent triggering if clicked on the dropdown buttons themselves (handled by their listeners, but bubbling issue)
-             // Actually, if we click the container, toggle.
-             // If we click the button inside, the event propagates. 
-             // Let's toggle only if not clicked on children buttons or handle specifically.
              dropdown.classList.toggle('show');
         });
 

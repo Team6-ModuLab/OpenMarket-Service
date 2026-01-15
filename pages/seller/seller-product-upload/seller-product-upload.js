@@ -70,12 +70,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Validation check
         if (!validateForm()) return;
 
-        // Prepare Data
-        // API requires Multipart/Form-data for image upload
-        // Note: For Update, image might be optional if avoiding re-upload? 
-        // API Spec for PUT: "Res 수정이 필요한 값들만 넣어주면 됩니다."
-        // However, standard FormData with fetch will just send what is appended.
-        
         const formData = new FormData();
         formData.append('name', productNameInput.value);
         formData.append('price', parseInt(productPriceInput.value.replace(/,/g, '')));
@@ -135,10 +129,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Helper: Validate
     function validateForm() {
-        // Basic HTML5 required handles usage, but logic checks can be added here
-        // Check numeric inputs
-        // Note: Inputs have type text to allow formatting (commas), but we should strip them before check.
-        // Or implement auto-comma formatting.
         return true;
     }
 
