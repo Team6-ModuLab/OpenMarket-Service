@@ -1,7 +1,7 @@
 // shared/js/auth.js
 // 토큰 관리 및 자동 리프레시 모듈
 
-const API_BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
+const AUTH_API_BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
 
 const AuthService = {
     // 리프레시 중복 방지 플래그
@@ -48,7 +48,7 @@ const AuthService = {
             throw new Error('NO_REFRESH_TOKEN');
         }
 
-        const response = await fetch(`${API_BASE_URL}/accounts/refresh/`, {
+        const response = await fetch(`${AUTH_API_BASE_URL}/accounts/refresh/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
