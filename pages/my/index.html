@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU - 마이페이지</title>
+    <link rel="stylesheet" href="../../shared/css/reset.css">
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="./mypage.css">
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <div class="left-section">
+                <a href="../../index.html" class="logo">
+                    <img src="../../shared/assets/icons/Logo-hodu.png" alt="HODU">
+                </a>
+            </div>
+            <!-- Standard Nav could go here if needed, keeping it simple for MyPage focus -->
+        </div>
+    </header>
+
+    <main class="container mypage-layout">
+        <section class="profile-section">
+            <div class="profile-card">
+                <h2 class="user-name"><span id="user-id">User</span>님</h2>
+            </div>
+        </section>
+
+        <section class="order-section">
+            <h3>주문 목록</h3>
+            <div class="order-list" id="order-list">
+                <div class="loading">주문 내역을 불러오는 중...</div>
+            </div>
+        </section>
+
+        <section class="inquiry-section">
+            <h3>상품 문의</h3>
+            <div class="inquiry-box">
+                <input type="text" placeholder="문의 제목을 입력해주세요" disabled>
+                <textarea placeholder="문의 내용을 입력해주세요" disabled></textarea>
+                <button class="btn-inquiry" type="button">문의하기</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="../../shared/js/api.js"></script>
+    <script src="../../shared/js/utils.js"></script>
+    <script src="./mypage.js"></script>
+</body>
+</html>

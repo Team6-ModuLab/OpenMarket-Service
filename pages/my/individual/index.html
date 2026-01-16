@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU - 주문 상세 내역</title>
+    <link rel="stylesheet" href="../../../shared/css/reset.css">
+    <link rel="stylesheet" href="../../../shared/css/common.css">
+    <link rel="stylesheet" href="./individual.css">
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <div class="left-section">
+                <a href="../../../index.html" class="logo">
+                    <img src="../../../shared/assets/icons/Logo-hodu.png" alt="HODU">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container individual-layout">
+        <h2 class="page-title">주문 상세 내역</h2>
+
+        <div id="order-detail-container" class="order-detail-container">
+            <div class="loading">주문 상세 정보를 불러오는 중...</div>
+        </div>
+        
+        <div class="btn-group">
+            <a href="../index.html" class="btn-back">목록으로</a>
+        </div>
+    </main>
+
+    <script src="../../../shared/js/api.js"></script>
+    <script src="../../../shared/js/utils.js"></script>
+    <script src="./individual.js"></script>
+</body>
+</html>
