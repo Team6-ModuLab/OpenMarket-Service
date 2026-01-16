@@ -1,4 +1,4 @@
-// individual.js
+// order-detail.js
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Get Order ID from URL
