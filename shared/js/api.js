@@ -1,11 +1,19 @@
-const API_BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
+// =============================================
+// api.js - API 요청 모듈
+// =============================================
+
+// API 응답 래퍼
+function createApiResponse(success, data, error = null) {
+    return { success, data, error };
+}
 
 const API = {
+    // ===== 상품 관련 =====
     getProducts: async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/products/`);
+            const response = await fetch(`${CONFIG.API_BASE_URL}/products/`);
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(API_ERRORS.SERVER_ERROR);
             }
             const data = await response.json();
             return data.results;
@@ -17,9 +25,12 @@ const API = {
 
     getProduct: async (productId) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/products/${productId}/`);
+            const response = await fetch(`${CONFIG.API_BASE_URL}/products/${productId}/`);
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                if (response.status === 404) {
+                    throw new Error(API_ERRORS.NOT_FOUND);
+                }
+                throw new Error(API_ERRORS.SERVER_ERROR);
             }
             return await response.json();
         } catch (error) {
@@ -28,8 +39,9 @@ const API = {
         }
     },
 
+    // ===== 인증 관련 =====
     login: async (username, password) => {
-        const response = await fetch(`${API_BASE_URL}/accounts/login/`, {
+        const response = await fetch(`${CONFIG.API_BASE_URL}/accounts/login/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -49,12 +61,13 @@ const API = {
         }
     },
 
+    // ===== 판매자 상품 관련 =====
     getSellerProducts: async (sellerName) => {
         try {
-            const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/${sellerName}/products/`);
+            const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/${sellerName}/products/`);
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+                throw new Error(errorData.detail || API_ERRORS.SERVER_ERROR);
             }
             const data = await response.json();
             return data.results;
@@ -66,16 +79,16 @@ const API = {
 
     createProduct: async (productData) => {
         try {
-            const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/products/`, {
+            const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/products/`, {
                 method: 'POST',
                 body: productData
             });
 
             const data = await response.json();
             if (!response.ok) {
-                return { success: false, data: data };
+                return createApiResponse(false, data);
             }
-            return { success: true, data: data };
+            return createApiResponse(true, data);
         } catch (error) {
             console.error('Failed to create product:', error);
             throw error;
@@ -84,16 +97,16 @@ const API = {
 
     updateProduct: async (productId, productData) => {
         try {
-            const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/products/${productId}/`, {
+            const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/products/${productId}/`, {
                 method: 'PUT',
                 body: productData
             });
 
             const data = await response.json();
             if (!response.ok) {
-                return { success: false, data: data };
+                return createApiResponse(false, data);
             }
-            return { success: true, data: data };
+            return createApiResponse(true, data);
         } catch (error) {
             console.error('Failed to update product:', error);
             throw error;
@@ -102,13 +115,13 @@ const API = {
 
     deleteProduct: async (productId) => {
         try {
-            const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/products/${productId}/`, {
+            const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/products/${productId}/`, {
                 method: 'DELETE'
             });
 
             if (!response.ok) {
                 const data = await response.json();
-                throw new Error(data.detail || `Delete failed`);
+                throw new Error(data.detail || API_ERRORS.SERVER_ERROR);
             }
             return true;
         } catch (error) {
@@ -117,9 +130,10 @@ const API = {
         }
     },
 
+    // ===== 주문 관련 =====
     createOrder: async (orderData) => {
         try {
-            const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/order/`, {
+            const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/order/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -130,9 +144,9 @@ const API = {
             const data = await response.json();
 
             if (!response.ok) {
-                return { success: false, data: data };
+                return createApiResponse(false, data);
             }
-            return { success: true, data: data };
+            return createApiResponse(true, data);
         } catch (error) {
             console.error('Failed to create order:', error);
             throw error;
@@ -141,10 +155,10 @@ const API = {
 
     getOrders: async () => {
         try {
-            const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/order/`);
+            const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/order/`);
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(API_ERRORS.SERVER_ERROR);
             }
             return await response.json();
         } catch (error) {
@@ -155,10 +169,13 @@ const API = {
 
     getOrder: async (orderId) => {
         try {
-            const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/order/${orderId}/`);
+            const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/order/${orderId}/`);
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                if (response.status === 404) {
+                    throw new Error(API_ERRORS.NOT_FOUND);
+                }
+                throw new Error(API_ERRORS.SERVER_ERROR);
             }
             return await response.json();
         } catch (error) {
@@ -169,7 +186,7 @@ const API = {
 
     deleteOrder: async (orderId) => {
         try {
-            const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/order/${orderId}/`, {
+            const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/order/${orderId}/`, {
                 method: 'DELETE'
             });
 
@@ -177,7 +194,7 @@ const API = {
 
             const data = await response.json();
             if (!response.ok) {
-                throw new Error(data.detail || 'Failed to cancel order');
+                throw new Error(data.detail || API_ERRORS.SERVER_ERROR);
             }
             return data;
         } catch (error) {

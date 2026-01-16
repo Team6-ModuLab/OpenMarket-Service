@@ -1,4 +1,6 @@
-// js/login.js
+// =============================================
+// login.js - 로그인 페이지
+// =============================================
 
 const form = document.getElementById('login-form');
 const usernameInput = document.getElementById('username');
@@ -35,25 +37,23 @@ form.addEventListener('submit', async (e) => {
         const result = await API.login(username, password);
 
         // 로그인 성공 시 토큰 저장
-        localStorage.setItem('access', result.access);
-        localStorage.setItem('refresh', result.refresh);
-        localStorage.setItem('userType', result.user.user_type);
-        if (result.user.user_type == "SELLER") {
-            localStorage.setItem('sellerName', result.user.name);
-            localStorage.setItem('account_name', result.user.username);
-        }
-        else {
-            localStorage.setItem('buyerName', result.user.name); 
+        localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, result.access);
+        localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, result.refresh);
+        localStorage.setItem(STORAGE_KEYS.USER_TYPE, result.user.user_type);
+
+        if (result.user.user_type === USER_TYPES.SELLER) {
+            localStorage.setItem(STORAGE_KEYS.SELLER_NAME, result.user.name);
+            localStorage.setItem(STORAGE_KEYS.ACCOUNT_NAME, result.user.username);
+        } else {
+            localStorage.setItem(STORAGE_KEYS.BUYER_NAME, result.user.name);
         }
 
-        const returnUrl = localStorage.getItem('returnUrl');
-        
+        const returnUrl = localStorage.getItem(STORAGE_KEYS.RETURN_URL);
+
         if (returnUrl) {
-            
-            localStorage.removeItem('returnUrl'); 
+            localStorage.removeItem(STORAGE_KEYS.RETURN_URL);
             window.location.href = returnUrl;
         } else {
-          
             window.location.href = '../../products/list/index.html';
         }
 

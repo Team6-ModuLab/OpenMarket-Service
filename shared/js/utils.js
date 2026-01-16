@@ -1,24 +1,11 @@
-// ===== 상수 정의 =====
-const PATHS = {
-    ICONS: '../../../shared/assets/icons/',
-    getIcon: (name) => `../../../shared/assets/icons/icon-${name}.svg`,
-};
-
-const STORAGE_KEYS = {
-    ACCESS_TOKEN: 'access',
-    USER_TYPE: 'userType',
-    RETURN_URL: 'returnUrl',
-};
-
-const USER_TYPES = {
-    SELLER: 'SELLER',
-    BUYER: 'BUYER',
-};
+// =============================================
+// utils.js - 유틸리티 함수 모음
+// =============================================
 
 // 이벤트 리스너 중복 등록 방지 플래그
 let isDropdownClickListenerRegistered = false;
 
-// ===== 유틸리티 함수 =====
+// ===== 경로 유틸리티 =====
 function getPagesBasePath() {
     const path = window.location.pathname;
     const match = path.match(/\/pages\/(.+)/);
@@ -31,8 +18,30 @@ function getPagesBasePath() {
     return './';
 }
 
+function getSharedBasePath() {
+    return `${getPagesBasePath()}../shared/`;
+}
+
+// 아이콘 경로 생성 함수
+function getIconPath(iconName) {
+    return `${getSharedBasePath()}assets/icons/icon-${iconName}.svg`;
+}
+
+// ===== 포맷 함수 =====
 function formatPrice(price) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// ===== 네비게이션 유틸리티 =====
+function navigateTo(route) {
+    window.location.href = route;
+}
+
+function navigateToLogin(returnUrl = null) {
+    if (returnUrl) {
+        localStorage.setItem(STORAGE_KEYS.RETURN_URL, returnUrl);
+    }
+    navigateTo(`${getPagesBasePath()}auth/login/index.html`);
 }
 
 // ===== 아이콘 관련 함수 =====
@@ -40,8 +49,8 @@ function addIconHoverEffect(element, iconName) {
     const img = element.querySelector('img.icon-default');
     if (!img) return;
 
-    const defaultIcon = PATHS.getIcon(iconName);
-    const hoverIcon = PATHS.getIcon(`${iconName}-2`);
+    const defaultIcon = getIconPath(iconName);
+    const hoverIcon = getIconPath(`${iconName}-2`);
 
     element.addEventListener('mouseenter', () => img.src = hoverIcon);
     element.addEventListener('mouseleave', () => img.src = defaultIcon);
@@ -52,7 +61,7 @@ function addIconHoverEffect(element, iconName) {
 function createMenuItem(id, iconName, text, additionalClasses = '') {
     return `
         <div class="user-menu-item ${additionalClasses}" id="${id}">
-            <img src="${PATHS.getIcon(iconName)}" alt="${text}" class="icon-default">
+            <img src="${getIconPath(iconName)}" alt="${text}" class="icon-default">
             <span>${text}</span>
         </div>
     `;
@@ -72,15 +81,15 @@ function createMyPageDropdown(isSellerDisabled = false) {
 function createSellerMenu() {
     return `
         <div class="user-menu-item" id="btn-mypage">
-            <img src="${PATHS.getIcon('user')}" alt="마이페이지" class="icon-default">
+            <img src="${getIconPath(ICON_NAMES.USER)}" alt="마이페이지" class="icon-default">
             <span>마이페이지</span>
             ${createMyPageDropdown(true)}
         </div>
-        <div class="user-menu-item" id="btn-seller-center" 
-             style="background-color: var(--color-primary); color: #fff; padding: 10px 20px; 
+        <div class="user-menu-item" id="btn-seller-center"
+             style="background-color: var(--color-primary); color: #fff; padding: 10px 20px;
                     border-radius: 5px; flex-direction: row; gap: 5px; cursor: pointer;">
-            <img src="${PATHS.getIcon('shopping-cart')}" 
-                 style="filter: brightness(0) invert(1); width: 24px; height: 24px; margin:0;" 
+            <img src="${getIconPath(ICON_NAMES.SHOPPING_CART)}"
+                 style="filter: brightness(0) invert(1); width: 24px; height: 24px; margin:0;"
                  alt="판매자 센터" class="icon-default">
             <span>판매자 센터</span>
         </div>
@@ -89,9 +98,9 @@ function createSellerMenu() {
 
 function createBuyerMenu() {
     return `
-        ${createMenuItem('btn-cart', 'shopping-cart', '장바구니')}
+        ${createMenuItem('btn-cart', ICON_NAMES.SHOPPING_CART, '장바구니')}
         <div class="user-menu-item" id="btn-mypage">
-            <img src="${PATHS.getIcon('user')}" alt="마이페이지" class="icon-default">
+            <img src="${getIconPath(ICON_NAMES.USER)}" alt="마이페이지" class="icon-default">
             <span>마이페이지</span>
             ${createMyPageDropdown(false)}
         </div>
@@ -100,8 +109,8 @@ function createBuyerMenu() {
 
 function createGuestMenu() {
     return `
-        ${createMenuItem('btn-cart-guest', 'shopping-cart', '장바구니')}
-        ${createMenuItem('btn-login', 'user', '로그인')}
+        ${createMenuItem('btn-cart-guest', ICON_NAMES.SHOPPING_CART, '장바구니')}
+        ${createMenuItem('btn-login', ICON_NAMES.USER, '로그인')}
     `;
 }
 
@@ -109,18 +118,18 @@ function createGuestMenu() {
 function setupSellerMenuEvents() {
     const btnMyPage = document.getElementById('btn-mypage');
     const btnSellerCenter = document.getElementById('btn-seller-center');
-    
-    addIconHoverEffect(btnMyPage, 'user');
+
+    addIconHoverEffect(btnMyPage, ICON_NAMES.USER);
     setupMyPageDropdown(btnMyPage);
-    
+
     // 판매자 센터 호버 효과
     const sellerImg = btnSellerCenter?.querySelector('img.icon-default');
     if (sellerImg) {
         btnSellerCenter.addEventListener('mouseenter', () => {
-            sellerImg.src = PATHS.getIcon('shopping-cart-2');
+            sellerImg.src = getIconPath(`${ICON_NAMES.SHOPPING_CART}-2`);
         });
         btnSellerCenter.addEventListener('mouseleave', () => {
-            sellerImg.src = PATHS.getIcon('shopping-cart');
+            sellerImg.src = getIconPath(ICON_NAMES.SHOPPING_CART);
         });
         btnSellerCenter.addEventListener('click', () => {
             window.location.href = `${getPagesBasePath()}seller/seller-center/index.html`;
@@ -131,11 +140,11 @@ function setupSellerMenuEvents() {
 function setupBuyerMenuEvents() {
     const btnCart = document.getElementById('btn-cart');
     const btnMyPage = document.getElementById('btn-mypage');
-    
-    addIconHoverEffect(btnCart, 'shopping-cart');
-    addIconHoverEffect(btnMyPage, 'user');
+
+    addIconHoverEffect(btnCart, ICON_NAMES.SHOPPING_CART);
+    addIconHoverEffect(btnMyPage, ICON_NAMES.USER);
     setupMyPageDropdown(btnMyPage);
-    
+
     btnCart?.addEventListener('click', () => {
         window.location.href = `${getPagesBasePath()}cart/index.html`;
     });
@@ -144,15 +153,17 @@ function setupBuyerMenuEvents() {
 function setupGuestMenuEvents() {
     const btnCartGuest = document.getElementById('btn-cart-guest');
     const btnLogin = document.getElementById('btn-login');
-    
-    addIconHoverEffect(btnCartGuest, 'shopping-cart');
-    addIconHoverEffect(btnLogin, 'user');
-    
+
+    addIconHoverEffect(btnCartGuest, ICON_NAMES.SHOPPING_CART);
+    addIconHoverEffect(btnLogin, ICON_NAMES.USER);
+
     btnLogin?.addEventListener('click', () => {
         window.location.href = `${getPagesBasePath()}auth/login/index.html`;
     });
-    
-    btnCartGuest?.addEventListener('click', showLoginModal);
+
+    btnCartGuest?.addEventListener('click', () => {
+        Modal.showLoginModal();
+    });
 }
 
 function setupMyPageDropdown(btnMyPage) {
@@ -216,73 +227,9 @@ function updateHeader() {
     }
 }
 
-// ===== 모달 관련 =====
+// ===== 모달 관련 (하위 호환성을 위해 유지, Modal 컴포넌트로 위임) =====
 function showLoginModal() {
-    if (document.getElementById('login-modal')) return;
-    
-    const modalHTML = `
-        <div id="login-modal" class="modal-overlay">
-            <div class="modal-content">
-                <button class="close-btn">&times;</button>
-                <p>로그인이 필요한 서비스입니다.<br>로그인 하시겠습니까?</p>
-                <div class="modal-buttons">
-                    <button class="btn-no">아니오</button>
-                    <button class="btn-yes">예</button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
-    injectModalStyles();
-    setupModalEvents();
-}
-
-function injectModalStyles() {
-    if (document.getElementById('modal-css')) return;
-    
-    const style = document.createElement('style');
-    style.id = 'modal-css';
-    style.textContent = `
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); display: flex; 
-            justify-content: center; align-items: center; z-index: 1000;
-        }
-        .modal-content {
-            background: #fff; padding: 40px 60px; text-align: center; 
-            position: relative; border: 1px solid #c4c4c4;
-        }
-        .modal-content p { 
-            font-size: 16px; margin-bottom: 30px; 
-            line-height: 1.5; color: #333; 
-        }
-        .close-btn { 
-            position: absolute; top: 10px; right: 10px; 
-            font-size: 24px; color: #767676; 
-        }
-        .modal-buttons { display: flex; gap: 10px; justify-content: center; }
-        .modal-buttons button { 
-            width: 100px; padding: 10px 0; border: 1px solid #c4c4c4; 
-            background: #fff; border-radius: 5px; font-weight: 500;
-        }
-        .modal-buttons .btn-yes { 
-            background: var(--color-primary); color: #fff; border: none; 
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-function setupModalEvents() {
-    const modal = document.getElementById('login-modal');
-    if (!modal) return;
-    
-    modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());
-    modal.querySelector('.btn-no').addEventListener('click', () => modal.remove());
-    modal.querySelector('.btn-yes').addEventListener('click', () => {
-        localStorage.setItem(STORAGE_KEYS.RETURN_URL, window.location.href);
-        window.location.href = `${getPagesBasePath()}auth/login/index.html`;
-    });
+    Modal.showLoginModal();
 }
 
 // ===== 검색 기능 =====
@@ -294,7 +241,7 @@ function setupSearch(searchResultPath = '') {
 
     const performSearch = () => {
         const query = searchInput.value.trim();
-        const targetPath = query 
+        const targetPath = query
             ? `${searchResultPath}?search=${encodeURIComponent(query)}`
             : searchResultPath || 'index.html';
         window.location.href = targetPath;
@@ -306,11 +253,9 @@ function setupSearch(searchResultPath = '') {
     });
 }
 
-// ===== 초기화 =====
-// Footer Component
+// ===== Footer Component =====
 function getFooterHTML() {
-    const basePath = getPagesBasePath();
-    const sharedPath = `${basePath}../shared/assets/icons`;
+    const sharedPath = getSharedBasePath() + 'assets/icons';
 
     return `
         <div class="footer-top">
@@ -330,13 +275,13 @@ function getFooterHTML() {
                 </div>
                 <div class="social-icons">
                     <a href="#" aria-label="Instagram">
-                        <img src="${sharedPath}/icon-insta.svg" alt="Instagram">
+                        <img src="${sharedPath}/icon-${ICON_NAMES.INSTA}.svg" alt="Instagram">
                     </a>
                     <a href="#" aria-label="Facebook">
-                        <img src="${sharedPath}/icon-fb.svg" alt="Facebook">
+                        <img src="${sharedPath}/icon-${ICON_NAMES.FB}.svg" alt="Facebook">
                     </a>
                     <a href="#" aria-label="YouTube">
-                        <img src="${sharedPath}/icon-yt.svg" alt="YouTube">
+                        <img src="${sharedPath}/icon-${ICON_NAMES.YT}.svg" alt="YouTube">
                     </a>
                 </div>
             </div>
@@ -361,6 +306,7 @@ function updateFooter() {
     }
 }
 
+// ===== 초기화 =====
 document.addEventListener('DOMContentLoaded', async () => {
     await AuthService.initAuth();
     updateHeader();

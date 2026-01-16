@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
+// CONFIG.API_BASE_URL 사용 (constants.js에서 정의)
 const buyerTab = document.getElementById('buyer-tab');
 const sellerTab = document.getElementById('seller-tab');
 const sellerFields = document.querySelector('.seller-only-fields');
@@ -84,7 +84,7 @@ idCheckBtn.addEventListener('click', async () => {
     }
     idCheckBtn.disabled = true;
     try {
-        const response = await fetch(`${BASE_URL}/accounts/validate-username/`, {
+        const response = await fetch(`${CONFIG.API_BASE_URL}/accounts/validate-username/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -267,7 +267,7 @@ async function checkPhone() {
     }
     console.log('휴대폰 중복 확인 시작:', fullPhone);
     try {
-        const response = await fetch(`${BASE_URL}/accounts/validate-phone/`, {
+        const response = await fetch(`${CONFIG.API_BASE_URL}/accounts/validate-phone/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -332,7 +332,7 @@ if (businessCheckBtn) {
         }
         businessCheckBtn.disabled = true;
         try {
-            const response = await fetch(`${BASE_URL}/accounts/seller/validate-registration-number/`, {
+            const response = await fetch(`${CONFIG.API_BASE_URL}/accounts/seller/validate-registration-number/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -407,8 +407,8 @@ signupForm.addEventListener('submit', async (e) => {
     };
     try {
         const endpoint = currentUserType === 'BUYER' 
-            ? `${BASE_URL}/accounts/buyer/signup/`
-            : `${BASE_URL}/accounts/seller/signup/`;
+            ? `${CONFIG.API_BASE_URL}/accounts/buyer/signup/`
+            : `${CONFIG.API_BASE_URL}/accounts/seller/signup/`;
         if (currentUserType === 'SELLER') {
     signupData.company_registration_number = businessNumber.value.replace(/-/g, '');
     signupData.store_name = storeName.value.trim();
