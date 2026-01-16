@@ -26,11 +26,11 @@
 
 .banner-slide {
     flex-shrink: 0;
-    width: calc(100% - 120px);
+    width: calc(100% - 240px);
     height: 100%;
     position: relative;
     cursor: pointer;
-    margin: 0 10px;
+    margin: 0 12px;
     border-radius: 16px;
     overflow: hidden;
     transition: opacity 0.4s ease-out, transform 0.4s ease-out;
@@ -128,8 +128,8 @@
     }
 
     .banner-slide {
-        width: calc(100% - 80px);
-        margin: 0 8px;
+        width: calc(100% - 160px);
+        margin: 0 10px;
     }
 
     .banner-btn {
@@ -161,8 +161,8 @@
     }
 
     .banner-slide {
-        width: calc(100% - 40px);
-        margin: 0 6px;
+        width: calc(100% - 100px);
+        margin: 0 8px;
         border-radius: 12px;
         opacity: 0.35;
         transform: scale(0.92);
