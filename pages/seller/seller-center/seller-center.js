@@ -1,5 +1,3 @@
-// seller-center.js
-
 document.addEventListener('DOMContentLoaded', async () => {
     // Check login
     const token = localStorage.getItem('access');
@@ -7,15 +5,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     if (!token || userType !== 'SELLER') {
         alert('판매자만 접근할 수 있습니다.');
-        window.location.href = '../../../index.html'; // Or login
+        window.location.href = '../../../index.html';
         return;
     }
 
-    const sellerName = localStorage.getItem('sellerName'); // API requires 'seller_name' (user.name) as per user instruction
+    const sellerName = localStorage.getItem('sellerName');
     
     if (!sellerName) {
         alert('판매자 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
-        window.location.href = '../../auth/login/index.html'; // Redirect to login
+        window.location.href = '../../auth/login/index.html';
         return;
     }
 
@@ -66,7 +64,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             productListContainer.appendChild(item);
         });
 
-        // Attach Event Listeners
         // Edit 
         document.querySelectorAll('.btn-edit').forEach(btn => {
             btn.addEventListener('click', (e) => {
