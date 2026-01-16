@@ -41,7 +41,6 @@ function renderDetail() {
 
   let actionButtonsHTML = '';
   
- 
   if (userType === 'SELLER') {
       if (isMyProduct) {
           actionButtonsHTML = `
@@ -88,9 +87,9 @@ function renderDetail() {
         </p>
 
         <div class="quantity-control">
-          <button id="btn-minus" type="button">-</button>
+          <button id="btn-minus" type="button" ${userType === 'SELLER' ? 'disabled style="background:#ccc; cursor:not-allowed;"' : ''}>-</button>
           <input type="text" id="quantity-input" value="1" readonly>
-          <button id="btn-plus" type="button">+</button>
+          <button id="btn-plus" type="button" ${userType === 'SELLER' ? 'disabled style="background:#ccc; cursor:not-allowed;"' : ''}>+</button>
         </div>
 
         <div class="total-price-area">
@@ -138,12 +137,13 @@ function renderDetail() {
     </div>
   `;
 
-  document.getElementById('btn-minus').addEventListener('click', () => updateQuantity(-1));
-  document.getElementById('btn-plus').addEventListener('click', () => updateQuantity(1));
+  if (userType !== 'SELLER') {
+    document.getElementById('btn-minus').addEventListener('click', () => updateQuantity(-1));
+    document.getElementById('btn-plus').addEventListener('click', () => updateQuantity(1));
+  }
   
   if (userType === 'SELLER') {
       if (isMyProduct) {
-          
           document.getElementById('btn-edit-product').addEventListener('click', () => {
               window.location.href = `../../seller/seller-product-upload/index.html?id=${product.id}`;
           });
@@ -159,9 +159,7 @@ function renderDetail() {
                }
           });
       }
-      
   } else {
-     
       document.querySelector('.btn-buy').addEventListener('click', handleBuy);
       document.querySelector('.btn-cart').addEventListener('click', handleCart);
   }
@@ -209,12 +207,10 @@ function handleBuy() {
     return;
   }
 
-
   const orderData = {
     order_kind: 'direct_order',
     product_id: product.id,
     quantity: quantity,
-   
     item_info: {
         product_id: product.id,
         name: product.name,
@@ -244,28 +240,23 @@ function handleCart() {
     return;
   }
 
- 
   const added = addToCart(productId, quantity);
   showCartSuccessModal(added);
 }
 
-
 function addToCart(productId, qty) {
   let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
-  
   const existingIndex = cart.findIndex(item => item.productId === productId);
 
   if (existingIndex > -1) {
-
     cart[existingIndex].quantity += qty;
     localStorage.setItem('cart', JSON.stringify(cart));
-    return false; 
+    return false;
   } else {
-  
     cart.push({ productId: productId, quantity: qty });
     localStorage.setItem('cart', JSON.stringify(cart));
-    return true; 
+    return true;
   }
 }
 
