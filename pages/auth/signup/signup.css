@@ -45,27 +45,33 @@ body {
 
 .signup-box {
     width: 100%;
-    border: 1px solid #c4c4c4;
+    border: none;
     border-radius: 10px;
-    overflow: hidden;
+    overflow: visible;
     background-color: #ffffff;
 }
 
 .tab-container {
     display: flex;
-    border-bottom: 1px solid #c4c4c4;
+    margin: -1px -1px 0 -1px;
 }
 
 .tab-btn {
     flex: 1;
     padding: 20px;
     background-color: #ffffff;
-    border: none;
+    border: 1px solid #c4c4c4;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
     font-size: 16px;
     color: #767676;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
+}
+
+.tab-btn:first-child {
+    border-right: 1px solid #c4c4c4;
 }
 
 .tab-btn.active {
@@ -80,10 +86,13 @@ body {
 
 .signup-form {
     padding: 36px;
+    border: 1px solid #c4c4c4;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
 }
 
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 label {
@@ -289,7 +298,8 @@ label {
 }
 
 .checkbox-group {
-    margin-bottom: 32px;
+    margin-top: 30px;
+    margin-bottom: 16px;
 }
 
 .checkbox-container {
@@ -355,6 +365,10 @@ label {
 
 .signup-btn.active:hover {
     background-color: #1FA03F;
+}
+
+#signup-submit {
+    margin-top: 30px;
 }
 
 .seller-only-fields {
