@@ -1,3 +1,16 @@
+// 아이콘 경로 상수
+const ICON_BASE_PATH = '../../../shared/assets/icons';
+const ICONS = {
+    user: {
+        default: `${ICON_BASE_PATH}/icon-user.svg`,
+        hover: `${ICON_BASE_PATH}/icon-user-2.svg`
+    },
+    cart: {
+        default: `${ICON_BASE_PATH}/icon-shopping-cart.svg`,
+        hover: `${ICON_BASE_PATH}/icon-shopping-cart-2.svg`
+    }
+};
+
 // 현재 페이지에서 pages 폴더까지의 상대 경로 계산
 function getPagesBasePath() {
     const path = window.location.pathname;
@@ -42,7 +55,7 @@ function updateHeader() {
         if (userType === 'SELLER') {
              rightMenu.innerHTML = `
                 <div class="user-menu-item" id="btn-mypage">
-                    <img src="../../../shared/assets/icons/icon-user.svg" alt="마이페이지" class="icon-default">
+                    <img src="${ICONS.user.default}" alt="마이페이지" class="icon-default">
                     <span>마이페이지</span>
                     <div class="user-dropdown">
                         <button id="menu-mypage" disabled style="color:#999; cursor:not-allowed;">마이페이지</button>
@@ -50,37 +63,33 @@ function updateHeader() {
                     </div>
                 </div>
                 <div class="user-menu-item" id="btn-seller-center" style="background-color: var(--color-primary); color: #fff; padding: 10px 20px; border-radius: 5px; flex-direction: row; gap: 5px; cursor: pointer;">
-                    <img src="../../../shared/assets/icons/icon-shopping-cart.svg" style="filter: brightness(0) invert(1); width: 24px; height: 24px; margin:0;" alt="" class="icon-default">
+                    <img src="${ICONS.cart.default}" style="filter: brightness(0) invert(1); width: 24px; height: 24px; margin:0;" alt="" class="icon-default">
                     <span>판매자 센터</span>
                 </div>
             `;
 
             const btnMyPage = document.getElementById('btn-mypage');
-            addIconHoverEffect(
-                btnMyPage,
-                '../../../shared/assets/icons/icon-user.svg',
-                '../../../shared/assets/icons/icon-user-2.svg'
-            );
+            addIconHoverEffect(btnMyPage, ICONS.user.default, ICONS.user.hover);
 
             const btnSellerCenter = document.getElementById('btn-seller-center');
             const sellerImg = btnSellerCenter.querySelector('img.icon-default');
             if (sellerImg) {
                 btnSellerCenter.addEventListener('mouseenter', () => {
-                    sellerImg.src = '../../../shared/assets/icons/icon-shopping-cart-2.svg';
+                    sellerImg.src = ICONS.cart.hover;
                 });
                 btnSellerCenter.addEventListener('mouseleave', () => {
-                    sellerImg.src = '../../../shared/assets/icons/icon-shopping-cart.svg';
+                    sellerImg.src = ICONS.cart.default;
                 });
             }
 
         } else {
              rightMenu.innerHTML = `
                 <div class="user-menu-item" id="btn-cart">
-                    <img src="../../../shared/assets/icons/icon-shopping-cart.svg" alt="장바구니" class="icon-default">
+                    <img src="${ICONS.cart.default}" alt="장바구니" class="icon-default">
                     <span>장바구니</span>
                 </div>
                  <div class="user-menu-item" id="btn-mypage">
-                    <img src="../../../shared/assets/icons/icon-user.svg" alt="마이페이지" class="icon-default">
+                    <img src="${ICONS.user.default}" alt="마이페이지" class="icon-default">
                     <span>마이페이지</span>
                     <div class="user-dropdown">
                         <button id="menu-mypage">마이페이지</button>
@@ -88,20 +97,12 @@ function updateHeader() {
                     </div>
                 </div>
             `;
-            
+
             const btnCart = document.getElementById('btn-cart');
-            addIconHoverEffect(
-                btnCart,
-                '../../../shared/assets/icons/icon-shopping-cart.svg',
-                '../../../shared/assets/icons/icon-shopping-cart-2.svg'
-            );
+            addIconHoverEffect(btnCart, ICONS.cart.default, ICONS.cart.hover);
 
             const btnMyPage = document.getElementById('btn-mypage');
-            addIconHoverEffect(
-                btnMyPage,
-                '../../../shared/assets/icons/icon-user.svg',
-                '../../../shared/assets/icons/icon-user-2.svg'
-            );
+            addIconHoverEffect(btnMyPage, ICONS.user.default, ICONS.user.hover);
             
             btnCart.addEventListener('click', () => {
                 window.location.href = `${getPagesBasePath()}cart/index.html`;
@@ -146,28 +147,20 @@ function updateHeader() {
     } else {
         rightMenu.innerHTML = `
             <div class="user-menu-item" id="btn-cart-guest">
-                <img src="../../../shared/assets/icons/icon-shopping-cart.svg" alt="장바구니" class="icon-default">
+                <img src="${ICONS.cart.default}" alt="장바구니" class="icon-default">
                 <span>장바구니</span>
             </div>
             <div class="user-menu-item" id="btn-login">
-                <img src="../../../shared/assets/icons/icon-user.svg" alt="로그인" class="icon-default">
+                <img src="${ICONS.user.default}" alt="로그인" class="icon-default">
                 <span>로그인</span>
             </div>
         `;
 
         const btnCartGuest = document.getElementById('btn-cart-guest');
-        addIconHoverEffect(
-            btnCartGuest,
-            '../../../shared/assets/icons/icon-shopping-cart.svg',
-            '../../../shared/assets/icons/icon-shopping-cart-2.svg'
-        );
+        addIconHoverEffect(btnCartGuest, ICONS.cart.default, ICONS.cart.hover);
 
         const btnLogin = document.getElementById('btn-login');
-        addIconHoverEffect(
-            btnLogin,
-            '../../../shared/assets/icons/icon-user.svg',
-            '../../../shared/assets/icons/icon-user-2.svg'
-        );
+        addIconHoverEffect(btnLogin, ICONS.user.default, ICONS.user.hover);
 
         btnLogin.addEventListener('click', () => {
             window.location.href = `${getPagesBasePath()}auth/login/index.html`;
