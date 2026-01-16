@@ -227,3 +227,27 @@ header {
     color: #fff;
     border: none;
 }
+
+/* 에러 메시지 스타일 */
+.error-message {
+    display: none;
+    color: #eb5757;
+    font-size: 12px;
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-wrapper.error input,
+.editor-area.error textarea {
+    border-color: #eb5757;
+}
+
+/* 이미지 업로드 에러 */
+.image-upload-area .error-message {
+    margin-top: 10px;
+    text-align: center;
+}

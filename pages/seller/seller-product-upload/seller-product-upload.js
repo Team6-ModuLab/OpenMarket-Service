@@ -1,5 +1,3 @@
-// seller-product-upload.js
-
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access');
     const userType = localStorage.getItem('userType');
@@ -10,12 +8,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Check query params for Edit Mode
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
     const isEditMode = !!productId;
 
-    // Elements
     const imgPreviewBox = document.getElementById('img-preview-box');
     const imgInput = document.getElementById('img-upload');
     const productNameInput = document.getElementById('product-name');
@@ -28,18 +24,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnSave = document.querySelector('.btn-save');
     const btnsShipping = document.querySelectorAll('.btn-shipping');
 
+    const nameError = document.getElementById('name-error');
+    const priceError = document.getElementById('price-error');
+    const shippingFeeError = document.getElementById('shipping-fee-error');
+    const stockError = document.getElementById('stock-error');
+    const infoError = document.getElementById('info-error');
+    const imageError = document.getElementById('image-error');
+
     let currentImgFile = null;
 
-    // Initialize Edit Mode
     if (isEditMode) {
         document.querySelector('.page-heading').textContent = '상품 수정';
         btnSave.textContent = '수정하기';
         fetchProductData(productId);
     }
 
-    // Event Listeners
-
-    // Image Upload
     imgPreviewBox.addEventListener('click', () => imgInput.click());
     imgInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
@@ -49,12 +48,65 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Name Length Count
     productNameInput.addEventListener('input', () => {
         nameLengthSpan.textContent = productNameInput.value.length;
+        
+        if (productNameInput.value.trim() === '') {
+            showError(nameError, '상품명을 입력해주세요.');
+        } else if (productNameInput.value.length > 20) {
+            showError(nameError, '상품명은 20자 이내로 입력해주세요.');
+        } else {
+            clearError(nameError);
+        }
     });
 
-    // Shipping Method Toggle
+    productPriceInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/[^0-9]/g, '');
+        e.target.value = value ? parseInt(value).toLocaleString() : '';
+        
+        if (value === '') {
+            showError(priceError, '판매가를 입력해주세요.');
+        } else if (parseInt(value) <= 0) {
+            showError(priceError, '판매가는 0보다 커야 합니다.');
+        } else {
+            clearError(priceError);
+        }
+    });
+
+    shippingFeeInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/[^0-9]/g, '');
+        e.target.value = value ? parseInt(value).toLocaleString() : '';
+        
+        if (value === '') {
+            showError(shippingFeeError, '배송비를 입력해주세요.');
+        } else if (parseInt(value) < 0) {
+            showError(shippingFeeError, '배송비는 0 이상이어야 합니다.');
+        } else {
+            clearError(shippingFeeError);
+        }
+    });
+
+    stockInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/[^0-9]/g, '');
+        e.target.value = value ? parseInt(value).toLocaleString() : '';
+        
+        if (value === '') {
+            showError(stockError, '재고를 입력해주세요.');
+        } else if (parseInt(value) < 0) {
+            showError(stockError, '재고는 0 이상이어야 합니다.');
+        } else {
+            clearError(stockError);
+        }
+    });
+
+    productInfoInput.addEventListener('input', () => {
+        if (productInfoInput.value.trim() === '') {
+            showError(infoError, '상품 상세 정보를 입력해주세요.');
+        } else {
+            clearError(infoError);
+        }
+    });
+
     btnsShipping.forEach(btn => {
         btn.addEventListener('click', () => {
             btnsShipping.forEach(b => b.classList.remove('active'));
@@ -63,11 +115,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    // Form Submit
     document.querySelector('.product-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Validation check
         if (!validateForm()) return;
 
         const formData = new FormData();
@@ -78,7 +128,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         formData.append('stock', parseInt(stockInput.value.replace(/,/g, '')));
         formData.append('info', productInfoInput.value);
 
-        // Image Handling
         if (currentImgFile) {
             formData.append('image', currentImgFile);
         } else if (!isEditMode) {
@@ -116,7 +165,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Helper: Preview Image
     function previewImage(file) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -125,23 +173,101 @@ document.addEventListener('DOMContentLoaded', async () => {
         reader.readAsDataURL(file);
     }
 
-    function validateForm() {
-        return true;
+    function showError(element, message) {
+        element.textContent = message;
+        element.style.display = 'block';
     }
 
-    // Fetch Data for Edit
+    function clearError(element) {
+        element.textContent = '';
+        element.style.display = 'none';
+    }
+
+    function validateForm() {
+        const name = productNameInput.value.trim();
+        const price = productPriceInput.value.trim();
+        const shippingFee = shippingFeeInput.value.trim();
+        const stock = stockInput.value.trim();
+        const info = productInfoInput.value.trim();
+        
+        let isValid = true;
+
+        if (!name) {
+            showError(nameError, '상품명을 입력해주세요.');
+            isValid = false;
+        } else if (name.length > 20) {
+            showError(nameError, '상품명은 20자 이내로 입력해주세요.');
+            isValid = false;
+        } else {
+            clearError(nameError);
+        }
+
+        if (!price) {
+            showError(priceError, '판매가를 입력해주세요.');
+            isValid = false;
+        } else if (!/^[0-9,]+$/.test(price)) {
+            showError(priceError, '판매가는 숫자만 입력 가능합니다.');
+            isValid = false;
+        } else if (parseInt(price.replace(/,/g, '')) <= 0) {
+            showError(priceError, '판매가는 0보다 커야 합니다.');
+            isValid = false;
+        } else {
+            clearError(priceError);
+        }
+
+        if (!shippingFee) {
+            showError(shippingFeeError, '배송비를 입력해주세요.');
+            isValid = false;
+        } else if (!/^[0-9,]+$/.test(shippingFee)) {
+            showError(shippingFeeError, '배송비는 숫자만 입력 가능합니다.');
+            isValid = false;
+        } else if (parseInt(shippingFee.replace(/,/g, '')) < 0) {
+            showError(shippingFeeError, '배송비는 0 이상이어야 합니다.');
+            isValid = false;
+        } else {
+            clearError(shippingFeeError);
+        }
+
+        if (!stock) {
+            showError(stockError, '재고를 입력해주세요.');
+            isValid = false;
+        } else if (!/^[0-9,]+$/.test(stock)) {
+            showError(stockError, '재고는 숫자만 입력 가능합니다.');
+            isValid = false;
+        } else if (parseInt(stock.replace(/,/g, '')) < 0) {
+            showError(stockError, '재고는 0 이상이어야 합니다.');
+            isValid = false;
+        } else {
+            clearError(stockError);
+        }
+
+        if (!info) {
+            showError(infoError, '상품 상세 정보를 입력해주세요.');
+            isValid = false;
+        } else {
+            clearError(infoError);
+        }
+
+        if (!isEditMode && !currentImgFile) {
+            showError(imageError, '상품 이미지를 등록해주세요.');
+            isValid = false;
+        } else {
+            clearError(imageError);
+        }
+
+        return isValid;
+    }
+
     async function fetchProductData(id) {
         try {
             const product = await API.getProduct(id);
             
-            // Fill fields
             productNameInput.value = product.name;
-            productPriceInput.value = product.price;
-            shippingFeeInput.value = product.shipping_fee;
-            stockInput.value = product.stock;
+            productPriceInput.value = product.price.toLocaleString();
+            shippingFeeInput.value = product.shipping_fee.toLocaleString();
+            stockInput.value = product.stock.toLocaleString();
             productInfoInput.value = product.info;
 
-            // Shipping Method
             shippingMethodInput.value = product.shipping_method;
             btnsShipping.forEach(btn => {
                 if (btn.getAttribute('data-value') === product.shipping_method) {
@@ -151,12 +277,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
 
-            // Image (Show existing)
             if (product.image) {
                 imgPreviewBox.innerHTML = `<img src="${product.image}" class="preview-img" alt="Product Image">`;
             }
 
-            // Word Count
             nameLengthSpan.textContent = product.name.length;
 
         } catch (error) {
