@@ -96,8 +96,7 @@ function updateHeader() {
 
         // Logout
         btnLogout.addEventListener('click', () => {
-             localStorage.removeItem('access');
-             localStorage.removeItem('userType');
+             AuthService.clearAuth();
              alert('로그아웃 되었습니다.');
              window.location.href = `${getPagesBasePath()}../index.html`;
         });
