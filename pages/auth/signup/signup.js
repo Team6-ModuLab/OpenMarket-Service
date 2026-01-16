@@ -8,7 +8,6 @@ const userIdInput = document.getElementById('user-id');
 const passwordInput = document.getElementById('password');
 const passwordConfirmInput = document.getElementById('password-confirm');
 const nameInput = document.getElementById('name');
-const phonePrefix = document.getElementById('phone-prefix');
 const phoneMiddle = document.getElementById('phone-middle');
 const phoneLast = document.getElementById('phone-last');
 const businessNumber = document.getElementById('business-number');
@@ -116,14 +115,24 @@ idCheckBtn.addEventListener('click', async () => {
 
 passwordInput.addEventListener('input', () => {
     const password = passwordInput.value;
+    const passwordIcon = document.getElementById('password-icon');
     if (password.length === 0) {
         clearMessage(passwordValidationMessage);
+        if (passwordIcon) {
+            passwordIcon.className = 'password-icon';
+        }
         fieldStates.password = false;
     } else if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password) || !/[!@#$%^&*]/.test(password)) {
         showError(passwordValidationMessage, '8자 이상, 영문 대소문자, 숫자, 특수문자를 사용하세요.');
+        if (passwordIcon) {
+            passwordIcon.className = 'password-icon';
+        }
         fieldStates.password = false;
     } else {
         showSuccess(passwordValidationMessage, '사용 가능한 비밀번호입니다.');
+        if (passwordIcon) {
+            passwordIcon.className = 'password-icon show';
+        }
         fieldStates.password = true;
     }
     if (passwordConfirmInput.value) {
@@ -152,7 +161,7 @@ function checkPasswordConfirm() {
         fieldStates.passwordConfirm = false;
     } else {
         showSuccess(passwordMessage, '비밀번호가 일치합니다.');
-        passwordConfirmIcon.className = 'password-icon checked';
+        passwordConfirmIcon.className = 'password-icon show';
         fieldStates.passwordConfirm = true;
     }
 }
@@ -217,10 +226,12 @@ phoneMiddle.addEventListener('input', (e) => {
     if (e.target.value.length > 4) {
         e.target.value = e.target.value.slice(0, 4);
     }
-    fieldStates.phone = false;
     clearMessage(phoneMessage);
     if (e.target.value.length >= 3 && phoneLast.value.length === 4) {
-        checkPhone();
+        fieldStates.phone = true;
+        showSuccess(phoneMessage, '휴대폰 번호가 입력되었습니다.');
+    } else {
+        fieldStates.phone = false;
     }
     checkAllFields();
 });
@@ -250,12 +261,10 @@ async function checkPhone() {
     const prefix = phonePrefixInput.value;
     const middle = phoneMiddle.value;
     const last = phoneLast.value;
-    
     const fullPhone = prefix + middle + last;
     if (fullPhone === lastCheckedPhone && fieldStates.phone) {
-        return;  // 이미 확인한 번호면 스킵
+        return;
     }
-    
     console.log('휴대폰 중복 확인 시작:', fullPhone);
     try {
         const response = await fetch(`${BASE_URL}/accounts/validate-phone/`, {
@@ -283,6 +292,7 @@ async function checkPhone() {
         checkAllFields();
     }
 }
+
 if (businessNumber) {
     businessNumber.addEventListener('input', (e) => {
         let value = e.target.value.replace(/[^0-9]/g, '');
@@ -301,7 +311,6 @@ if (businessNumber) {
             fieldStates.business = false;
         }
     });
-    
     businessNumber.addEventListener('blur', () => {
         const cleanValue = businessNumber.value.replace(/-/g, '');
         if (cleanValue.length === 10 && isBusinessChecked) {
@@ -353,9 +362,10 @@ if (businessCheckBtn) {
     });
 }
 
+// 스토어 이름 - 빈 값만 체크
 if (storeName) {
-    storeName.addEventListener('blur', () => {
-        fieldStates.store = !!storeName.value.trim();
+    storeName.addEventListener('input', () => {
+        fieldStates.store = storeName.value.trim().length > 0;
         checkAllFields();
     });
 }
@@ -390,14 +400,12 @@ signupForm.addEventListener('submit', async (e) => {
         alert('사업자등록번호 인증을 해주세요.');
         return;
     }
-
     const signupData = {
         username: userIdInput.value.trim(),
         password: passwordInput.value,
         name: nameInput.value.trim(),
         phone_number: phonePrefixInput.value + phoneMiddle.value + phoneLast.value
     };
-    
     try {
         const endpoint = currentUserType === 'BUYER' 
             ? `${BASE_URL}/accounts/buyer/signup/`
