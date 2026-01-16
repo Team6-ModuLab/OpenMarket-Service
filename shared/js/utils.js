@@ -168,7 +168,7 @@ function setupMyPageDropdown(btnMyPage) {
 
     btnMenuMyPage?.addEventListener('click', () => {
         if (!btnMenuMyPage.disabled) {
-            window.location.href = `${getPagesBasePath()}my/index.html`;
+            window.location.href = `${getPagesBasePath()}mypage/index.html`;
         }
     });
 
