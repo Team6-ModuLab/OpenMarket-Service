@@ -1,72 +1,26 @@
-너는 프론트엔드 엔지니어야. 아래 코드베이스에서 "상품 목록 페이지"에 이벤트 배너(슬라이더)를 구현해줘.
+상품 목록 페이지 배너 UI를 다음 요구사항대로 개선해줘.
 
-[목표]
-- pages/products/list/index.html 의 <main class="container"> 내부에서
-  <ul id="product-list" class="product-grid"> 위에 이벤트 배너 섹션을 추가한다.
-- 디자인은 피그마 스펙을 최대한 그대로 반영한다.
-- 기존 상품 리스트 렌더링(API.getProducts(), renderProducts)은 그대로 유지한다.
-- 명세서 요구사항: "상품 목록 페이지에 있는 배너를 슬라이드로 구현해봅니다." 를 반드시 만족해야 한다. (정적 배너 금지)
+목표
+1) 배너는 유지하되 "첫 화면(스크롤 전)"에서 상품 그리드(첫 줄)가 일부라도 보이게 배너 높이를 줄인다.
+2) 슬라이더를 center/peek 형태로 바꿔서 이전/다음 배너가 양옆에 '연하게' 보이게 한다.
+   - 가운데 슬라이드: opacity 1, scale 1
+   - 양옆 슬라이드: opacity 0.3~0.45, scale 0.92~0.96
+   - 슬라이드 간 간격: 16~24px 정도
+3) 배너는 페이지 컨테이너 폭(상품 그리드와 동일 max-width)에 맞추고, 모서리 라운드/overflow hidden 적용해서 완성도를 높인다.
 
-[수정해야 할 파일]
-1) HTML: pages/products/list/index.html
-2) CSS: pages/products/list/product-list.css
-3) JS: pages/products/list/product-list.js
+제약/유의사항
+- 기존 슬라이드 기능(자동 전환, 좌우 화살표, dot 인디케이터)이 있다면 유지하고, 없다면 최소한 좌우 이동 + dot 표시까지 구현해줘.
+- 반응형 고려: 데스크탑에서는 peek가 보이되, 모바일에서는 화면이 좁으니 peek를 줄이거나(간격/scale/opacity 조정) 필요시 1장만 꽉 차게 보이게 처리해줘.
+- CSS는 기존 파일 구조를 유지하고, 가능하면 banner 관련 클래스 내부에서만 수정(사이드 이펙트 최소화).
+- JS는 기존 로직을 최대한 재사용하고, transform 기반 translateX로 구현(성능 고려).
+- 배너 높이는 고정(px) 또는 clamp() 중 현재 코드 스타일에 더 맞는 방식으로 적용해줘.
+  예: height: clamp(260px, 28vw, 360px) 같은 식도 가능.
 
-[현재 코드(중요 부분)]
-- index.html: (아래 그대로 유지하되 product-grid 위에 배너 섹션을 추가)
-<main class="container">
-  <section class="product-list-wrapper">
-    <ul id="product-list" class="product-grid"></ul>
-  </section>
-</main>
+작업 파일
+- HTML: pages/products/list/index.html (배너 구조/클래스 확인 및 최소 수정)
+- CSS: pages/products/list/product-list.css (banner container/track/slide 스타일 수정)
+- JS: pages/products/list/product-list.js (슬라이드 계산 로직: center/peek 지원)
 
-- product-list.js:
-async function renderProducts() { ... } / renderProducts(); 는 그대로 둔다.
-
-[피그마 스펙]
-- 배너 폭 기준: (컨테이너 안에 맞춤 / 화면 전체) = 화면 전체 1920
-- 배너 높이(px): 500px
-- 배너와 상품그리드 간격(px): 80px
-
-- 슬라이드 개수: 5개
-- 슬라이드 이미지 경로:
-    우선은 이미지가 따로 없기 때문에 상품 목록의 사진을 순차적으로 지나가게 하면 좋을 것 같다. 약간 명도를 낮게 해서.
-
-- 슬라이드 클릭 시 이동:
-  해당 상품 구매 창으로 이동하게
-
-- 좌/우 화살표:
-  - 좌측 화살표 아이콘 파일 위치 : file:///C:/OpenMarket-Service/shared/assets/icons/icon-swiper-1.svg
-  - 우측 화살표 아이콘 파일 위치 : file:///C:/OpenMarket-Service/shared/assets/icons/icon-swiper-2.svg
-  - 버튼(클릭영역) 크기: 60 x 124
-  - 위치: 좌측 56px, 우측 56px (배너 기준)
-
-- 도트 인디케이터:
-  - 도트 크기: 6px
-  - 도트 간격: 6px
-  - 기본색: #FFFFFF
-  - 활성색: #000000
-  - 위치: 배너 아래
-
-[구현 요구사항]
-- HTML 구조는 접근성 고려:
-  - <section aria-label="이벤트 배너"> 사용
-  - 화살표는 <button type="button" aria-label="이전 배너"> 형태
-- CSS:
-  - 배너는 overflow hidden, 슬라이드 전환은 transform 기반
-  - 이미지 object-fit은 피그마 의도대로 (cover/contain 중 선택) = {FILL_ME}
-- JS:
-  - 좌/우 버튼으로 슬라이드 이동
-  - 도트 클릭으로 해당 슬라이드로 이동
-  - 명세서에 따라 배너는 반드시 "슬라이드(캐러셀)" 형태여야 한다. (좌/우 이동 + 도트 인디케이터 포함)
-  - 자동재생: 3초
-  - 무한루프 여부: yes
-
-[완료 기준]
-- 배너가 product-grid 위에 정상 노출
-- 좌/우/도트 동작 정상
-- 기존 상품 목록 렌더링 영향 없음
-- 코드 변경은 지정 파일 내에서만 최소로
-
-[추가]
-- 최종 답변은 “수정된 파일별 코드 전체”를 보여줘(HTML/CSS/JS).
+산출물
+- 변경된 코드 전체(diff 형태면 더 좋음)
+- 주요 변경 포인트 설명(왜 이렇게 했는지 5줄 내외)
