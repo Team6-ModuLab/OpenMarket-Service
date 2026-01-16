@@ -1,26 +1,27 @@
-상품 목록 페이지 배너 UI를 다음 요구사항대로 개선해줘.
+현재 상품 목록 배너 슬라이더에 버그가 있습니다.
 
-목표
-1) 배너는 유지하되 "첫 화면(스크롤 전)"에서 상품 그리드(첫 줄)가 일부라도 보이게 배너 높이를 줄인다.
-2) 슬라이더를 center/peek 형태로 바꿔서 이전/다음 배너가 양옆에 '연하게' 보이게 한다.
-   - 가운데 슬라이드: opacity 1, scale 1
-   - 양옆 슬라이드: opacity 0.3~0.45, scale 0.92~0.96
-   - 슬라이드 간 간격: 16~24px 정도
-3) 배너는 페이지 컨테이너 폭(상품 그리드와 동일 max-width)에 맞추고, 모서리 라운드/overflow hidden 적용해서 완성도를 높인다.
+증상
+1) 화면을 좁게 했을 때, 배너를 다음/이전으로 넘길수록 브라우저 하단 가로 스크롤바 길이가 계속 커집니다.
+2) 화면을 크게 하면 레이아웃이 이상해지고, 페이지가 가로로 밀린 듯한 overflow가 생깁니다. (가로 스크롤하면 헤더 일부만 보이는 상태)
 
-제약/유의사항
-- 기존 슬라이드 기능(자동 전환, 좌우 화살표, dot 인디케이터)이 있다면 유지하고, 없다면 최소한 좌우 이동 + dot 표시까지 구현해줘.
-- 반응형 고려: 데스크탑에서는 peek가 보이되, 모바일에서는 화면이 좁으니 peek를 줄이거나(간격/scale/opacity 조정) 필요시 1장만 꽉 차게 보이게 처리해줘.
-- CSS는 기존 파일 구조를 유지하고, 가능하면 banner 관련 클래스 내부에서만 수정(사이드 이펙트 최소화).
-- JS는 기존 로직을 최대한 재사용하고, transform 기반 translateX로 구현(성능 고려).
-- 배너 높이는 고정(px) 또는 clamp() 중 현재 코드 스타일에 더 맞는 방식으로 적용해줘.
-  예: height: clamp(260px, 28vw, 360px) 같은 식도 가능.
+원인 추정
+- next/prev 이동 시 슬라이드를 clone해서 track에 계속 append하는 로직이 반복되거나,
+- track/container width를 이동마다 누적(+=)으로 늘리는 계산이 들어가 document 전체 width가 커지는 것으로 보임.
+- 또는 width:100vw 사용으로 overflow가 발생할 수 있음.
 
-작업 파일
-- HTML: pages/products/list/index.html (배너 구조/클래스 확인 및 최소 수정)
-- CSS: pages/products/list/product-list.css (banner container/track/slide 스타일 수정)
-- JS: pages/products/list/product-list.js (슬라이드 계산 로직: center/peek 지원)
+요구사항(수정 목표)
+1) next/prev를 아무리 눌러도 document 가로 폭이 증가하지 않게 수정 (가로 스크롤바가 생기지 않게)
+2) 슬라이드 개수(.banner-slide)가 이동할 때마다 증가하지 않게(무한 슬라이더면 초기 1회만 clone 생성)
+3) track width는 초기/resize 때만 계산하고, 이동은 transform translateX만 변경
+4) CSS에서 배너 wrapper는 overflow:hidden, 컨테이너는 width:100% + max-width 기반으로 고정
+   - width:100vw가 있다면 가능하면 100%로 교체 (특히 컨테이너/섹션)
+5) 창 resize 시에도 레이아웃/peek가 깨지지 않게 재계산 로직 추가
+
+수정 파일
+- pages/products/list/product-list.css
+- pages/products/list/product-list.js
+- pages/products/list/index.html (필요 시 최소 수정)
 
 산출물
-- 변경된 코드 전체(diff 형태면 더 좋음)
-- 주요 변경 포인트 설명(왜 이렇게 했는지 5줄 내외)
+- 문제 원인(어떤 코드 때문에 width가 늘었는지) 짧게 설명
+- 수정된 코드 diff 또는 전체 코드

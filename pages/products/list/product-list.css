@@ -7,6 +7,7 @@
     margin: 0 auto clamp(30px, 4vw, 60px);
     padding: 0 24px;
     box-sizing: border-box;
+    overflow: hidden; /* prevent horizontal scroll from peek slides */
 }
 
 .banner-container {
@@ -60,8 +61,8 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 50px;
-    height: 100px;
+    width: 60px;
+    height: 124px;
     background: rgba(255, 255, 255, 0.9);
     border: none;
     border-radius: 8px;
@@ -81,8 +82,8 @@
 }
 
 .banner-btn img {
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
 }
 
@@ -132,8 +133,13 @@
     }
 
     .banner-btn {
-        width: 40px;
-        height: 80px;
+        width: 50px;
+        height: 100px;
+    }
+
+    .banner-btn img {
+        width: 30px;
+        height: 30px;
     }
 
     .banner-btn-prev {
@@ -167,14 +173,14 @@
     }
 
     .banner-btn {
-        width: 32px;
-        height: 64px;
+        width: 40px;
+        height: 80px;
         border-radius: 6px;
     }
 
     .banner-btn img {
-        width: 18px;
-        height: 18px;
+        width: 24px;
+        height: 24px;
     }
 
     .banner-btn-prev {
