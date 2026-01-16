@@ -276,43 +276,6 @@ function setupTabs() {
   });
 }
 
-function showLoginModal() {
-  const existing = document.getElementById('login-modal-detail');
-  if (existing) {
-    existing.remove();
-  }
-
-  const modalHTML = `
-    <div id="login-modal-detail" class="modal-overlay">
-      <div class="modal-content">
-        <button class="close-btn">&times;</button>
-        <p>로그인이 필요한 서비스입니다.<br>로그인 하시겠습니까?</p>
-        <div class="modal-buttons">
-          <button class="btn-no">아니오</button>
-          <button class="btn-yes">예</button>
-        </div>
-      </div>
-    </div>
-  `;
-
-  document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-  const modal = document.getElementById('login-modal-detail');
-
-  modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());
-  modal.querySelector('.btn-no').addEventListener('click', () => modal.remove());
-  modal.querySelector('.btn-yes').addEventListener('click', () => {
-    localStorage.setItem('returnUrl', window.location.href);
-    window.location.href = '../../auth/login/index.html';
-  });
-
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.remove();
-    }
-  });
-}
-
 function showCartSuccessModal(isNewItem) {
   const existing = document.getElementById('cart-success-modal');
   if (existing) {
