@@ -93,26 +93,24 @@
 
                     <div class="form-group">
                         <label for="store-name">스토어 이름</label>
-                        <input type="text" id="store-name" class="input-field">
+                        <input type="text" id="store-name" class="input-field" maxlength="20">
                         <p class="validation-message" id="store-message"></p>
                     </div>
                 </div>
             </form>
         </div>
         
-        <form id="signup-bottom-form">
-            <div class="form-group checkbox-group">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="terms-agree">
-                    <span class="checkbox-text">
-                        호두샵의 <a href="#" class="link-text">이용약관</a> 및 
-                        <a href="#" class="link-text">개인정보처리방침</a>에 대한 내용을 확인하였고 동의합니다.
-                    </span>
-                </label>
-            </div>
-            
-            <button type="submit" class="signup-btn" disabled>가입하기</button>
-        </form>
+        <div class="form-group checkbox-group">
+            <label class="checkbox-container">
+                <input type="checkbox" id="terms-agree">
+                <span class="checkbox-text">
+                    호두샵의 <a href="#" class="link-text">이용약관</a> 및 
+                    <a href="#" class="link-text">개인정보처리방침</a>에 대한 내용을 확인하였고 동의합니다.
+                </span>
+            </label>
+        </div>
+        
+        <button type="button" class="signup-btn" id="signup-submit" disabled>가입하기</button>
     </div>
 
     <script src="signup.js"></script>

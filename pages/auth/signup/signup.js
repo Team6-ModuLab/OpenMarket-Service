@@ -8,7 +8,6 @@ const userIdInput = document.getElementById('user-id');
 const passwordInput = document.getElementById('password');
 const passwordConfirmInput = document.getElementById('password-confirm');
 const nameInput = document.getElementById('name');
-// const phonePrefix = document.getElementById('phone-prefix'); // 이 줄 제거 (중복 선언)
 const phoneMiddle = document.getElementById('phone-middle');
 const phoneLast = document.getElementById('phone-last');
 const businessNumber = document.getElementById('business-number');
@@ -455,6 +454,15 @@ function showError(el, msg) {
 function showSuccess(el, msg) {
     el.textContent = msg;
     el.className = 'validation-message success';
+}
+    
+const signupSubmitBtn = document.getElementById('signup-submit');
+if (signupSubmitBtn) {
+    signupSubmitBtn.addEventListener('click', () => {
+        if (!signupSubmitBtn.disabled) {
+            signupForm.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        }
+    });
 }
 
 function clearMessage(el) {
