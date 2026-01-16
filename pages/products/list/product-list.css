@@ -82,17 +82,17 @@
 }
 
 .banner-btn img {
-    width: 36px;
-    height: 36px;
+    width: 70px;
+    height: 70px;
     object-fit: contain;
 }
 
 .banner-btn-prev {
-    left: 16px;
+    left: 32px;
 }
 
 .banner-btn-next {
-    right: 16px;
+    right: 32px;
 }
 
 .banner-dots {
@@ -138,16 +138,16 @@
     }
 
     .banner-btn img {
-        width: 30px;
-        height: 30px;
+        width: 56px;
+        height: 56px;
     }
 
     .banner-btn-prev {
-        left: 8px;
+        left: 20px;
     }
 
     .banner-btn-next {
-        right: 8px;
+        right: 20px;
     }
 }
 
@@ -179,16 +179,16 @@
     }
 
     .banner-btn img {
-        width: 24px;
-        height: 24px;
+        width: 42px;
+        height: 42px;
     }
 
     .banner-btn-prev {
-        left: 4px;
+        left: 12px;
     }
 
     .banner-btn-next {
-        right: 4px;
+        right: 12px;
     }
 
     .banner-dots {
