@@ -455,6 +455,15 @@ function showSuccess(el, msg) {
     el.textContent = msg;
     el.className = 'validation-message success';
 }
+    
+const signupSubmitBtn = document.getElementById('signup-submit');
+if (signupSubmitBtn) {
+    signupSubmitBtn.addEventListener('click', () => {
+        if (!signupSubmitBtn.disabled) {
+            signupForm.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        }
+    });
+}
 
 function clearMessage(el) {
     el.textContent = '';
