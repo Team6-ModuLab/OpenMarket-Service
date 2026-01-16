@@ -227,7 +227,7 @@ phoneMiddle.addEventListener('input', (e) => {
         e.target.value = e.target.value.slice(0, 4);
     }
     clearMessage(phoneMessage);
-    if (e.target.value.length >= 3 && phoneLast.value.length === 4) {
+    if (e.target.value.length >= 4 && phoneLast.value.length === 4) {
         fieldStates.phone = true;
         showSuccess(phoneMessage, '휴대폰 번호가 입력되었습니다.');
     } else {
@@ -248,7 +248,7 @@ phoneLast.addEventListener('input', (e) => {
         e.target.value = e.target.value.slice(0, 4);
     }
     clearMessage(phoneMessage);
-    if (e.target.value.length === 4 && phoneMiddle.value.length >= 3) {
+    if (e.target.value.length === 4 && phoneMiddle.value.length >= 4) {
         fieldStates.phone = true;
         showSuccess(phoneMessage, '휴대폰 번호가 입력되었습니다.');
     } else {
