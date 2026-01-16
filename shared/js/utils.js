@@ -24,6 +24,54 @@ function getPagesBasePath() {
     return './';
 }
 
+// 헤더 메뉴 HTML 템플릿
+function getSellerMenuHTML() {
+    return `
+        <div class="user-menu-item" id="btn-mypage">
+            <img src="${ICONS.user.default}" alt="마이페이지" class="icon-default">
+            <span>마이페이지</span>
+            <div class="user-dropdown">
+                <button id="menu-mypage" disabled style="color:#999; cursor:not-allowed;">마이페이지</button>
+                <button id="menu-logout">로그아웃</button>
+            </div>
+        </div>
+        <div class="user-menu-item" id="btn-seller-center" style="background-color: var(--color-primary); color: #fff; padding: 10px 20px; border-radius: 5px; flex-direction: row; gap: 5px; cursor: pointer;">
+            <img src="${ICONS.cart.default}" style="filter: brightness(0) invert(1); width: 24px; height: 24px; margin:0;" alt="" class="icon-default">
+            <span>판매자 센터</span>
+        </div>
+    `;
+}
+
+function getBuyerMenuHTML() {
+    return `
+        <div class="user-menu-item" id="btn-cart">
+            <img src="${ICONS.cart.default}" alt="장바구니" class="icon-default">
+            <span>장바구니</span>
+        </div>
+        <div class="user-menu-item" id="btn-mypage">
+            <img src="${ICONS.user.default}" alt="마이페이지" class="icon-default">
+            <span>마이페이지</span>
+            <div class="user-dropdown">
+                <button id="menu-mypage">마이페이지</button>
+                <button id="menu-logout">로그아웃</button>
+            </div>
+        </div>
+    `;
+}
+
+function getGuestMenuHTML() {
+    return `
+        <div class="user-menu-item" id="btn-cart-guest">
+            <img src="${ICONS.cart.default}" alt="장바구니" class="icon-default">
+            <span>장바구니</span>
+        </div>
+        <div class="user-menu-item" id="btn-login">
+            <img src="${ICONS.user.default}" alt="로그인" class="icon-default">
+            <span>로그인</span>
+        </div>
+    `;
+}
+
 // 아이콘 호버 효과 추가 함수
 function addIconHoverEffect(element, defaultIcon, hoverIcon) {
     const img = element.querySelector('img.icon-default');
@@ -53,20 +101,7 @@ function updateHeader() {
 
     if (token) {
         if (userType === 'SELLER') {
-             rightMenu.innerHTML = `
-                <div class="user-menu-item" id="btn-mypage">
-                    <img src="${ICONS.user.default}" alt="마이페이지" class="icon-default">
-                    <span>마이페이지</span>
-                    <div class="user-dropdown">
-                        <button id="menu-mypage" disabled style="color:#999; cursor:not-allowed;">마이페이지</button>
-                        <button id="menu-logout">로그아웃</button>
-                    </div>
-                </div>
-                <div class="user-menu-item" id="btn-seller-center" style="background-color: var(--color-primary); color: #fff; padding: 10px 20px; border-radius: 5px; flex-direction: row; gap: 5px; cursor: pointer;">
-                    <img src="${ICONS.cart.default}" style="filter: brightness(0) invert(1); width: 24px; height: 24px; margin:0;" alt="" class="icon-default">
-                    <span>판매자 센터</span>
-                </div>
-            `;
+            rightMenu.innerHTML = getSellerMenuHTML();
 
             const btnMyPage = document.getElementById('btn-mypage');
             addIconHoverEffect(btnMyPage, ICONS.user.default, ICONS.user.hover);
@@ -83,20 +118,7 @@ function updateHeader() {
             }
 
         } else {
-             rightMenu.innerHTML = `
-                <div class="user-menu-item" id="btn-cart">
-                    <img src="${ICONS.cart.default}" alt="장바구니" class="icon-default">
-                    <span>장바구니</span>
-                </div>
-                 <div class="user-menu-item" id="btn-mypage">
-                    <img src="${ICONS.user.default}" alt="마이페이지" class="icon-default">
-                    <span>마이페이지</span>
-                    <div class="user-dropdown">
-                        <button id="menu-mypage">마이페이지</button>
-                        <button id="menu-logout">로그아웃</button>
-                    </div>
-                </div>
-            `;
+            rightMenu.innerHTML = getBuyerMenuHTML();
 
             const btnCart = document.getElementById('btn-cart');
             addIconHoverEffect(btnCart, ICONS.cart.default, ICONS.cart.hover);
@@ -145,16 +167,7 @@ function updateHeader() {
         });
 
     } else {
-        rightMenu.innerHTML = `
-            <div class="user-menu-item" id="btn-cart-guest">
-                <img src="${ICONS.cart.default}" alt="장바구니" class="icon-default">
-                <span>장바구니</span>
-            </div>
-            <div class="user-menu-item" id="btn-login">
-                <img src="${ICONS.user.default}" alt="로그인" class="icon-default">
-                <span>로그인</span>
-            </div>
-        `;
+        rightMenu.innerHTML = getGuestMenuHTML();
 
         const btnCartGuest = document.getElementById('btn-cart-guest');
         addIconHoverEffect(btnCartGuest, ICONS.cart.default, ICONS.cart.hover);
