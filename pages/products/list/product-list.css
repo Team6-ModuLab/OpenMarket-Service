@@ -88,11 +88,11 @@
 }
 
 .banner-btn-prev {
-    left: 32px;
+    left: 18%;
 }
 
 .banner-btn-next {
-    right: 32px;
+    right: 18%;
 }
 
 .banner-dots {
@@ -143,11 +143,11 @@
     }
 
     .banner-btn-prev {
-        left: 20px;
+        left: 15%;
     }
 
     .banner-btn-next {
-        right: 20px;
+        right: 15%;
     }
 }
 
@@ -184,11 +184,11 @@
     }
 
     .banner-btn-prev {
-        left: 12px;
+        left: 10%;
     }
 
     .banner-btn-next {
-        right: 12px;
+        right: 10%;
     }
 
     .banner-dots {
