@@ -251,7 +251,7 @@ async function processPayment() {
         receiver: receiverName,
         receiver_phone_number: receiverPhoneNumber,
         address: fullAddress,
-        address_message: message || '배송 전 연락바랍니다.',
+        delivery_message: message || '배송 전 연락바랍니다.',
         payment_method: paymentMethod,
     };
 

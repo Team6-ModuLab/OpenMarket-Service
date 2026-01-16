@@ -30,7 +30,7 @@ function updateHeader() {
                     <img src="../../../shared/assets/icons/icon-user.svg" alt="마이페이지">
                     <span>마이페이지</span>
                     <div class="user-dropdown">
-                        <button id="menu-mypage">마이페이지</button>
+                        <button id="menu-mypage" disabled style="color:#999; cursor:not-allowed;">마이페이지</button>
                         <button id="menu-logout">로그아웃</button>
                     </div>
                 </div>
@@ -73,11 +73,19 @@ function updateHeader() {
         // Dropdown Logic
         const btnMyPage = document.querySelector('#btn-mypage');
         const dropdown = btnMyPage.querySelector('.user-dropdown');
+        const btnMenuMyPage = dropdown.querySelector('#menu-mypage');
         const btnLogout = dropdown.querySelector('#menu-logout');
 
         btnMyPage.addEventListener('click', (e) => {
              dropdown.classList.toggle('show');
         });
+
+        if (btnMenuMyPage) {
+            btnMenuMyPage.addEventListener('click', () => {
+                if (btnMenuMyPage.disabled) return;
+                window.location.href = `${getPagesBasePath()}my/index.html`;
+            });
+        }
 
         // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
@@ -163,7 +171,8 @@ function showLoginModal() {
         modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());
         modal.querySelector('.btn-no').addEventListener('click', () => modal.remove());
         modal.querySelector('.btn-yes').addEventListener('click', () => {
-             window.location.href = `${getPagesBasePath()}auth/login/index.html`;
+            localStorage.setItem('returnUrl', window.location.href);
+            window.location.href = `${getPagesBasePath()}auth/login/index.html`;
         });
     }
 }

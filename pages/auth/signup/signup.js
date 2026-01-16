@@ -94,7 +94,7 @@ idCheckBtn.addEventListener('click', async () => {
         const data = await response.json();
         console.log('Response:', response.status, data);
         if (response.ok) {
-            showSuccess(idMessage, data.message || '사용 가능한 아이디입니다.');
+            showSuccess(idMessage, data.message || '멋진 아이디네요 :)');
             isIdChecked = true;
             lastCheckedId = username;
             fieldStates.userId = true;
