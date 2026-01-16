@@ -1,16 +1,20 @@
+// =============================================
+// seller-center.js - 판매자 센터
+// =============================================
+
 document.addEventListener('DOMContentLoaded', async () => {
     // Check login
-    const token = localStorage.getItem('access');
-    const userType = localStorage.getItem('userType');
-    
-    if (!token || userType !== 'SELLER') {
+    const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
+    const userType = localStorage.getItem(STORAGE_KEYS.USER_TYPE);
+
+    if (!token || userType !== USER_TYPES.SELLER) {
         alert('판매자만 접근할 수 있습니다.');
         window.location.href = '../../../index.html';
         return;
     }
 
-    const sellerName = localStorage.getItem('sellerName');
-    
+    const sellerName = localStorage.getItem(STORAGE_KEYS.SELLER_NAME);
+
     if (!sellerName) {
         alert('판매자 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
         window.location.href = '../../auth/login/index.html';
@@ -27,13 +31,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         const products = await API.getSellerProducts(sellerName);
-        
+
         // Update count
         productCountSidebar.textContent = products.length;
 
         // Render Data
         productListContainer.innerHTML = '';
-        
+
         if (products.length === 0) {
             productListContainer.innerHTML = '<div class="loading">등록된 상품이 없습니다.</div>';
             return;
@@ -42,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         products.forEach(product => {
             const item = document.createElement('li');
             item.className = 'product-item';
-            
+
             const priceFormatted = product.price.toLocaleString();
 
             item.innerHTML = `
@@ -64,7 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             productListContainer.appendChild(item);
         });
 
-        // Edit 
+        // Edit
         document.querySelectorAll('.btn-edit').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = e.target.getAttribute('data-id');
@@ -76,11 +80,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.querySelectorAll('.btn-delete').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 const id = e.target.getAttribute('data-id');
-                if(confirm('정말 삭제하시겠습니까?')) {
+                if (confirm('정말 삭제하시겠습니까?')) {
                     try {
                         await API.deleteProduct(id);
                         alert('상품이 삭제되었습니다.');
-                        window.location.reload(); 
+                        window.location.reload();
                     } catch (err) {
                         alert(err.message);
                     }

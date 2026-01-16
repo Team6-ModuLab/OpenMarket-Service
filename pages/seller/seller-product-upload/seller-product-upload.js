@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // ===== 권한 확인 =====
-    const token = localStorage.getItem('access');
-    const userType = localStorage.getItem('userType');
+    const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
+    const userType = localStorage.getItem(STORAGE_KEYS.USER_TYPE);
 
-    if (!token || userType !== 'SELLER') {
+    if (!token || userType !== USER_TYPES.SELLER) {
         alert('판매자만 접근할 수 있습니다.');
         window.location.href = '../../../index.html';
         return;

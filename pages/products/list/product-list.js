@@ -120,13 +120,13 @@ function stopAutoPlay() {
 // ===== Product List =====
 async function renderProducts(searchQuery = '') {
     const productList = document.getElementById('product-list');
-    
+
     try {
-        let url = 'https://api.wenivops.co.kr/services/open-market/products/';
+        let url = `${CONFIG.API_BASE_URL}/products/`;
         if (searchQuery) {
             url += `?search=${encodeURIComponent(searchQuery)}`;
         }
-        
+
         const response = await fetch(url);
         const data = await response.json();
         const products = data.results;

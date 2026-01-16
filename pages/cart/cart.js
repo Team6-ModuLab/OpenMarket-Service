@@ -2,11 +2,6 @@
 // 장바구니 페이지 JavaScript
 // =============================================
 
-// 아이콘 경로 (교체 포인트)
-const ICON_DELETE = '../../shared/assets/icons/icon-delete.svg';
-const ICON_MINUS = '../../shared/assets/icons/minus-icon_2.png';
-const ICON_PLUS = '../../shared/assets/icons/plus-icon_2.png';
-
 // 장바구니 아이템 (API에서 가져온 상품 정보 + localStorage 수량)
 let cartItems = [];
 
@@ -26,7 +21,7 @@ async function loadCartFromStorage() {
     itemsContainer.innerHTML = '<div class="cart-page__loading">장바구니를 불러오는 중...</div>';
 
     // localStorage에서 장바구니 데이터 읽기
-    const cartData = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cartData = JSON.parse(localStorage.getItem(STORAGE_KEYS.CART) || '[]');
 
     if (cartData.length === 0) {
         cartItems = [];
@@ -77,7 +72,7 @@ function saveCartToStorage() {
         productId: item.id,
         quantity: item.quantity
     }));
-    localStorage.setItem('cart', JSON.stringify(cartData));
+    localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(cartData));
 }
 
 // 장바구니 렌더링
@@ -110,6 +105,11 @@ function createCartItemHTML(item) {
     const totalPrice = item.price * item.quantity;
     const shippingText = item.shipping_fee === 0 ? '무료배송' : `${item.shippingMethod} / ${formatPrice(item.shipping_fee)}원`;
 
+    // 아이콘 경로 생성
+    const iconDelete = getSharedBasePath() + 'assets/icons/icon-delete.svg';
+    const iconMinus = getSharedBasePath() + 'assets/icons/minus-icon_2.png';
+    const iconPlus = getSharedBasePath() + 'assets/icons/plus-icon_2.png';
+
     return `
         <div class="cart-page__item" data-id="${item.id}">
             <div class="cart-page__item-check">
@@ -130,11 +130,11 @@ function createCartItemHTML(item) {
             <div class="cart-page__item-quantity">
                 <div class="cart-page__quantity-control">
                     <button class="cart-page__quantity-btn cart-page__quantity-btn--minus" data-id="${item.id}">
-                        <img src="${ICON_MINUS}" alt="감소">
+                        <img src="${iconMinus}" alt="감소">
                     </button>
                     <span class="cart-page__quantity-value">${item.quantity}</span>
                     <button class="cart-page__quantity-btn cart-page__quantity-btn--plus" data-id="${item.id}" ${item.quantity >= item.stock ? 'disabled' : ''}>
-                        <img src="${ICON_PLUS}" alt="증가">
+                        <img src="${iconPlus}" alt="증가">
                     </button>
                 </div>
             </div>
@@ -143,7 +143,7 @@ function createCartItemHTML(item) {
                 <button class="cart-page__item-order-btn" data-id="${item.id}">주문하기</button>
             </div>
             <button class="cart-page__item-delete" data-id="${item.id}">
-                <img src="${ICON_DELETE}" alt="삭제">
+                <img src="${iconDelete}" alt="삭제">
             </button>
         </div>
     `;
@@ -222,9 +222,9 @@ function bindEvents() {
                     order_kind: 'direct_order',
                     product_id: item.id,
                     quantity: item.quantity,
-                    item_info: item 
+                    item_info: item
                 };
-                localStorage.setItem('order_data', JSON.stringify(orderData));
+                localStorage.setItem(STORAGE_KEYS.ORDER_DATA, JSON.stringify(orderData));
                 window.location.href = '../order/index.html';
             }
             return;
@@ -248,7 +248,7 @@ function bindEvents() {
                 quantity: item.quantity,
                 item_info: item
             };
-            localStorage.setItem('order_data', JSON.stringify(orderData));
+            localStorage.setItem(STORAGE_KEYS.ORDER_DATA, JSON.stringify(orderData));
             window.location.href = '../order/index.html';
             return;
         }
@@ -257,7 +257,7 @@ function bindEvents() {
         // 전체 ID 리스트 생성 (수량만큼 포함)
         const allItemIds = [];
         selectedItems.forEach(item => {
-            for(let k=0; k<item.quantity; k++) {
+            for (let k = 0; k < item.quantity; k++) {
                 allItemIds.push(item.id);
             }
         });
@@ -267,8 +267,8 @@ function bindEvents() {
             cart_items: allItemIds,
             items_info: selectedItems
         };
-        
-        localStorage.setItem('order_data', JSON.stringify(orderData));
+
+        localStorage.setItem(STORAGE_KEYS.ORDER_DATA, JSON.stringify(orderData));
         window.location.href = '../order/index.html';
     });
 

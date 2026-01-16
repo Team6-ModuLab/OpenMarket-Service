@@ -1,7 +1,6 @@
-// shared/js/auth.js
-// 토큰 관리 및 자동 리프레시 모듈
-
-const AUTH_API_BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
+// =============================================
+// auth.js - 토큰 관리 및 자동 리프레시 모듈
+// =============================================
 
 const AuthService = {
     // 리프레시 중복 방지 플래그
@@ -13,29 +12,29 @@ const AuthService = {
     // 토큰 저장/조회/삭제
     // ============================================
     getAccessToken() {
-        return localStorage.getItem('access');
+        return localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
     },
 
     getRefreshToken() {
-        return localStorage.getItem('refresh');
+        return localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
     },
 
     setAccessToken(token) {
-        localStorage.setItem('access', token);
+        localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, token);
     },
 
     setRefreshToken(token) {
-        localStorage.setItem('refresh', token);
+        localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, token);
     },
 
     // 모든 인증 관련 데이터 삭제
     clearAuth() {
-        localStorage.removeItem('access');
-        localStorage.removeItem('refresh');
-        localStorage.removeItem('userType');
-        localStorage.removeItem('sellerName');
-        localStorage.removeItem('buyerName');
-        localStorage.removeItem('account_name');
+        localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+        localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN);
+        localStorage.removeItem(STORAGE_KEYS.USER_TYPE);
+        localStorage.removeItem(STORAGE_KEYS.SELLER_NAME);
+        localStorage.removeItem(STORAGE_KEYS.BUYER_NAME);
+        localStorage.removeItem(STORAGE_KEYS.ACCOUNT_NAME);
     },
 
     // ============================================
@@ -48,7 +47,7 @@ const AuthService = {
             throw new Error('NO_REFRESH_TOKEN');
         }
 
-        const response = await fetch(`${AUTH_API_BASE_URL}/accounts/token/refresh/`, {
+        const response = await fetch(`${CONFIG.API_BASE_URL}/accounts/token/refresh/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -112,19 +111,25 @@ const AuthService = {
     // ============================================
     handleLogout() {
         this.clearAuth();
-        alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+        alert(API_ERRORS.SESSION_EXPIRED);
 
-        // 현재 경로에서 로그인 페이지로 이동
-        const path = window.location.pathname;
-        const match = path.match(/\/pages\/(.+)/);
-        if (match) {
-            const afterPages = match[1];
-            const parts = afterPages.split('/');
-            const folderCount = parts.length - 1;
-            const basePath = '../'.repeat(folderCount);
+        // utils.js의 getPagesBasePath 함수 사용
+        if (typeof getPagesBasePath === 'function') {
+            const basePath = getPagesBasePath();
             window.location.href = `${basePath}auth/login/index.html`;
         } else {
-            window.location.href = '/pages/auth/login/index.html';
+            // fallback: 경로 직접 계산
+            const path = window.location.pathname;
+            const match = path.match(/\/pages\/(.+)/);
+            if (match) {
+                const afterPages = match[1];
+                const parts = afterPages.split('/');
+                const folderCount = parts.length - 1;
+                const basePath = '../'.repeat(folderCount);
+                window.location.href = `${basePath}auth/login/index.html`;
+            } else {
+                window.location.href = '/pages/auth/login/index.html';
+            }
         }
     },
 
