@@ -4,6 +4,20 @@ const PATHS = {
     getIcon: (name) => `../../../shared/assets/icons/icon-${name}.svg`,
 };
 
+const STORAGE_KEYS = {
+    ACCESS_TOKEN: 'access',
+    USER_TYPE: 'userType',
+    RETURN_URL: 'returnUrl',
+};
+
+const USER_TYPES = {
+    SELLER: 'SELLER',
+    BUYER: 'BUYER',
+};
+
+// 이벤트 리스너 중복 등록 방지 플래그
+let isDropdownClickListenerRegistered = false;
+
 // ===== 유틸리티 함수 =====
 function getPagesBasePath() {
     const path = window.location.pathname;
@@ -143,27 +157,33 @@ function setupGuestMenuEvents() {
 
 function setupMyPageDropdown(btnMyPage) {
     if (!btnMyPage) return;
-    
+
     const dropdown = btnMyPage.querySelector('.user-dropdown');
     const btnMenuMyPage = dropdown?.querySelector('#menu-mypage');
     const btnLogout = dropdown?.querySelector('#menu-logout');
-    
+
     btnMyPage.addEventListener('click', () => {
         dropdown?.classList.toggle('show');
     });
-    
+
     btnMenuMyPage?.addEventListener('click', () => {
         if (!btnMenuMyPage.disabled) {
-            window.location.href = `${getPagesBasePath()}my/index.html`;
+            window.location.href = `${getPagesBasePath()}mypage/index.html`;
         }
     });
-    
-    document.addEventListener('click', (e) => {
-        if (!btnMyPage.contains(e.target)) {
-            dropdown?.classList.remove('show');
-        }
-    });
-    
+
+    // 드롭다운 외부 클릭 시 닫기 (중복 등록 방지)
+    if (!isDropdownClickListenerRegistered) {
+        document.addEventListener('click', (e) => {
+            const currentBtnMyPage = document.getElementById('btn-mypage');
+            const currentDropdown = currentBtnMyPage?.querySelector('.user-dropdown');
+            if (currentBtnMyPage && !currentBtnMyPage.contains(e.target)) {
+                currentDropdown?.classList.remove('show');
+            }
+        });
+        isDropdownClickListenerRegistered = true;
+    }
+
     btnLogout?.addEventListener('click', () => {
         AuthService.clearAuth();
         alert('로그아웃 되었습니다.');
@@ -173,16 +193,16 @@ function setupMyPageDropdown(btnMyPage) {
 
 // ===== 메인 헤더 업데이트 함수 =====
 function updateHeader() {
-    const token = localStorage.getItem('access');
-    const userType = localStorage.getItem('userType');
+    const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
+    const userType = localStorage.getItem(STORAGE_KEYS.USER_TYPE);
     const rightMenu = document.querySelector('.user-menu');
 
     if (!rightMenu) return;
 
     // 메뉴 HTML 생성
     if (token) {
-        rightMenu.innerHTML = userType === 'SELLER' 
-            ? createSellerMenu() 
+        rightMenu.innerHTML = userType === USER_TYPES.SELLER
+            ? createSellerMenu()
             : createBuyerMenu();
     } else {
         rightMenu.innerHTML = createGuestMenu();
@@ -190,7 +210,7 @@ function updateHeader() {
 
     // 이벤트 설정
     if (token) {
-        userType === 'SELLER' ? setupSellerMenuEvents() : setupBuyerMenuEvents();
+        userType === USER_TYPES.SELLER ? setupSellerMenuEvents() : setupBuyerMenuEvents();
     } else {
         setupGuestMenuEvents();
     }
@@ -260,7 +280,7 @@ function setupModalEvents() {
     modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());
     modal.querySelector('.btn-no').addEventListener('click', () => modal.remove());
     modal.querySelector('.btn-yes').addEventListener('click', () => {
-        localStorage.setItem('returnUrl', window.location.href);
+        localStorage.setItem(STORAGE_KEYS.RETURN_URL, window.location.href);
         window.location.href = `${getPagesBasePath()}auth/login/index.html`;
     });
 }

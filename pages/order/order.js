@@ -97,7 +97,7 @@ function renderOrderItems() {
         const quantity = Number(rawQuantity); 
         
         const price = Number(item.price);
-        const shippingFee = Number(item.shipping_fee || item.shippingFee || 0);
+        const shippingFee = Number(item.shipping_fee);
 
         // 상품 금액 합계
         const itemTotalPrice = price * quantity;
@@ -277,7 +277,7 @@ async function processPayment() {
             const promises = orderData.items_info.map(item => {
                 const quantity = Number(item.quantity);
                 const price = Number(item.price);
-                const shipping = Number(item.shipping_fee || item.shippingFee || 0);
+                const shipping = Number(item.shipping_fee);
                 const itemTotal = (price * quantity) + shipping;
 
                 const payload = {
