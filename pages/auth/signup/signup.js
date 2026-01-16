@@ -410,11 +410,9 @@ signupForm.addEventListener('submit', async (e) => {
             ? `${BASE_URL}/accounts/buyer/signup/`
             : `${BASE_URL}/accounts/seller/signup/`;
         if (currentUserType === 'SELLER') {
-            signupData.company_registration_number = businessNumber.value.replace(/-/g, '');
-            const baseStoreName = storeName.value.trim();
-            const timestamp = Date.now();
-            signupData.store_name = `${baseStoreName}_${timestamp}`;
-        }
+    signupData.company_registration_number = businessNumber.value.replace(/-/g, '');
+    signupData.store_name = storeName.value.trim();
+}
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
