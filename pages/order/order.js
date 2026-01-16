@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadOrderData();
     loadUserInfo(); 
     setupModalListeners();
+    console.log(localStorage)
 });
 
 function setupModalListeners() {
@@ -30,7 +31,6 @@ function setupModalListeners() {
 
     // 모달의 결제하기 버튼 (실제 결제 처리)
     document.getElementById('btn-modal-pay').addEventListener('click', async () => {
-        console.log(); 
         await processPayment();
     });
 }
@@ -45,7 +45,7 @@ function loadUserInfo() {
             ordererNameInput.value = buyerName;
         }
         
-        // 수령인 정보에도 자동 입력 (선택사항)
+        // 수령인 정보에도 자동 입력
         const receiverNameInput = document.getElementById('receiver-name');
         if (receiverNameInput) {
             receiverNameInput.value = buyerName;
@@ -64,6 +64,7 @@ function loadOrderData() {
 
     try {
         orderData = JSON.parse(data);
+        console.log(orderData);
         renderOrderItems();
     } catch (e) {
         console.error('주문 정보 파싱 오류:', e);
