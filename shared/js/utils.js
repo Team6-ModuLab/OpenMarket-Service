@@ -83,7 +83,7 @@ function updateHeader() {
         if (btnMenuMyPage) {
             btnMenuMyPage.addEventListener('click', () => {
                 if (btnMenuMyPage.disabled) return;
-                window.location.href = `${getPagesBasePath()}my/index.html`;
+                window.location.href = `${getPagesBasePath()}mypage/index.html`;
             });
         }
 

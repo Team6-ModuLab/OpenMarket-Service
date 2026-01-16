@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.addEventListener('click', (e) => {
                 // Prevent navigation if Cancel Button is clicked
                 if (e.target.classList.contains('btn-cancel-order')) return;
-                window.location.href = `./individual/index.html?id=${order.id}`;
+                window.location.href = `./order-detail/index.html?id=${order.id}`;
             });
             
             // Cancel Button Logic
