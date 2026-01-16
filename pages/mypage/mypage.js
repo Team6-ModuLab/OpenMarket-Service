@@ -1,9 +1,4 @@
-// =============================================
-// mypage.js - 마이페이지
-// =============================================
-
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Check Login
     const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
     const userType = localStorage.getItem(STORAGE_KEYS.USER_TYPE);
 
@@ -13,12 +8,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // 2. Display User ID
     const buyerName = localStorage.getItem(STORAGE_KEYS.BUYER_NAME) || '고객';
     const userIdEl = document.getElementById('user-id');
     if (userIdEl) userIdEl.textContent = buyerName;
-
-    // 3. Fetch Orders
     const orderListContainer = document.getElementById('order-list');
 
     try {
@@ -34,20 +26,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // Render Orders
         orders.forEach(order => {
-            // Filter out cancelled orders
             const status = order.order_status;
             if (status === ORDER_STATUS.CANCELLED || status === 'cancelled') return;
 
             const card = document.createElement('div');
             card.className = 'order-card';
 
-            // Format Date
             const date = new Date(order.created_at).toLocaleDateString();
             const totalPrice = order.total_price.toLocaleString();
-
-            // Construct Items Preview
             let itemsHtml = '';
 
             if (order.order_items && order.order_items.length > 0) {
@@ -71,8 +58,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else {
                 itemsHtml = '<div class="preview-item">주문 상품 정보 없음</div>';
             }
-
-            // Status translation
             const statusText = ORDER_STATUS_TEXT[order.order_status] || order.order_status;
 
             card.innerHTML = `
@@ -92,14 +77,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             `;
 
-            // Click event to navigate to individual page
             card.addEventListener('click', (e) => {
-                // Prevent navigation if Cancel Button is clicked
                 if (e.target.classList.contains('btn-cancel-order')) return;
                 window.location.href = `./order-detail/index.html?id=${order.id}`;
             });
 
-            // Cancel Button Logic
             const btnCancel = card.querySelector('.btn-cancel-order');
             if (btnCancel) {
                 if (order.order_status === ORDER_STATUS.CANCELLED || order.order_status === 'cancelled') {
@@ -119,10 +101,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                 });
             }
-
             orderListContainer.appendChild(card);
         });
-
     } catch (error) {
         console.error('Failed to load orders:', error);
         orderListContainer.innerHTML = `<div class="loading">주문 정보를 불러오는데 실패했습니다.<br>${error.message}</div>`;

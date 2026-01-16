@@ -1,12 +1,9 @@
-/* mypage.css */
-
 .mypage-layout {
     max-width: 1280px;
     margin: 50px auto;
     padding: 0 20px;
 }
 
-/* Profile Section */
 .profile-section {
     text-align: center;
     margin-bottom: 20px;
@@ -28,7 +25,6 @@ main {
     gap: 80px;
 }
 
-/* Inquiry Section (Visual Only) */
 .inquiry-section {
     margin-bottom: 60px;
 }
@@ -59,7 +55,7 @@ main {
     border-radius: 5px;
     font-size: 16px;
     background-color: #fff;
-    cursor: not-allowed; /* Disabled visual */
+    cursor: not-allowed;
 }
 
 .inquiry-box textarea {
@@ -75,10 +71,9 @@ main {
     border: none;
     border-radius: 5px;
     font-size: 16px;
-    cursor: default; /* Non-interactive */
+    cursor: default;
 }
 
-/* Order Section */
 .order-list {
     display: flex;
     flex-direction: column;

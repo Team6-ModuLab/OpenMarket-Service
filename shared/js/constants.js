@@ -1,13 +1,7 @@
-// =============================================
-// constants.js - 전역 상수 정의
-// =============================================
-
-// API 설정
 const CONFIG = {
     API_BASE_URL: 'https://api.wenivops.co.kr/services/open-market'
 };
 
-// localStorage 키
 const STORAGE_KEYS = {
     ACCESS_TOKEN: 'access',
     REFRESH_TOKEN: 'refresh',
@@ -20,13 +14,11 @@ const STORAGE_KEYS = {
     RETURN_URL: 'returnUrl'
 };
 
-// 사용자 유형
 const USER_TYPES = {
     SELLER: 'SELLER',
     BUYER: 'BUYER'
 };
 
-// 아이콘 이름
 const ICON_NAMES = {
     DELETE: 'delete',
     MINUS: 'minus',
@@ -38,7 +30,6 @@ const ICON_NAMES = {
     YT: 'yt'
 };
 
-// API 에러 메시지
 const API_ERRORS = {
     NETWORK_ERROR: '네트워크 오류가 발생했습니다.',
     NOT_FOUND: '해당 항목을 찾을 수 없습니다.',
@@ -47,17 +38,15 @@ const API_ERRORS = {
     SESSION_EXPIRED: '세션이 만료되었습니다. 다시 로그인해주세요.'
 };
 
-// 주문 상태
 const ORDER_STATUS = {
     PAYMENT_PENDING: 'payment_pending',
     PAYMENT_COMPLETE: 'payment_complete',
     PREPARING: 'preparing',
     SHIPPING: 'shipping',
     DELIVERED: 'delivered',
-    CANCELLED: 'cancled' // API 스펙에 맞춤 (typo)
+    CANCELLED: 'cancled'
 };
 
-// 주문 상태 한글 매핑
 const ORDER_STATUS_TEXT = {
     'payment_pending': '입금 확인 중',
     'payment_complete': '결제 완료',
@@ -68,7 +57,6 @@ const ORDER_STATUS_TEXT = {
     'cancelled': '주문 취소'
 };
 
-// 결제 방법 한글 매핑
 const PAYMENT_METHOD_TEXT = {
     'card': '신용카드',
     'deposit': '무통장입금',
@@ -77,7 +65,6 @@ const PAYMENT_METHOD_TEXT = {
     'kakaopay': '카카오페이'
 };
 
-// 전역 노출
 window.CONFIG = CONFIG;
 window.STORAGE_KEYS = STORAGE_KEYS;
 window.USER_TYPES = USER_TYPES;

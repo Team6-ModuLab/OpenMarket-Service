@@ -1,7 +1,3 @@
-// =============================================
-// product-detail.js - 상품 상세 페이지
-// =============================================
-
 const urlParams = new URLSearchParams(window.location.search);
 const productId = urlParams.get('id');
 
@@ -38,11 +34,9 @@ async function loadProduct() {
 
 function renderDetail() {
     quantity = 1;
-
     const userType = localStorage.getItem(STORAGE_KEYS.USER_TYPE);
     const loggedInSeller = localStorage.getItem(STORAGE_KEYS.ACCOUNT_NAME) || localStorage.getItem('username');
     const isMyProduct = (userType === USER_TYPES.SELLER && product.seller && (product.seller.username === loggedInSeller || product.seller.account_name === loggedInSeller));
-
     let actionButtonsHTML = '';
 
     if (userType === USER_TYPES.SELLER) {
@@ -85,17 +79,14 @@ function renderDetail() {
                 <p class="detail-seller">${product.seller?.store_name || ''}</p>
                 <h2 class="detail-name">${product.name}</h2>
                 <p class="detail-price">${formatPrice(product.price)}<span>원</span></p>
-
                 <p class="delivery-info">
                     택배배송 / ${product.shipping_fee > 0 ? formatPrice(product.shipping_fee) + '원' : '무료배송'}
                 </p>
-
                 <div class="quantity-control">
                     <button id="btn-minus" type="button" ${userType === USER_TYPES.SELLER ? 'disabled style="background:#ccc; cursor:not-allowed;"' : ''}>-</button>
                     <input type="text" id="quantity-input" value="1" readonly>
                     <button id="btn-plus" type="button" ${userType === USER_TYPES.SELLER ? 'disabled style="background:#ccc; cursor:not-allowed;"' : ''}>+</button>
                 </div>
-
                 <div class="total-price-area">
                     <p>총 상품 금액</p>
                     <div class="total-price-wrapper">
@@ -105,7 +96,6 @@ function renderDetail() {
                 </div>
 
                 ${Number(product.stock ?? 0) <= 0 ? `<p class="stock-alert">현재 재고가 없습니다.</p>` : ``}
-
                 ${actionButtonsHTML}
             </div>
         </div>
@@ -145,7 +135,6 @@ function renderDetail() {
         document.getElementById('btn-minus').addEventListener('click', () => updateQuantity(-1));
         document.getElementById('btn-plus').addEventListener('click', () => updateQuantity(1));
     }
-
     if (userType === USER_TYPES.SELLER) {
         if (isMyProduct) {
             document.getElementById('btn-edit-product').addEventListener('click', () => {
@@ -167,7 +156,6 @@ function renderDetail() {
         document.querySelector('.btn-buy').addEventListener('click', handleBuy);
         document.querySelector('.btn-cart').addEventListener('click', handleCart);
     }
-
     checkStockLimit();
     setupTabs();
 }
@@ -183,7 +171,6 @@ function updateQuantity(change) {
     document.getElementById('quantity-input').value = String(quantity);
     document.getElementById('total-qty').innerText = String(quantity);
     document.getElementById('total-price').innerHTML = `${formatPrice(product.price * quantity)}<span>원</span>`;
-
     checkStockLimit();
 }
 
@@ -191,21 +178,18 @@ function checkStockLimit() {
     const btnMinus = document.getElementById('btn-minus');
     const btnPlus = document.getElementById('btn-plus');
     const stock = Number(product.stock ?? 0);
-
     btnMinus.disabled = quantity <= 1;
     btnPlus.disabled = stock <= 0 || quantity >= stock;
 }
 
 function handleBuy() {
     const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
-
     if (!token) {
         Modal.showLoginModal();
         return;
     }
 
     const stock = Number(product.stock ?? 0);
-
     if (stock <= 0 || quantity > stock) {
         Modal.showStockExceededModal();
         return;
@@ -231,28 +215,23 @@ function handleBuy() {
 
 function handleCart() {
     const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
-
     if (!token) {
         Modal.showLoginModal();
         return;
     }
 
     const stock = Number(product.stock ?? 0);
-
     if (stock <= 0 || quantity > stock) {
         Modal.showStockExceededModal();
         return;
     }
-
     const added = addToCart(productId, quantity);
     Modal.showCartSuccessModal(added);
 }
 
 function addToCart(productId, qty) {
     let cart = JSON.parse(localStorage.getItem(STORAGE_KEYS.CART) || '[]');
-
     const existingIndex = cart.findIndex(item => item.productId === productId);
-
     if (existingIndex > -1) {
         cart[existingIndex].quantity += qty;
         localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(cart));

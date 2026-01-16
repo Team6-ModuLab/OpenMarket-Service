@@ -1,9 +1,4 @@
-// =============================================
-// Modal.js - 재사용 가능한 모달 컴포넌트
-// =============================================
-
 const Modal = {
-    // 기본 모달 생성
     show(options) {
         const {
             id = 'modal',
@@ -16,7 +11,6 @@ const Modal = {
             showCancel = true
         } = options;
 
-        // 이미 열려있는 모달이 있으면 리턴
         if (document.getElementById(id)) return;
 
         const modalHTML = `
@@ -38,13 +32,11 @@ const Modal = {
         this.bindEvents(id, onConfirm, onCancel);
     },
 
-    // 모달 닫기
     hide(id = 'modal') {
         const modal = document.getElementById(id);
         if (modal) modal.remove();
     },
 
-    // 로그인 모달 (특화)
     showLoginModal() {
         this.show({
             id: 'login-modal',
@@ -59,7 +51,6 @@ const Modal = {
         });
     },
 
-    // 삭제 확인 모달 (특화)
     showDeleteModal(onConfirm, message = '상품을 삭제하시겠습니까?') {
         this.show({
             id: 'delete-modal',
@@ -70,7 +61,6 @@ const Modal = {
         });
     },
 
-    // 장바구니 성공 모달 (특화)
     showCartSuccessModal(isNewItem) {
         const message = isNewItem
             ? '장바구니에 상품을 담았습니다.<br>장바구니로 이동하시겠습니까?'
@@ -87,7 +77,6 @@ const Modal = {
         });
     },
 
-    // 재고 초과 모달 (특화)
     showStockExceededModal() {
         this.show({
             id: 'stock-exceeded-modal',
@@ -97,7 +86,6 @@ const Modal = {
         });
     },
 
-    // 스타일 주입
     injectStyles() {
         if (document.getElementById('modal-base-css')) return;
 
@@ -180,7 +168,6 @@ const Modal = {
         document.head.appendChild(style);
     },
 
-    // 이벤트 바인딩
     bindEvents(id, onConfirm, onCancel) {
         const modal = document.getElementById(id);
         if (!modal) return;
@@ -195,7 +182,6 @@ const Modal = {
         cancelBtn?.addEventListener('click', () => { onCancel(); hide(); });
         confirmBtn?.addEventListener('click', () => { onConfirm(); hide(); });
 
-        // 모달 외부 클릭 시 닫기
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 onCancel();
@@ -205,5 +191,4 @@ const Modal = {
     }
 };
 
-// 전역 노출
 window.Modal = Modal;

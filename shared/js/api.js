@@ -1,14 +1,8 @@
-// =============================================
-// api.js - API 요청 모듈
-// =============================================
-
-// API 응답 래퍼
 function createApiResponse(success, data, error = null) {
     return { success, data, error };
 }
 
 const API = {
-    // ===== 상품 관련 =====
     getProducts: async () => {
         try {
             const response = await fetch(`${CONFIG.API_BASE_URL}/products/`);
@@ -39,7 +33,6 @@ const API = {
         }
     },
 
-    // ===== 인증 관련 =====
     login: async (username, password) => {
         const response = await fetch(`${CONFIG.API_BASE_URL}/accounts/login/`, {
             method: 'POST',
@@ -51,9 +44,7 @@ const API = {
                 password: password,
             }),
         });
-
         const data = await response.json();
-
         if (response.ok) {
             return data;
         } else {
@@ -61,7 +52,6 @@ const API = {
         }
     },
 
-    // ===== 판매자 상품 관련 =====
     getSellerProducts: async (sellerName) => {
         try {
             const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/${sellerName}/products/`);
@@ -83,7 +73,6 @@ const API = {
                 method: 'POST',
                 body: productData
             });
-
             const data = await response.json();
             if (!response.ok) {
                 return createApiResponse(false, data);
@@ -101,7 +90,6 @@ const API = {
                 method: 'PUT',
                 body: productData
             });
-
             const data = await response.json();
             if (!response.ok) {
                 return createApiResponse(false, data);
@@ -118,7 +106,6 @@ const API = {
             const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/products/${productId}/`, {
                 method: 'DELETE'
             });
-
             if (!response.ok) {
                 const data = await response.json();
                 throw new Error(data.detail || API_ERRORS.SERVER_ERROR);
@@ -130,7 +117,6 @@ const API = {
         }
     },
 
-    // ===== 주문 관련 =====
     createOrder: async (orderData) => {
         try {
             const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/order/`, {
@@ -140,9 +126,7 @@ const API = {
                 },
                 body: JSON.stringify(orderData)
             });
-
             const data = await response.json();
-
             if (!response.ok) {
                 return createApiResponse(false, data);
             }
@@ -156,7 +140,6 @@ const API = {
     getOrders: async () => {
         try {
             const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/order/`);
-
             if (!response.ok) {
                 throw new Error(API_ERRORS.SERVER_ERROR);
             }
@@ -170,7 +153,6 @@ const API = {
     getOrder: async (orderId) => {
         try {
             const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/order/${orderId}/`);
-
             if (!response.ok) {
                 if (response.status === 404) {
                     throw new Error(API_ERRORS.NOT_FOUND);
@@ -189,9 +171,7 @@ const API = {
             const response = await AuthService.fetchWithAuth(`${CONFIG.API_BASE_URL}/order/${orderId}/`, {
                 method: 'DELETE'
             });
-
             if (response.status === 204) return true;
-
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.detail || API_ERRORS.SERVER_ERROR);
@@ -203,5 +183,4 @@ const API = {
         }
     }
 };
-
 window.API = API;

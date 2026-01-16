@@ -1,9 +1,3 @@
-/* =============================================
-   장바구니 페이지 스타일
-   - 모든 스타일은 .cart-page 스코프 내에서만 적용
-   ============================================= */
-
-/* 페이지 타이틀 */
 .cart-page__title {
     font-size: 36px;
     font-weight: 700;
@@ -11,7 +5,6 @@
     margin-bottom: 52px;
 }
 
-/* 테이블 헤더 */
 .cart-page__table-header {
     display: flex;
     align-items: center;
@@ -47,7 +40,6 @@
     flex-shrink: 0;
 }
 
-/* 커스텀 체크박스 (원형) */
 .cart-page__checkbox {
     display: inline-block;
     position: relative;
@@ -74,13 +66,11 @@
 
 .cart-page__checkbox input:checked + .cart-page__checkbox-custom {
     background-image: url('../../shared/assets/icons/check-box-Fill.png');
-    /* 교체 포인트: 체크 아이콘 경로 */
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
 }
 
-/* 장바구니 아이템 카드 */
 .cart-page__item {
     display: flex;
     align-items: center;
@@ -142,7 +132,6 @@
     color: var(--color-sub-text);
 }
 
-/* 수량 컨트롤 */
 .cart-page__item-quantity {
     width: 150px;
     flex-shrink: 0;
@@ -202,7 +191,6 @@
     font-weight: 700;
 }
 
-/* 상품 금액 영역 */
 .cart-page__item-price-wrap {
     width: 200px;
     flex-shrink: 0;
@@ -234,7 +222,6 @@
     opacity: 0.9;
 }
 
-/* 삭제 버튼 */
 .cart-page__item-delete {
     position: absolute;
     top: 18px;
@@ -259,7 +246,6 @@
     height: 100%;
 }
 
-/* 빈 장바구니 상태 */
 .cart-page__empty {
     text-align: center;
     padding: 100px 0;
@@ -277,7 +263,6 @@
     color: var(--color-sub-text);
 }
 
-/* 합계 박스 */
 .cart-page__summary {
     display: flex;
     align-items: center;
@@ -343,7 +328,6 @@
     font-size: 18px;
 }
 
-/* 하단 주문 버튼 */
 .cart-page__order-wrap {
     text-align: center;
     margin-bottom: 100px;
@@ -365,7 +349,6 @@
     opacity: 0.9;
 }
 
-/* 삭제 확인 모달 */
 .cart-page__modal-overlay {
     position: fixed;
     top: 0;
@@ -449,7 +432,6 @@
     color: #fff;
 }
 
-/* 로딩 상태 */
 .cart-page__loading {
     text-align: center;
     padding: 100px 0;
@@ -457,7 +439,6 @@
     color: var(--color-sub-text);
 }
 
-/* 비활성화된 버튼 */
 .cart-page__quantity-btn:disabled {
     opacity: 0.3;
     cursor: not-allowed;
@@ -467,12 +448,10 @@
     background-color: #fff;
 }
 
-/* 유틸리티 */
 .hidden {
     display: none !important;
 }
 
-/* 반응형 조정 */
 @media (max-width: 1100px) {
     .cart-page__summary {
         padding: 30px 40px;

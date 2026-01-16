@@ -1,4 +1,3 @@
-// CONFIG.API_BASE_URL 사용 (constants.js에서 정의)
 const buyerTab = document.getElementById('buyer-tab');
 const sellerTab = document.getElementById('seller-tab');
 const sellerFields = document.querySelector('.seller-only-fields');

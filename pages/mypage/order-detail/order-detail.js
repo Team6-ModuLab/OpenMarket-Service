@@ -1,9 +1,4 @@
-// =============================================
-// order-detail.js - 주문 상세 페이지
-// =============================================
-
 document.addEventListener('DOMContentLoaded', async () => {
-    // Get Order ID from URL
     const params = new URLSearchParams(window.location.search);
     const orderId = params.get('id');
 
@@ -25,7 +20,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const paymentMethod = PAYMENT_METHOD_TEXT[order.payment_method] || order.payment_method;
         const status = ORDER_STATUS_TEXT[order.order_status] || order.order_status;
 
-        // Render Items
         let itemsHtml = '';
         if (order.order_items && order.order_items.length > 0) {
             order.order_items.forEach(item => {

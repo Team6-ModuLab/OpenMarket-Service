@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="./seller-product-upload.css">
 </head>
 <body>
-    <!-- 헤더 -->
     <header>
         <div class="container header-inner">
             <div class="left-section">
@@ -21,12 +20,9 @@
         </div>
     </header>
 
-    <!-- 메인 컨텐츠 -->
     <main class="container">
         <h2 class="page-heading">상품 등록</h2>
-        
         <div class="upload-container">
-            <!-- 등록 가이드 -->
             <aside class="upload-guide" aria-labelledby="guide-title">
                 <h3 id="guide-title">*상품 등록 주의사항</h3>
                 <ul class="guide-content">
@@ -37,11 +33,8 @@
                 </ul>
             </aside>
 
-            <!-- 상품 등록 폼 -->
             <form id="product-form" class="product-form" novalidate>
-                <!-- 이미지 및 기본 정보 -->
                 <div class="form-row-top">
-                    <!-- 이미지 업로드 영역 -->
                     <div class="image-upload-area">
                         <label for="img-upload" class="img-label">
                             상품 이미지 <span class="required" aria-label="필수">*</span>
@@ -59,9 +52,7 @@
                         <p class="error-message" id="image-error" role="alert" aria-live="polite"></p>
                     </div>
 
-                    <!-- 입력 필드 영역 -->
                     <div class="input-fields-area">
-                        <!-- 상품명 -->
                         <div class="input-group">
                             <label for="product-name">
                                 상품명 <span class="required" aria-label="필수">*</span>
@@ -81,8 +72,6 @@
                             </div>
                             <p class="error-message" id="name-error" role="alert" aria-live="polite"></p>
                         </div>
-
-                        <!-- 판매가 -->
                         <div class="input-group">
                             <label for="product-price">
                                 판매가 <span class="required" aria-label="필수">*</span>
@@ -101,7 +90,6 @@
                             <p class="error-message" id="price-error" role="alert" aria-live="polite"></p>
                         </div>
 
-                        <!-- 배송방법 -->
                         <div class="input-group">
                             <label id="shipping-method-label">
                                 배송방법 <span class="required" aria-label="필수">*</span>
@@ -127,7 +115,6 @@
                             <input type="hidden" id="shipping-method" value="PARCEL">
                         </div>
 
-                        <!-- 기본 배송비 -->
                         <div class="input-group">
                             <label for="shipping-fee">
                                 기본 배송비 <span class="required" aria-label="필수">*</span>
@@ -146,7 +133,6 @@
                             <p class="error-message" id="shipping-fee-error" role="alert" aria-live="polite"></p>
                         </div>
 
-                        <!-- 재고 -->
                         <div class="input-group">
                             <label for="stock">
                                 재고 <span class="required" aria-label="필수">*</span>
@@ -167,7 +153,6 @@
                     </div>
                 </div>
 
-                <!-- 상세 정보 -->
                 <div class="form-row-bottom">
                     <label for="product-info">
                         상품 상세 정보 <span class="required" aria-label="필수">*</span>
@@ -184,7 +169,6 @@
                     <p class="error-message" id="info-error" role="alert" aria-live="polite"></p>
                 </div>
 
-                <!-- 버튼 -->
                 <div class="form-actions">
                     <button type="button" class="btn-cancel" id="btn-cancel">취소</button>
                     <button type="submit" class="btn-save">저장하기</button>
@@ -193,7 +177,6 @@
         </div>
     </main>
 
-    <!-- 스크립트 -->
     <script src="../../../shared/js/constants.js"></script>
     <script src="../../../shared/js/components/Modal.js"></script>
     <script src="../../../shared/js/auth.js"></script>

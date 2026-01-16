@@ -1,9 +1,4 @@
-// =============================================
-// seller-center.js - 판매자 센터
-// =============================================
-
 document.addEventListener('DOMContentLoaded', async () => {
-    // Check login
     const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
     const userType = localStorage.getItem(STORAGE_KEYS.USER_TYPE);
 
@@ -21,21 +16,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Update Sidebar/Header Name
     const nameElements = document.querySelectorAll('.seller-name');
     nameElements.forEach(el => el.textContent = sellerName);
-
-    // Fetch Products
     const productListContainer = document.getElementById('product-list');
     const productCountSidebar = document.getElementById('product-count-sidebar');
 
     try {
         const products = await API.getSellerProducts(sellerName);
-
-        // Update count
         productCountSidebar.textContent = products.length;
-
-        // Render Data
         productListContainer.innerHTML = '';
 
         if (products.length === 0) {
@@ -46,7 +34,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         products.forEach(product => {
             const item = document.createElement('li');
             item.className = 'product-item';
-
             const priceFormatted = product.price.toLocaleString();
 
             item.innerHTML = `
@@ -68,7 +55,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             productListContainer.appendChild(item);
         });
 
-        // Edit
         document.querySelectorAll('.btn-edit').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = e.target.getAttribute('data-id');
@@ -76,7 +62,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
 
-        // Delete
         document.querySelectorAll('.btn-delete').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 const id = e.target.getAttribute('data-id');
@@ -91,7 +76,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
         });
-
     } catch (error) {
         productListContainer.innerHTML = `<div class="loading">상품을 불러오는 데 실패했습니다.<br>${error.message}</div>`;
     }

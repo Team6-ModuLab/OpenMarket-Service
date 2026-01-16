@@ -1,7 +1,3 @@
-// =============================================
-// order.js - 주문/결제 페이지
-// =============================================
-
 let orderData = null;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,28 +8,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupModalListeners() {
-    // 결제하기 버튼 (모달 표시)
     document.getElementById('btn-pay').addEventListener('click', () => {
-        // 1. 유효성 검사
         if (!validateOrderForm()) {
             return;
         }
 
-        // 2. 모달에 금액 정보 표시
         updateModalPrices();
 
-        // 3. 모달 표시
         showPaymentModal();
     });
 
-    // 모달 외부 클릭 시 닫기
     document.getElementById('payment-confirm-modal').addEventListener('click', (e) => {
         if (e.target.id === 'payment-confirm-modal') {
             hidePaymentModal();
         }
     });
 
-    // 모달의 결제하기 버튼 (실제 결제 처리)
     document.getElementById('btn-modal-pay').addEventListener('click', async () => {
         await processPayment();
     });
@@ -43,13 +33,11 @@ function loadUserInfo() {
     const buyerName = localStorage.getItem(STORAGE_KEYS.BUYER_NAME);
 
     if (buyerName) {
-        // 주문자 정보에 자동 입력
         const ordererNameInput = document.getElementById('orderer-name');
         if (ordererNameInput) {
             ordererNameInput.value = buyerName;
         }
 
-        // 수령인 정보에도 자동 입력
         const receiverNameInput = document.getElementById('receiver-name');
         if (receiverNameInput) {
             receiverNameInput.value = buyerName;
@@ -77,7 +65,6 @@ function loadOrderData() {
     }
 }
 
-// 주문 상품 렌더링
 function renderOrderItems() {
     const listContainer = document.getElementById('order-items-list');
     let itemsInfo = [];
@@ -103,11 +90,9 @@ function renderOrderItems() {
         const price = Number(item.price);
         const shippingFee = Number(item.shipping_fee);
 
-        // 상품 금액 합계
         const itemTotalPrice = price * quantity;
         totalProductPrice += itemTotalPrice;
 
-        // 배송비 (개별 배송비 가정)
         totalShippingFee += shippingFee;
 
         return `
@@ -129,13 +114,11 @@ function renderOrderItems() {
 
     listContainer.innerHTML = itemsHTML;
 
-    // 하단 금액 업데이트
     document.getElementById('total-order-price').innerText = formatPrice(totalProductPrice + totalShippingFee) + '원';
 
     updateFinalPaymentSummary(totalProductPrice, totalShippingFee);
 }
 
-// 최종 금액 업데이트
 function updateFinalPaymentSummary(productPrice, shippingFee) {
     const totalPrice = productPrice + shippingFee;
 
@@ -148,7 +131,6 @@ function updateFinalPaymentSummary(productPrice, shippingFee) {
 }
 
 function validateOrderForm() {
-    // 주문자 정보 유효성 검사
     const ordererName = document.getElementById('orderer-name').value.trim();
     const ordererPhone2 = document.getElementById('orderer-phone-2').value.trim();
     const ordererPhone3 = document.getElementById('orderer-phone-3').value.trim();
@@ -167,7 +149,6 @@ function validateOrderForm() {
         return false;
     }
 
-    // 배송지 정보 유효성 검사
     const receiverName = document.getElementById('receiver-name').value.trim();
     const phone2 = document.getElementById('phone-2').value.trim();
     const phone3 = document.getElementById('phone-3').value.trim();
@@ -217,12 +198,9 @@ function hidePaymentModal() {
     modal.classList.add('hidden');
 }
 
-// 실제 결제 처리 함수
 async function processPayment() {
-    // 모달 닫기
     hidePaymentModal();
 
-    // 데이터 수집
     const ordererPhone1 = document.getElementById('orderer-phone-1').value.trim();
     const ordererPhone2 = document.getElementById('orderer-phone-2').value.trim();
     const ordererPhone3 = document.getElementById('orderer-phone-3').value.trim();
@@ -253,7 +231,6 @@ async function processPayment() {
         let results = [];
 
         if (orderData.order_kind === 'direct_order') {
-            // 단일 상품 직접 주문
             const payload = {
                 ...commonPayload,
                 order_type: 'direct_order',
@@ -264,7 +241,6 @@ async function processPayment() {
             const res = await API.createOrder(payload);
             results.push(res);
         } else {
-            // 장바구니 주문 (다중 상품)
             const promises = orderData.items_info.map(item => {
                 const quantity = Number(item.quantity);
                 const price = Number(item.price);
@@ -284,7 +260,6 @@ async function processPayment() {
             results = await Promise.all(promises);
         }
 
-        // 결과 처리
         const failedOrders = results.filter(r => !r.success);
 
         if (failedOrders.length === 0) {
