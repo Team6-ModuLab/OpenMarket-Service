@@ -1,8 +1,6 @@
-// js/api.js
 const API_BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
 
 const API = {
-    // Get all products (인증 불필요)
     getProducts: async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/products/`);
@@ -17,7 +15,6 @@ const API = {
         }
     },
 
-    // Get single product by ID (인증 불필요)
     getProduct: async (productId) => {
         try {
             const response = await fetch(`${API_BASE_URL}/products/${productId}/`);
@@ -31,8 +28,7 @@ const API = {
         }
     },
 
-    // 로그인 (인증 불필요)
-    login: async(username, password) => {
+    login: async (username, password) => {
         const response = await fetch(`${API_BASE_URL}/accounts/login/`, {
             method: 'POST',
             headers: {
@@ -53,7 +49,6 @@ const API = {
         }
     },
 
-    // Get products for a specific seller (인증 필요)
     getSellerProducts: async (sellerName) => {
         try {
             const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/${sellerName}/products/`);
@@ -69,7 +64,6 @@ const API = {
         }
     },
 
-    // Create a new product (인증 필요)
     createProduct: async (productData) => {
         try {
             const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/products/`, {
@@ -88,7 +82,6 @@ const API = {
         }
     },
 
-    // Update an existing product (인증 필요)
     updateProduct: async (productId, productData) => {
         try {
             const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/products/${productId}/`, {
@@ -102,12 +95,11 @@ const API = {
             }
             return { success: true, data: data };
         } catch (error) {
-           console.error('Failed to update product:', error);
-           throw error;
+            console.error('Failed to update product:', error);
+            throw error;
         }
     },
 
-    // Delete a product (인증 필요)
     deleteProduct: async (productId) => {
         try {
             const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/products/${productId}/`, {
@@ -125,11 +117,6 @@ const API = {
         }
     },
 
-    // ============================================
-    // Order API (모두 인증 필요)
-    // ============================================
-
-    // Create Order
     createOrder: async (orderData) => {
         try {
             const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/order/`, {
@@ -152,7 +139,6 @@ const API = {
         }
     },
 
-    // Get Order List
     getOrders: async () => {
         try {
             const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/order/`);
@@ -167,7 +153,6 @@ const API = {
         }
     },
 
-    // Get Single Order
     getOrder: async (orderId) => {
         try {
             const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/order/${orderId}/`);
@@ -182,7 +167,6 @@ const API = {
         }
     },
 
-    // Delete (Cancel) Order
     deleteOrder: async (orderId) => {
         try {
             const response = await AuthService.fetchWithAuth(`${API_BASE_URL}/order/${orderId}/`, {

@@ -9,106 +9,191 @@
     <link rel="stylesheet" href="./seller-product-upload.css">
 </head>
 <body>
+    <!-- 헤더 -->
     <header>
         <div class="container header-inner">
             <div class="left-section">
-                <a href="../../../index.html" class="logo">
-                    <img src="../../../shared/assets/icons/Logo-hodu.png" alt="HODU">
+                <a href="../../../index.html" class="logo" aria-label="HODU 홈으로 이동">
+                    <img src="../../../shared/assets/icons/Logo-hodu.png" alt="HODU 로고">
                 </a>
                 <span class="page-title">판매자 센터</span>
             </div>
         </div>
     </header>
 
+    <!-- 메인 컨텐츠 -->
     <main class="container">
         <h2 class="page-heading">상품 등록</h2>
         
         <div class="upload-container">
-            <div class="upload-guide">
-                <h3>*상품 등록 주의사항</h3>
-                <div class="guide-content">
-                    - 너무 귀여운 사진은 심장이 아파올 수 있습니다.<br><br>
-                    - 너무 싼 상품은 지갑이 아파올 수 있습니다.<br><br>
-                    - 너무 재고가 없는 상품은 머리가 아파올 수 있습니다.<br><br>
-                    - 너무 무거운 상품은 허리가 아파올 수 있습니다.
-                </div>
-            </div>
+            <!-- 등록 가이드 -->
+            <aside class="upload-guide" aria-labelledby="guide-title">
+                <h3 id="guide-title">*상품 등록 주의사항</h3>
+                <ul class="guide-content">
+                    <li>너무 귀여운 사진은 심장이 아파올 수 있습니다.</li>
+                    <li>너무 싼 상품은 지갑이 아파올 수 있습니다.</li>
+                    <li>너무 재고가 없는 상품은 머리가 아파올 수 있습니다.</li>
+                    <li>너무 무거운 상품은 허리가 아파올 수 있습니다.</li>
+                </ul>
+            </aside>
 
-            <form id="product-form" class="product-form">
+            <!-- 상품 등록 폼 -->
+            <form id="product-form" class="product-form" novalidate>
+                <!-- 이미지 및 기본 정보 -->
                 <div class="form-row-top">
+                    <!-- 이미지 업로드 영역 -->
                     <div class="image-upload-area">
-                        <label for="img-upload" class="img-label">상품 이미지</label>
-                        <div class="img-preview-box" id="img-preview-box">
-                            <img src="../../../shared/assets/icons/icon-image.svg" alt="" class="icon-placeholder">
+                        <label for="img-upload" class="img-label">
+                            상품 이미지 <span class="required" aria-label="필수">*</span>
+                        </label>
+                        <div class="img-preview-box" id="img-preview-box" role="img" aria-label="상품 이미지 미리보기">
+                            <img src="../../../shared/assets/icons/icon-image.svg" alt="이미지 업로드" class="icon-placeholder">
                         </div>
-                        <input type="file" id="img-upload" accept="image/jpg,image/jpeg,image/png,image/gif" hidden>
-                        <p class="error-message" id="image-error"></p>
+                        <input 
+                            type="file" 
+                            id="img-upload" 
+                            accept="image/jpg,image/jpeg,image/png,image/gif" 
+                            aria-describedby="image-error"
+                            hidden
+                        >
+                        <p class="error-message" id="image-error" role="alert" aria-live="polite"></p>
                     </div>
 
+                    <!-- 입력 필드 영역 -->
                     <div class="input-fields-area">
+                        <!-- 상품명 -->
                         <div class="input-group">
-                            <label for="product-name">상품명</label>
+                            <label for="product-name">
+                                상품명 <span class="required" aria-label="필수">*</span>
+                            </label>
                             <div class="input-wrapper">
-                                <input type="text" id="product-name" maxlength="20" required>
-                                <span class="char-count"><span id="name-length">0</span>/20</span>
+                                <input 
+                                    type="text" 
+                                    id="product-name" 
+                                    maxlength="20" 
+                                    placeholder="상품명을 입력해주세요"
+                                    aria-describedby="name-error name-length"
+                                    required
+                                >
+                                <span class="char-count" aria-label="글자 수">
+                                    <span id="name-length">0</span>/20
+                                </span>
                             </div>
-                            <p class="error-message" id="name-error"></p>
+                            <p class="error-message" id="name-error" role="alert" aria-live="polite"></p>
                         </div>
 
+                        <!-- 판매가 -->
                         <div class="input-group">
-                            <label for="product-price">판매가</label>
+                            <label for="product-price">
+                                판매가 <span class="required" aria-label="필수">*</span>
+                            </label>
                             <div class="input-wrapper with-unit">
-                                <input type="text" id="product-price" required>
-                                <span class="unit">원</span>
+                                <input 
+                                    type="text" 
+                                    id="product-price" 
+                                    placeholder="0"
+                                    inputmode="numeric"
+                                    aria-describedby="price-error"
+                                    required
+                                >
+                                <span class="unit" aria-label="원">원</span>
                             </div>
-                            <p class="error-message" id="price-error"></p>
+                            <p class="error-message" id="price-error" role="alert" aria-live="polite"></p>
                         </div>
 
+                        <!-- 배송방법 -->
                         <div class="input-group">
-                            <label>배송방법</label>
-                            <div class="shipping-buttons">
-                                <button type="button" class="btn-shipping active" data-value="PARCEL">택배, 소포, 등기</button>
-                                <button type="button" class="btn-shipping" data-value="DELIVERY">직접배송(화물배달)</button>
+                            <label id="shipping-method-label">
+                                배송방법 <span class="required" aria-label="필수">*</span>
+                            </label>
+                            <div class="shipping-buttons" role="group" aria-labelledby="shipping-method-label">
+                                <button 
+                                    type="button" 
+                                    class="btn-shipping active" 
+                                    data-value="PARCEL"
+                                    aria-pressed="true"
+                                >
+                                    택배, 소포, 등기
+                                </button>
+                                <button 
+                                    type="button" 
+                                    class="btn-shipping" 
+                                    data-value="DELIVERY"
+                                    aria-pressed="false"
+                                >
+                                    직접배송(화물배달)
+                                </button>
                             </div>
                             <input type="hidden" id="shipping-method" value="PARCEL">
                         </div>
 
+                        <!-- 기본 배송비 -->
                         <div class="input-group">
-                            <label for="shipping-fee">기본 배송비</label>
+                            <label for="shipping-fee">
+                                기본 배송비 <span class="required" aria-label="필수">*</span>
+                            </label>
                             <div class="input-wrapper with-unit">
-                                <input type="text" id="shipping-fee" required>
-                                <span class="unit">원</span>
+                                <input 
+                                    type="text" 
+                                    id="shipping-fee" 
+                                    placeholder="0"
+                                    inputmode="numeric"
+                                    aria-describedby="shipping-fee-error"
+                                    required
+                                >
+                                <span class="unit" aria-label="원">원</span>
                             </div>
-                            <p class="error-message" id="shipping-fee-error"></p>
+                            <p class="error-message" id="shipping-fee-error" role="alert" aria-live="polite"></p>
                         </div>
 
+                        <!-- 재고 -->
                         <div class="input-group">
-                            <label for="stock">재고</label>
+                            <label for="stock">
+                                재고 <span class="required" aria-label="필수">*</span>
+                            </label>
                             <div class="input-wrapper with-unit">
-                                <input type="text" id="stock" required>
-                                <span class="unit">개</span>
+                                <input 
+                                    type="text" 
+                                    id="stock" 
+                                    placeholder="0"
+                                    inputmode="numeric"
+                                    aria-describedby="stock-error"
+                                    required
+                                >
+                                <span class="unit" aria-label="개">개</span>
                             </div>
-                            <p class="error-message" id="stock-error"></p>
+                            <p class="error-message" id="stock-error" role="alert" aria-live="polite"></p>
                         </div>
                     </div>
                 </div>
 
+                <!-- 상세 정보 -->
                 <div class="form-row-bottom">
-                    <label>상품 상세 정보</label>
+                    <label for="product-info">
+                        상품 상세 정보 <span class="required" aria-label="필수">*</span>
+                    </label>
                     <div class="editor-area">
-                        <textarea id="product-info" placeholder="상품 상세 정보를 입력해주세요." required></textarea>
+                        <textarea 
+                            id="product-info" 
+                            placeholder="상품 상세 정보를 입력해주세요."
+                            aria-describedby="info-error"
+                            rows="10"
+                            required
+                        ></textarea>
                     </div>
-                    <p class="error-message" id="info-error"></p>
+                    <p class="error-message" id="info-error" role="alert" aria-live="polite"></p>
                 </div>
 
+                <!-- 버튼 -->
                 <div class="form-actions">
-                    <button type="button" class="btn-cancel" onclick="history.back()">취소</button>
+                    <button type="button" class="btn-cancel" id="btn-cancel">취소</button>
                     <button type="submit" class="btn-save">저장하기</button>
                 </div>
             </form>
         </div>
     </main>
 
+    <!-- 스크립트 -->
     <script src="../../../shared/js/auth.js"></script>
     <script src="../../../shared/js/api.js"></script>
     <script src="../../../shared/js/utils.js"></script>
