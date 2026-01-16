@@ -1,5 +1,24 @@
 // Utils 모듈 (IIFE 패턴)
 const Utils = (function() {
+    // 스토리지 키 상수 (private)
+    const STORAGE_KEYS = {
+        ACCESS_TOKEN: 'access',
+        USER_TYPE: 'userType',
+        RETURN_URL: 'returnUrl'
+    };
+
+    // 사용자 타입 상수 (private)
+    const USER_TYPES = {
+        SELLER: 'SELLER',
+        BUYER: 'BUYER'
+    };
+
+    // DOM ID 상수 (private)
+    const DOM_IDS = {
+        LOGIN_MODAL: 'login-modal',
+        MODAL_CSS: 'modal-css'
+    };
+
     // 아이콘 경로 상수 (private)
     const ICON_BASE_PATH = '../../../shared/assets/icons';
     const ICONS = {
@@ -94,8 +113,8 @@ const Utils = (function() {
 
     // 헤더 업데이트 (private)
     function updateHeader() {
-        const token = localStorage.getItem('access');
-        const userType = localStorage.getItem('userType');
+        const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
+        const userType = localStorage.getItem(STORAGE_KEYS.USER_TYPE);
         const rightMenu = document.querySelector('.user-menu');
 
         if (!rightMenu) return;
@@ -103,7 +122,7 @@ const Utils = (function() {
         rightMenu.innerHTML = '';
 
         if (token) {
-            if (userType === 'SELLER') {
+            if (userType === USER_TYPES.SELLER) {
                 rightMenu.innerHTML = getSellerMenuHTML();
 
                 const btnMyPage = document.getElementById('btn-mypage');
@@ -190,10 +209,10 @@ const Utils = (function() {
 
     // 로그인 모달 표시 (public)
     function showLoginModal() {
-        let modal = document.getElementById('login-modal');
+        let modal = document.getElementById(DOM_IDS.LOGIN_MODAL);
         if (!modal) {
             const modalHTML = `
-                <div id="login-modal" class="modal-overlay">
+                <div id="${DOM_IDS.LOGIN_MODAL}" class="modal-overlay">
                     <div class="modal-content">
                          <button class="close-btn">&times;</button>
                         <p>로그인이 필요한 서비스입니다.<br>로그인 하시겠습니까?</p>
@@ -205,11 +224,11 @@ const Utils = (function() {
                 </div>
             `;
             document.body.insertAdjacentHTML('beforeend', modalHTML);
-            modal = document.getElementById('login-modal');
+            modal = document.getElementById(DOM_IDS.LOGIN_MODAL);
 
-            if (!document.getElementById('modal-css')) {
+            if (!document.getElementById(DOM_IDS.MODAL_CSS)) {
                 const style = document.createElement('style');
-                style.id = 'modal-css';
+                style.id = DOM_IDS.MODAL_CSS;
                 style.textContent = `
                     .modal-overlay {
                         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -230,7 +249,7 @@ const Utils = (function() {
             modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());
             modal.querySelector('.btn-no').addEventListener('click', () => modal.remove());
             modal.querySelector('.btn-yes').addEventListener('click', () => {
-                localStorage.setItem('returnUrl', window.location.href);
+                localStorage.setItem(STORAGE_KEYS.RETURN_URL, window.location.href);
                 window.location.href = `${getPagesBasePath()}auth/login/index.html`;
             });
         }
