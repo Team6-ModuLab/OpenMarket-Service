@@ -132,7 +132,7 @@ document.getElementById('btn-pay').addEventListener('click', async () => {
         receiver: receiverName,
         receiver_phone_number: phoneNumber,
         address: fullAddress,
-        address_message: message || '배송 전 연락바랍니다.',
+        delivery_message: message || '배송 전 연락바랍니다.',
         payment_method: paymentMethod,
         // total_price, order_type 등은 개별 요청마다 다를 수 있음
     };

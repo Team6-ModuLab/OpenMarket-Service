@@ -73,11 +73,18 @@ function updateHeader() {
         // Dropdown Logic
         const btnMyPage = document.querySelector('#btn-mypage');
         const dropdown = btnMyPage.querySelector('.user-dropdown');
+        const btnMenuMyPage = dropdown.querySelector('#menu-mypage');
         const btnLogout = dropdown.querySelector('#menu-logout');
 
         btnMyPage.addEventListener('click', (e) => {
              dropdown.classList.toggle('show');
         });
+
+        if (btnMenuMyPage) {
+            btnMenuMyPage.addEventListener('click', () => {
+                window.location.href = `${getPagesBasePath()}my/index.html`;
+            });
+        }
 
         // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
