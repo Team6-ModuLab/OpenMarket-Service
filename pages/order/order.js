@@ -1,7 +1,3 @@
-// =============================================
-// 주문 페이지 JavaScript
-// =============================================
-
 let orderData = null;
 
 document.addEventListener('DOMContentLoaded', () => {
