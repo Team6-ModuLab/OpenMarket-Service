@@ -1,11 +1,11 @@
 // js/index.js
 
-// ===== Banner Slider =====
+// ===== Banner Slider (Center/Peek Layout) =====
 let bannerProducts = [];
 let currentSlide = 0;
 let slideInterval = null;
 const SLIDE_COUNT = 5;
-const AUTO_PLAY_DELAY = 3000;
+const AUTO_PLAY_DELAY = 4000;
 
 async function initBanner() {
     const bannerTrack = document.getElementById('banner-track');
@@ -18,7 +18,7 @@ async function initBanner() {
         // Create slides
         bannerProducts.forEach((product, index) => {
             const slide = document.createElement('div');
-            slide.className = 'banner-slide';
+            slide.className = `banner-slide${index === 0 ? ' active' : ''}`;
             slide.innerHTML = `<img src="${product.image}" alt="${product.name}">`;
             slide.addEventListener('click', () => {
                 window.location.href = `../detail/index.html?id=${product.id}`;
@@ -39,6 +39,9 @@ async function initBanner() {
         document.querySelector('.banner-btn-prev').addEventListener('click', prevSlide);
         document.querySelector('.banner-btn-next').addEventListener('click', nextSlide);
 
+        // Initial position
+        updateSlide();
+
         // Start autoplay
         startAutoPlay();
 
@@ -47,6 +50,9 @@ async function initBanner() {
         bannerContainer.addEventListener('mouseenter', stopAutoPlay);
         bannerContainer.addEventListener('mouseleave', startAutoPlay);
 
+        // Recalculate on resize
+        window.addEventListener('resize', updateSlide);
+
     } catch (error) {
         console.error("Failed to load banner:", error);
     }
@@ -54,10 +60,31 @@ async function initBanner() {
 
 function updateSlide() {
     const bannerTrack = document.getElementById('banner-track');
+    const slides = document.querySelectorAll('.banner-slide');
     const dots = document.querySelectorAll('.banner-dot');
 
-    bannerTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+    if (slides.length === 0) return;
 
+    // Update active class on slides
+    slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentSlide);
+    });
+
+    // Calculate translateX for center/peek layout
+    const containerWidth = document.querySelector('.banner-container').offsetWidth;
+    const slide = slides[0];
+    const slideStyle = getComputedStyle(slide);
+    const slideWidth = slide.offsetWidth;
+    const slideMargin = parseFloat(slideStyle.marginLeft) + parseFloat(slideStyle.marginRight);
+    const totalSlideWidth = slideWidth + slideMargin;
+
+    // Center the current slide: offset to center first slide, then move by slide index
+    const centerOffset = (containerWidth - slideWidth) / 2 - parseFloat(slideStyle.marginLeft);
+    const translateX = centerOffset - (currentSlide * totalSlideWidth);
+
+    bannerTrack.style.transform = `translateX(${translateX}px)`;
+
+    // Update dots
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentSlide);
     });
