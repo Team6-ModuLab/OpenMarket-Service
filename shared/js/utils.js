@@ -30,7 +30,7 @@ function updateHeader() {
                     <img src="../../../shared/assets/icons/icon-user.svg" alt="마이페이지">
                     <span>마이페이지</span>
                     <div class="user-dropdown">
-                        <button id="menu-mypage">마이페이지</button>
+                        <button id="menu-mypage" disabled style="color:#999; cursor:not-allowed;">마이페이지</button>
                         <button id="menu-logout">로그아웃</button>
                     </div>
                 </div>
@@ -82,6 +82,7 @@ function updateHeader() {
 
         if (btnMenuMyPage) {
             btnMenuMyPage.addEventListener('click', () => {
+                if (btnMenuMyPage.disabled) return;
                 window.location.href = `${getPagesBasePath()}my/index.html`;
             });
         }
