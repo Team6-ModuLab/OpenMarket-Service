@@ -7,8 +7,37 @@ let orderData = null;
 document.addEventListener('DOMContentLoaded', () => {
     loadOrderData();
     loadUserInfo(); 
+    setupModalListeners();
 });
 
+function setupModalListeners() {
+    // 결제하기 버튼 (모달 표시)
+    document.getElementById('btn-pay').addEventListener('click', () => {
+        // 1. 유효성 검사
+        if (!validateOrderForm()) {
+            return;
+        }
+
+        // 2. 모달에 금액 정보 표시
+        updateModalPrices();
+
+        // 3. 모달 표시
+        showPaymentModal();
+    });
+    
+    // 모달 외부 클릭 시 닫기
+    document.getElementById('payment-confirm-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'payment-confirm-modal') {
+            hidePaymentModal();
+        }
+    });
+
+    // 모달의 결제하기 버튼 (실제 결제 처리)
+    document.getElementById('btn-modal-pay').addEventListener('click', async () => {
+        console.log(); 
+        await processPayment();
+    });
+}
 
 function loadUserInfo() {
     const buyerName = localStorage.getItem('buyerName');
@@ -28,7 +57,6 @@ function loadUserInfo() {
     }
 }
 
-// localStorage에서 주문 데이터 로드
 function loadOrderData() {
     const data = localStorage.getItem('order_data');
 
@@ -53,7 +81,6 @@ function renderOrderItems() {
     const listContainer = document.getElementById('order-items-list');
     let itemsInfo = [];
 
-    // direct_order와 cart_order를 모두 items_info 배열로 통일하여 처리
     if (orderData.order_kind === 'direct_order') {
         itemsInfo = [orderData.item_info];
     } else if (orderData.order_kind === 'cart_order') {
@@ -120,21 +147,91 @@ function updateFinalPaymentSummary(productPrice, shippingFee) {
 }
 
 
-// 결제 버튼 핸들러
-document.getElementById('btn-pay').addEventListener('click', async () => {
-   
+
+function validateOrderForm() {
+    // 주문자 정보 유효성 검사
     const ordererName = document.getElementById('orderer-name').value.trim();
-    const ordererPhone1 = document.getElementById('orderer-phone-1').value.trim();
     const ordererPhone2 = document.getElementById('orderer-phone-2').value.trim();
     const ordererPhone3 = document.getElementById('orderer-phone-3').value.trim();
     const ordererEmail = document.getElementById('orderer-email').value.trim();
 
-    if (!ordererName) return alert('주문자 이름을 입력해주세요.');
-    if (!ordererPhone2 || !ordererPhone3) return alert('주문자 휴대폰 번호를 입력해주세요.');
-    if (!ordererEmail) return alert('주문자 이메일을 입력해주세요.');
+    if (!ordererName) {
+        alert('주문자 이름을 입력해주세요.');
+        return false;
+    }
+    if (!ordererPhone2 || !ordererPhone3) {
+        alert('주문자 휴대폰 번호를 입력해주세요.');
+        return false;
+    }
+    if (!ordererEmail) {
+        alert('주문자 이메일을 입력해주세요.');
+        return false;
+    }
 
-    // 2. 배송지 정보 유효성 검사
+    // 배송지 정보 유효성 검사
     const receiverName = document.getElementById('receiver-name').value.trim();
+    const phone2 = document.getElementById('phone-2').value.trim();
+    const phone3 = document.getElementById('phone-3').value.trim();
+    const address1 = document.getElementById('address-1').value.trim();
+    const address2 = document.getElementById('address-2').value.trim();
+    const agree = document.getElementById('agree-all').checked;
+
+    if (!receiverName) {
+        alert('수령인 이름을 입력해주세요.');
+        return false;
+    }
+    if (!phone2 || !phone3) {
+        alert('수령인 휴대폰 번호를 입력해주세요.');
+        return false;
+    }
+    if (!address1 || !address2) {
+        alert('배송지 주소를 모두 입력해주세요.');
+        return false;
+    }
+    if (!agree) {
+        alert('구매 조건 확인 및 결제 진행에 동의해주세요.');
+        return false;
+    }
+
+    return true;
+}
+
+
+function updateModalPrices() {
+    const productPrice = document.getElementById('final-product-price').innerText;
+    const discount = document.getElementById('final-discount').innerText;
+    const shipping = document.getElementById('final-shipping').innerText;
+    const totalPrice = document.getElementById('final-total-price').innerText;
+
+    document.getElementById('modal-product-price').innerText = productPrice;
+    document.getElementById('modal-discount').innerText = discount;
+    document.getElementById('modal-shipping').innerText = shipping;
+    document.getElementById('modal-total-price').innerText = totalPrice;
+}
+
+
+function showPaymentModal() {
+    const modal = document.getElementById('payment-confirm-modal');
+    modal.classList.remove('hidden');
+}
+
+
+function hidePaymentModal() {
+    const modal = document.getElementById('payment-confirm-modal');
+    modal.classList.add('hidden');
+}
+
+// 실제 결제 처리 함수
+async function processPayment() {
+    console.log();
+    
+    // 모달 닫기
+    hidePaymentModal();
+
+    // 데이터 수집
+    const ordererPhone1 = document.getElementById('orderer-phone-1').value.trim();
+    const ordererPhone2 = document.getElementById('orderer-phone-2').value.trim();
+    const ordererPhone3 = document.getElementById('orderer-phone-3').value.trim();
     const phone1 = document.getElementById('phone-1').value.trim();
     const phone2 = document.getElementById('phone-2').value.trim();
     const phone3 = document.getElementById('phone-3').value.trim();
@@ -142,27 +239,18 @@ document.getElementById('btn-pay').addEventListener('click', async () => {
     const address2 = document.getElementById('address-2').value.trim();
     const zipCode = document.getElementById('zip-code').value.trim();
     const message = document.getElementById('delivery-message').value.trim();
-    const agree = document.getElementById('agree-all').checked;
-
-    if (!receiverName) return alert('수령인 이름을 입력해주세요.');
-    if (!phone2 || !phone3) return alert('수령인 휴대폰 번호를 입력해주세요.');
-    if (!address1 || !address2) return alert('배송지 주소를 모두 입력해주세요.');
-    if (!agree) return alert('구매 조건 확인 및 결제 진행에 동의해주세요.');
-
-    // 3. 데이터 구성
+    const receiverName = document.getElementById('receiver-name').value.trim();
+    const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
     const ordererPhoneNumber = `${ordererPhone1}${ordererPhone2}${ordererPhone3}`;
     const receiverPhoneNumber = `${phone1}${phone2}${phone3}`;
     const fullAddress = `${address1} ${address2} [${zipCode}]`;
-    const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
-
-  
+    const ordererName = document.getElementById('orderer-name').value.trim();
+    const ordererEmail = document.getElementById('orderer-email').value.trim();
     const ordererInfo = {
         name: ordererName,
         phone: ordererPhoneNumber,
         email: ordererEmail
     };
-
-    // 배송지 정보 객체
     const commonPayload = {
         receiver: receiverName,
         receiver_phone_number: receiverPhoneNumber,
@@ -171,7 +259,7 @@ document.getElementById('btn-pay').addEventListener('click', async () => {
         payment_method: paymentMethod,
     };
 
-    console.log('📦 주문자 정보:', ordererInfo); // 🆕 로그 출력 (나중에 서버 전송 가능)
+    console.log();
 
     try {
         let results = [];
@@ -214,7 +302,6 @@ document.getElementById('btn-pay').addEventListener('click', async () => {
         if (failedOrders.length === 0) {
             alert('모든 주문이 정상적으로 처리되었습니다.');
             
-            // 주문 성공 후 처리: 카트 비우기
             if (orderData.order_kind === 'cart_order') {
                 removePurchasedItemsFromCart(orderData.cart_items);
             } else if (orderData.order_kind === 'direct_order') {
@@ -232,9 +319,8 @@ document.getElementById('btn-pay').addEventListener('click', async () => {
         console.error('주문 요청 중 오류:', error);
         alert('시스템 오류가 발생했습니다.');
     }
-});
+}
 
-// 카트에서 구매한 아이템 제거
 function removePurchasedItemsFromCart(purchasedIds) {
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
     

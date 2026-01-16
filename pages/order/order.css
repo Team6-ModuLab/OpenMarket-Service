@@ -21,7 +21,7 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* 🆕 배송정보 섹션 (헤더만 있는 경우) */
+
 .delivery-info-section {
     padding: 20px;
     margin-bottom: 10px;
@@ -137,7 +137,7 @@
 }
 
 .form-content {
-    /* 🆕 form-group 제거하고 바로 form-content 사용 */
+   
 }
 
 .line-divider {
@@ -174,16 +174,16 @@
     border-radius: 4px;
 }
 
-/* 🆕 배송 메시지는 더 길게 */
+
 #delivery-message {
-    max-width: 1000px !important; /* 강제 적용 */
+    max-width: 1000px !important; 
 }
 
 .phone-inputs {
     display: flex;
     align-items: center;
     gap: 10px;
-    max-width: 334px; /* 🆕 전체 너비 제한 */
+    max-width: 334px; 
 }
 
 .phone-inputs input {
@@ -198,7 +198,7 @@
     width: 100%;
 }
 
-/* 🆕 주소와 상세주소만 길게 */
+
 .address-inputs input[type="text"]:not(.zip-code-row input) {
     width: 100%;
     max-width: 1000px;
@@ -344,5 +344,104 @@
 }
 
 .btn-pay:hover {
+    background-color: #1a9c3b;
+}
+
+/* ===== 최종 결제 확인 모달 ===== */
+.payment-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.payment-modal-overlay.hidden {
+    display: none;
+}
+
+.payment-modal-content {
+    background: #fff;
+    border-radius: 10px;
+    padding: 40px;
+    width: 90%;
+    max-width: 480px;
+}
+
+.payment-modal-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.payment-modal-box {
+    background: #fff;
+    border: 2px solid var(--color-primary);
+    border-radius: 10px;
+    padding: 40px 30px;
+}
+
+.payment-modal-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+.payment-modal-divider {
+    height: 1px;
+    background: #C4C4C4;
+    margin: 20px 0;
+}
+
+.payment-modal-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+.payment-modal-total-price {
+    font-size: 36px;
+    font-weight: 700;
+    color: #EB5757;
+}
+
+.payment-modal-agreement {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
+.payment-modal-agreement .check-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-modal-pay {
+    width: 100%;
+    height: 68px;
+    background: var(--color-primary);
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-modal-pay:hover {
     background-color: #1a9c3b;
 }

@@ -235,5 +235,38 @@
     <script src="../../shared/js/api.js"></script>
     <script src="../../shared/js/utils.js"></script>
     <script src="./order.js"></script>
+
+    <!-- 🆕 최종 결제 확인 모달 -->
+    <div id="payment-confirm-modal" class="payment-modal-overlay hidden">
+        <div class="payment-modal-content">
+            <h2 class="payment-modal-title">최종결제 정보</h2>
+            <div class="payment-modal-box">
+                <div class="payment-modal-row">
+                    <span>- 상품금액</span>
+                    <span id="modal-product-price">0 원</span>
+                </div>
+                <div class="payment-modal-row">
+                    <span>- 할인금액</span>
+                    <span id="modal-discount">0 원</span>
+                </div>
+                <div class="payment-modal-row">
+                    <span>- 배송비</span>
+                    <span id="modal-shipping">0 원</span>
+                </div>
+                <div class="payment-modal-divider"></div>
+                <div class="payment-modal-total">
+                    <span>결제금액</span>
+                    <span class="payment-modal-total-price" id="modal-total-price">46,500원</span>
+                </div>
+                
+                <div class="payment-modal-agreement">
+                    <img src="../../shared/assets/icons/icon-check-on.svg" alt="체크" class="check-icon">
+                    <span>주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.</span>
+                </div>
+                
+                <button type="button" class="btn-modal-pay" id="btn-modal-pay">결제하기</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
