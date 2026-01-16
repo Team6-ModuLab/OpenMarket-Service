@@ -1,21 +1,32 @@
-header {
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+:root {
+    --color-gray-light: #f2f2f2;
+    --color-gray-medium: #c4c4c4;
+    --color-gray-dark: #767676;
+    --color-error: #eb5757;
+    --color-warning-bg: #ffefd9;
+    --border-radius: 5px;
 }
+
+header {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 .header-inner {
     display: flex;
     align-items: center;
 }
+
 .left-section {
     display: flex;
     align-items: center;
     gap: 16px;
 }
+
 .page-title {
     font-size: 30px;
     font-weight: 500;
 }
 
-/* Main Layout */
 .page-heading {
     font-size: 36px;
     font-weight: 700;
@@ -28,26 +39,26 @@ header {
     align-items: flex-start;
 }
 
-/* Guide Sidebar */
 .upload-guide {
     width: 320px;
     flex-shrink: 0;
 }
+
 .upload-guide h3 {
     font-size: 16px;
-    color: #EB5757;
+    color: var(--color-error);
     margin-bottom: 20px;
 }
+
 .guide-content {
-    background: #FFEFD9;
+    background: var(--color-warning-bg);
     padding: 20px;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     font-size: 14px;
     line-height: 1.6;
     color: #000;
 }
 
-/* Form Area */
 .product-form {
     flex-grow: 1;
 }
@@ -62,15 +73,17 @@ header {
     width: 454px;
     flex-shrink: 0;
 }
+
 .img-label {
     display: block;
     margin-bottom: 10px;
-    color: #767676;
+    color: var(--color-gray-dark);
 }
+
 .img-preview-box {
     width: 454px;
     height: 454px;
-    background: #C4C4C4;
+    background: var(--color-gray-medium);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,11 +91,13 @@ header {
     overflow: hidden;
     position: relative;
 }
+
 .img-preview-box img.icon-placeholder {
     width: 50px;
     height: 50px;
     filter: brightness(0.5);
 }
+
 .img-preview-box img.preview-img {
     width: 100%;
     height: 100%;
@@ -96,96 +111,107 @@ header {
     gap: 20px;
 }
 
+.input-group {
+    position: relative;
+}
+
 .input-group label {
     display: block;
-    color: #767676;
+    color: var(--color-gray-dark);
     margin-bottom: 10px;
     font-size: 16px;
 }
 
 .input-wrapper {
     position: relative;
-    border: 1px solid #C4C4C4;
-    border-radius: 5px;
+    border: 1px solid var(--color-gray-medium);
+    border-radius: var(--border-radius);
     display: flex;
     align-items: center;
     height: 54px;
 }
+
 .input-wrapper input {
     border: none;
     width: 100%;
     height: 100%;
     padding: 10px 15px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     background: transparent;
 }
+
 .input-wrapper input:focus {
     outline: none;
 }
+
 .char-count {
     position: absolute;
     right: 15px;
-    color: #C4C4C4;
+    color: var(--color-gray-medium);
     font-size: 14px;
 }
 
-/* Input with Unit */
 .input-wrapper.with-unit {
     display: flex;
 }
+
 .input-wrapper.with-unit input {
     flex-grow: 1;
 }
+
 .input-wrapper.with-unit .unit {
     width: 54px;
     height: 100%;
-    background: #C4C4C4;
+    background: var(--color-gray-medium);
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
 }
 
-/* Shipping Buttons */
 .shipping-buttons {
     display: flex;
     gap: 10px;
 }
+
 .btn-shipping {
     flex: 1;
     height: 54px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid var(--color-gray-medium);
     background: #fff;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     font-size: 16px;
     font-weight: 500;
-    color: #767676;
+    color: var(--color-gray-dark);
     cursor: pointer;
 }
+
 .btn-shipping.active {
     background: var(--color-primary);
     color: #fff;
     border-color: var(--color-primary);
 }
 
-/* Editor Area */
 .form-row-bottom {
     margin-bottom: 40px;
 }
+
 .form-row-bottom label {
     display: block;
     margin-bottom: 10px;
 }
+
 .editor-area {
     width: 100%;
     height: 400px;
-    background: #F2F2F2;
-    border-radius: 5px;
+    background: var(--color-gray-light);
+    border-radius: var(--border-radius);
     padding: 20px;
 }
+
 .editor-area textarea {
     width: 100%;
     height: 100%;
@@ -194,59 +220,52 @@ header {
     resize: none;
     font-size: 16px;
 }
+
 .editor-area textarea:focus {
     outline: none;
 }
-.editor-placeholder {
-    color: #C4C4C4;
-    font-size: 24px;
-    font-weight: 700;
-}
 
-/* Actions */
 .form-actions {
     display: flex;
     justify-content: flex-end;
     gap: 14px;
 }
-.btn-cancel, .btn-save {
+
+.btn-cancel,
+.btn-save {
     width: 200px;
     height: 60px;
     font-size: 18px;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     font-weight: 700;
     cursor: pointer;
 }
+
 .btn-cancel {
     background: #fff;
-    border: 1px solid #C4C4C4;
-    color: #767676;
+    border: 1px solid var(--color-gray-medium);
+    color: var(--color-gray-dark);
 }
+
 .btn-save {
     background: var(--color-primary);
     color: #fff;
     border: none;
 }
 
-/* 에러 메시지 스타일 */
 .error-message {
     display: none;
-    color: #eb5757;
+    color: var(--color-error);
     font-size: 12px;
     margin-top: 6px;
     line-height: 1.4;
 }
 
-.input-group {
-    position: relative;
-}
-
 .input-wrapper.error input,
 .editor-area.error textarea {
-    border-color: #eb5757;
+    border-color: var(--color-error);
 }
 
-/* 이미지 업로드 에러 */
 .image-upload-area .error-message {
     margin-top: 10px;
     text-align: center;
