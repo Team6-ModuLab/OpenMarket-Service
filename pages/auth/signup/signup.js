@@ -412,10 +412,6 @@ signupForm.addEventListener('submit', async (e) => {
             : `${BASE_URL}/accounts/seller/signup/`;
         if (currentUserType === 'SELLER') {
             signupData.company_registration_number = businessNumber.value.replace(/-/g, '');
-<<<<<<< Updated upstream
-=======
-            // 스토어 이름에 타임스탬프 추가하여 중복 방지
->>>>>>> Stashed changes
             const baseStoreName = storeName.value.trim();
             const timestamp = Date.now();
             signupData.store_name = `${baseStoreName}_${timestamp}`;
@@ -443,21 +439,11 @@ signupForm.addEventListener('submit', async (e) => {
     }
 });
 
-<<<<<<< Updated upstream
 const signupBottomForm = document.getElementById('signup-bottom-form');
 if (signupBottomForm) {
     signupBottomForm.addEventListener('submit', (e) => {
         e.preventDefault();
         signupForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-=======
-// 박스 밖 버튼 클릭 이벤트
-const signupSubmitBtn = document.getElementById('signup-submit');
-if (signupSubmitBtn) {
-    signupSubmitBtn.addEventListener('click', () => {
-        if (!signupSubmitBtn.disabled) {
-            signupForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-        }
->>>>>>> Stashed changes
     });
 }
 
