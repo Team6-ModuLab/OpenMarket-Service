@@ -8,6 +8,14 @@ const AuthService = {
     isRefreshing: false,
     // 리프레시 대기 중인 요청 큐
     refreshQueue: [],
+    // 디버그 모드 (콘솔 로깅)
+    debug: true,
+
+    log(...args) {
+        if (this.debug) {
+            console.log('[AuthService]', ...args);
+        }
+    },
 
     // ============================================
     // 토큰 저장/조회/삭제
@@ -45,10 +53,13 @@ const AuthService = {
         const refreshToken = this.getRefreshToken();
 
         if (!refreshToken) {
+            this.log('❌ refresh 토큰 없음');
             throw new Error('NO_REFRESH_TOKEN');
         }
 
-        const response = await fetch(`${AUTH_API_BASE_URL}/accounts/refresh/`, {
+        this.log('🔄 refresh 요청 시작...');
+
+        const response = await fetch(`${AUTH_API_BASE_URL}/accounts/token/refresh/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -59,17 +70,21 @@ const AuthService = {
         });
 
         if (!response.ok) {
+            this.log('❌ refresh 요청 실패:', response.status);
             throw new Error('REFRESH_FAILED');
         }
 
         const data = await response.json();
+        this.log('✅ 새 access 토큰 수신:', data.access?.substring(0, 20) + '...');
 
         // 새 액세스 토큰 저장
         this.setAccessToken(data.access);
+        this.log('💾 access 토큰 저장 완료');
 
         // 서버에서 새 리프레시 토큰도 주면 저장
         if (data.refresh) {
             this.setRefreshToken(data.refresh);
+            this.log('💾 refresh 토큰도 갱신됨');
         }
 
         return data.access;
@@ -155,6 +170,7 @@ const AuthService = {
         }
 
         // 401 에러: 토큰 리프레시 시도
+        this.log('⚠️ 401 에러 발생 → 토큰 갱신 시도');
         try {
             const newToken = await this.handleRefresh();
 
@@ -180,24 +196,33 @@ const AuthService = {
         const accessToken = this.getAccessToken();
         const refreshToken = this.getRefreshToken();
 
+        this.log('🚀 initAuth 시작');
+        this.log('  - access 토큰:', accessToken ? '있음' : '없음');
+        this.log('  - refresh 토큰:', refreshToken ? '있음' : '없음');
+
         // 토큰이 전혀 없으면 비로그인 상태
         if (!accessToken && !refreshToken) {
+            this.log('➡️ 토큰 없음 → 비로그인');
             return { isLoggedIn: false };
         }
 
         // 액세스 토큰이 있으면 일단 로그인 상태로 간주
         // (실제 만료 여부는 API 호출 시 401로 판단)
         if (accessToken) {
+            this.log('➡️ access 있음 → 로그인 상태');
             return { isLoggedIn: true };
         }
 
         // 액세스 토큰은 없지만 리프레시 토큰이 있으면 갱신 시도
         if (refreshToken) {
+            this.log('➡️ access 없음, refresh 있음 → 갱신 시도');
             try {
                 await this.handleRefresh();
+                this.log('✅ 갱신 성공 → 로그인 상태');
                 return { isLoggedIn: true };
             } catch (error) {
                 // 리프레시 실패 시 비로그인 상태
+                this.log('❌ 갱신 실패 → 비로그인');
                 this.clearAuth();
                 return { isLoggedIn: false };
             }

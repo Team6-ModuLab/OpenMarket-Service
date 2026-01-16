@@ -202,6 +202,8 @@ function setupSearch(searchResultPath = '') {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // access 토큰 없고 refresh 토큰 있으면 자동 갱신 시도
+    await AuthService.initAuth();
     updateHeader();
 });
