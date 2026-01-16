@@ -45,7 +45,7 @@ async function loadCartFromStorage() {
                     seller: product.seller?.store_name || '판매자',
                     name: product.name,
                     price: product.price,
-                    shippingFee: product.shipping_fee || 0,
+                    shipping_fee: product.shipping_fee,
                     shippingMethod: '택배배송',
                     quantity: cartItem.quantity,
                     image: product.image,
@@ -108,7 +108,7 @@ function renderCart() {
 // 장바구니 아이템 HTML 생성
 function createCartItemHTML(item) {
     const totalPrice = item.price * item.quantity;
-    const shippingText = item.shippingFee === 0 ? '무료배송' : `${item.shippingMethod} / ${formatPrice(item.shippingFee)}원`;
+    const shippingText = item.shipping_fee === 0 ? '무료배송' : `${item.shippingMethod} / ${formatPrice(item.shipping_fee)}원`;
 
     return `
         <div class="cart-page__item" data-id="${item.id}">
@@ -359,7 +359,7 @@ function updateSummary() {
 
     selectedItems.forEach(item => {
         totalProductPrice += item.price * item.quantity;
-        totalShipping += item.shippingFee;
+        totalShipping += item.shipping_fee;
     });
 
     const totalPayment = totalProductPrice - totalDiscount + totalShipping;
