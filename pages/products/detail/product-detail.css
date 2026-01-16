@@ -152,12 +152,11 @@
     flex: 1;
 }
 
-/* 탭 영역 */
+
 .product-tabs {
     width: 100%;
 }
 
-/* 탭 버튼들 */
 .tab-buttons {
     display: flex;
     border-bottom: 1px solid #ddd;
@@ -227,7 +226,6 @@
     }
 }
 
-/* ===== 모달 스타일 ===== */
 .modal-overlay {
     position: fixed;
     top: 0;

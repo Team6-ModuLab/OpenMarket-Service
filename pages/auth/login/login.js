@@ -39,16 +39,23 @@ form.addEventListener('submit', async (e) => {
         localStorage.setItem('refresh', result.refresh);
         localStorage.setItem('userType', result.user.user_type);
         if (result.user.user_type == "SELLER") {
-            localStorage.setItem('sellerName', result.user.name); // 판매자 이름 (or 사용자 이름)
-            localStorage.setItem('account_name', result.user.username); // 로그인 ID (account_name)
+            localStorage.setItem('sellerName', result.user.name);
+            localStorage.setItem('account_name', result.user.username);
         }
         else {
             localStorage.setItem('buyerName', result.user.name); 
         }
 
-
-        // 메인으로 이동
-        window.location.href = '../../products/list/index.html';
+        const returnUrl = localStorage.getItem('returnUrl');
+        
+        if (returnUrl) {
+            
+            localStorage.removeItem('returnUrl'); 
+            window.location.href = returnUrl;
+        } else {
+          
+            window.location.href = '../../products/list/index.html';
+        }
 
     } catch (error) {
         // 로그인 실패 시 처리 (아이디/비밀번호 불일치 등)

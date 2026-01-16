@@ -171,7 +171,8 @@ function showLoginModal() {
         modal.querySelector('.close-btn').addEventListener('click', () => modal.remove());
         modal.querySelector('.btn-no').addEventListener('click', () => modal.remove());
         modal.querySelector('.btn-yes').addEventListener('click', () => {
-             window.location.href = `${getPagesBasePath()}auth/login/index.html`;
+            localStorage.setItem('returnUrl', window.location.href);
+            window.location.href = `${getPagesBasePath()}auth/login/index.html`;
         });
     }
 }

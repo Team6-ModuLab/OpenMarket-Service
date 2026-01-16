@@ -38,7 +38,6 @@
     font-weight: 500;
 }
 
-/* Order Table Styles */
 .order-table-header {
     display: flex;
     background: #F2F2F2;
@@ -131,7 +130,7 @@
     margin-left: 10px;
 }
 
-/* Delivery Form */
+
 .delivery-form {
     padding: 10px;
 }
@@ -169,7 +168,7 @@
     border: 1px solid #C4C4C4;
     padding: 0 10px;
     font-size: 16px;
-    max-width: 334px; /* 기본값: 334px */
+    max-width: 334px; 
     width: 100%;
     border-radius: 4px;
 }
@@ -210,7 +209,7 @@
 }
 
 .zip-code-row input {
-    width: 170px; /* 🆕 우편번호는 짧게 (원래대로) */
+    width: 170px; 
 }
 
 .btn-zip-search {
@@ -231,7 +230,7 @@
     max-width: 1000px;
 }
 
-/* Layout for Bottom Section */
+
 .order-bottom-layout {
     display: flex;
     gap: 30px;
@@ -270,7 +269,7 @@
     cursor: pointer;
 }
 
-/* Final Payment Aside */
+
 .final-payment-aside {
     width: 400px;
     background: #fff;
@@ -347,7 +346,7 @@
     background-color: #1a9c3b;
 }
 
-/* ===== 최종 결제 확인 모달 ===== */
+
 .payment-modal-overlay {
     position: fixed;
     top: 0;
