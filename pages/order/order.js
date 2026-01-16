@@ -1,4 +1,3 @@
-
 // =============================================
 // 주문 페이지 JavaScript
 // =============================================
@@ -7,7 +6,27 @@ let orderData = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     loadOrderData();
+    loadUserInfo(); 
 });
+
+
+function loadUserInfo() {
+    const buyerName = localStorage.getItem('buyerName');
+    
+    if (buyerName) {
+        // 주문자 정보에 자동 입력
+        const ordererNameInput = document.getElementById('orderer-name');
+        if (ordererNameInput) {
+            ordererNameInput.value = buyerName;
+        }
+        
+        // 수령인 정보에도 자동 입력 (선택사항)
+        const receiverNameInput = document.getElementById('receiver-name');
+        if (receiverNameInput) {
+            receiverNameInput.value = buyerName;
+        }
+    }
+}
 
 // localStorage에서 주문 데이터 로드
 function loadOrderData() {
@@ -50,8 +69,6 @@ function renderOrderItems() {
     let totalShippingFee = 0;
 
     const itemsHTML = itemsInfo.map(item => {
-        // direct_order는 quantity가 최상위에 있지만, cart_order의 items_info 내 item은 quantity를 가짐.
-        // direct_order의 경우 item_info에 quantity가 없으므로 orderData.quantity 사용
         const rawQuantity = item.quantity || orderData.quantity;
         const quantity = Number(rawQuantity); 
         
@@ -95,18 +112,28 @@ function updateFinalPaymentSummary(productPrice, shippingFee) {
     const totalPrice = productPrice + shippingFee;
 
     document.getElementById('final-product-price').innerText = formatPrice(productPrice) + '원';
-    // 할인 기능이 있다면 여기서 계산
+    document.getElementById('final-discount').innerText = '0원';
     document.getElementById('final-shipping').innerText = formatPrice(shippingFee) + '원';
     document.getElementById('final-total-price').innerText = formatPrice(totalPrice) + '원';
 
-    // 전역 변수나 dataset에 저장해둘 수도 있음 (필요 시)
     orderData._totalPrice = totalPrice;
 }
 
 
 // 결제 버튼 핸들러
 document.getElementById('btn-pay').addEventListener('click', async () => {
-    // 1. 유효성 검사
+   
+    const ordererName = document.getElementById('orderer-name').value.trim();
+    const ordererPhone1 = document.getElementById('orderer-phone-1').value.trim();
+    const ordererPhone2 = document.getElementById('orderer-phone-2').value.trim();
+    const ordererPhone3 = document.getElementById('orderer-phone-3').value.trim();
+    const ordererEmail = document.getElementById('orderer-email').value.trim();
+
+    if (!ordererName) return alert('주문자 이름을 입력해주세요.');
+    if (!ordererPhone2 || !ordererPhone3) return alert('주문자 휴대폰 번호를 입력해주세요.');
+    if (!ordererEmail) return alert('주문자 이메일을 입력해주세요.');
+
+    // 2. 배송지 정보 유효성 검사
     const receiverName = document.getElementById('receiver-name').value.trim();
     const phone1 = document.getElementById('phone-1').value.trim();
     const phone2 = document.getElementById('phone-2').value.trim();
@@ -118,30 +145,39 @@ document.getElementById('btn-pay').addEventListener('click', async () => {
     const agree = document.getElementById('agree-all').checked;
 
     if (!receiverName) return alert('수령인 이름을 입력해주세요.');
-    if (!phone2 || !phone3) return alert('휴대폰 번호를 입력해주세요.');
+    if (!phone2 || !phone3) return alert('수령인 휴대폰 번호를 입력해주세요.');
     if (!address1 || !address2) return alert('배송지 주소를 모두 입력해주세요.');
     if (!agree) return alert('구매 조건 확인 및 결제 진행에 동의해주세요.');
 
-    // 2. 데이터 구성
-    const phoneNumber = `${phone1}${phone2}${phone3}`; // 하이픈 제거 (11자 제한 대응)
+    // 3. 데이터 구성
+    const ordererPhoneNumber = `${ordererPhone1}${ordererPhone2}${ordererPhone3}`;
+    const receiverPhoneNumber = `${phone1}${phone2}${phone3}`;
     const fullAddress = `${address1} ${address2} [${zipCode}]`;
     const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
 
-    // commonPayload: 공통 배송/결제 정보
+  
+    const ordererInfo = {
+        name: ordererName,
+        phone: ordererPhoneNumber,
+        email: ordererEmail
+    };
+
+    // 배송지 정보 객체
     const commonPayload = {
         receiver: receiverName,
-        receiver_phone_number: phoneNumber,
+        receiver_phone_number: receiverPhoneNumber,
         address: fullAddress,
         address_message: message || '배송 전 연락바랍니다.',
         payment_method: paymentMethod,
-        // total_price, order_type 등은 개별 요청마다 다를 수 있음
     };
+
+    console.log('📦 주문자 정보:', ordererInfo); // 🆕 로그 출력 (나중에 서버 전송 가능)
 
     try {
         let results = [];
         
         if (orderData.order_kind === 'direct_order') {
-            // 1. 단일 상품 직접 주문
+            // 단일 상품 직접 주문
             const payload = {
                 ...commonPayload,
                 order_type: 'direct_order',
@@ -152,11 +188,7 @@ document.getElementById('btn-pay').addEventListener('click', async () => {
             const res = await API.createOrder(payload);
             results.push(res);
         } else {
-            // 2. 장바구니 주문 (다중 상품)
-            // 서버 스펙상 cart_order는 서버 카트에 담긴 상품만 주문 가능함.
-            // 현재 클라이언트 사이드 카트를 사용 중이므로, 
-            // 다중 상품 주문 시 'direct_order'를 병렬로 여러 번 호출하는 방식으로 처리.
-            
+            // 장바구니 주문 (다중 상품)
             const promises = orderData.items_info.map(item => {
                 const quantity = Number(item.quantity);
                 const price = Number(item.price);
@@ -183,7 +215,6 @@ document.getElementById('btn-pay').addEventListener('click', async () => {
             alert('모든 주문이 정상적으로 처리되었습니다.');
             
             // 주문 성공 후 처리: 카트 비우기
-            // cart_order뿐만 아니라 direct_order(바로구매)도 카트에 해당 상품이 있다면 제거
             if (orderData.order_kind === 'cart_order') {
                 removePurchasedItemsFromCart(orderData.cart_items);
             } else if (orderData.order_kind === 'direct_order') {
@@ -195,7 +226,6 @@ document.getElementById('btn-pay').addEventListener('click', async () => {
         } else {
             console.error('일부 또는 전체 주문 실패:', failedOrders);
             alert(`총 ${results.length}건 중 ${failedOrders.length}건의 주문 처리에 실패했습니다.\n첫 번째 오류: ${JSON.stringify(failedOrders[0].data)}`);
-            // 실패 시 로직은 복잡해질 수 있으나(부분 환불 등), 현재는 알림만 제공
         }
 
     } catch (error) {
@@ -208,10 +238,7 @@ document.getElementById('btn-pay').addEventListener('click', async () => {
 function removePurchasedItemsFromCart(purchasedIds) {
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
     
-    // ID 비교 시 형변환(String)하여 안전하게 처리
     const idSet = new Set(purchasedIds.map(id => String(id)));
-    
-    // idSet에 없는 것만 남김
     cart = cart.filter(item => !idSet.has(String(item.productId)));
     
     localStorage.setItem('cart', JSON.stringify(cart));

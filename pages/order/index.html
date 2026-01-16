@@ -49,49 +49,84 @@
                 </div>
             </section>
 
+            <!-- 배송정보 (섹션 헤더만) -->
+            <section class="order-section delivery-info-section">
+                <div class="section-header">
+                    <h2>배송정보</h2>
+                </div>
+            </section>
+
+            <!-- 주문자 정보 -->
+            <section class="order-section">
+                <div class="section-header">
+                    <h2>주문자 정보</h2>
+                </div>
+                <div class="delivery-form">
+                    <div class="form-content">
+                        <!-- 이름 -->
+                        <div class="input-row">
+                            <label for="orderer-name" class="input-label">이름</label>
+                            <input type="text" id="orderer-name" required>
+                        </div>
+                        <!-- 휴대폰 -->
+                        <div class="input-row">
+                            <label for="orderer-phone" class="input-label">휴대폰</label>
+                            <div class="phone-inputs">
+                                <input type="text" id="orderer-phone-1" maxlength="3" value="010">
+                                <span>-</span>
+                                <input type="text" id="orderer-phone-2" maxlength="4">
+                                <span>-</span>
+                                <input type="text" id="orderer-phone-3" maxlength="4">
+                            </div>
+                        </div>
+                        <!-- 이메일 -->
+                        <div class="input-row">
+                            <label for="orderer-email" class="input-label">이메일</label>
+                            <input type="email" id="orderer-email" class="full-width">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- 배송지 정보 -->
             <section class="order-section">
                 <div class="section-header">
                     <h2>배송지 정보</h2>
                 </div>
                 <div class="delivery-form">
-                    <div class="form-group">
-                        <label>수령인 확인</label>
-                        <div class="form-content">
-                            <input type="hidden" id="delivery-receiver-type"> <!-- Myself or New -->
-                            <!-- 이름 -->
-                            <div class="input-row">
-                                <label for="receiver-name" class="input-label">이름</label>
-                                <input type="text" id="receiver-name" required>
+                    <div class="form-content">
+                        <!-- 수령인 -->
+                        <div class="input-row">
+                            <label for="receiver-name" class="input-label">수령인</label>
+                            <input type="text" id="receiver-name" required>
+                        </div>
+                        <!-- 휴대폰 -->
+                        <div class="input-row">
+                            <label for="receiver-phone" class="input-label">휴대폰</label>
+                            <div class="phone-inputs">
+                                <input type="text" id="phone-1" maxlength="3" value="010">
+                                <span>-</span>
+                                <input type="text" id="phone-2" maxlength="4">
+                                <span>-</span>
+                                <input type="text" id="phone-3" maxlength="4">
                             </div>
-                            <!-- 휴대폰 -->
-                            <div class="input-row">
-                                <label for="receiver-phone" class="input-label">휴대폰</label>
-                                <div class="phone-inputs">
-                                    <input type="text" id="phone-1" maxlength="3" value="010">
-                                    <span>-</span>
-                                    <input type="text" id="phone-2" maxlength="4">
-                                    <span>-</span>
-                                    <input type="text" id="phone-3" maxlength="4">
+                        </div>
+                        <!-- 배송주소 -->
+                        <div class="input-row align-top">
+                            <label class="input-label">배송주소</label>
+                            <div class="address-inputs">
+                                <div class="zip-code-row">
+                                    <input type="text" id="zip-code" placeholder="우편번호">
+                                    <button type="button" class="btn-zip-search">우편번호 조회</button>
                                 </div>
+                                <input type="text" id="address-1" placeholder="주소" class="full-width">
+                                <input type="text" id="address-2" placeholder="상세주소" class="full-width">
                             </div>
-                            <!-- 배송주소 -->
-                            <div class="input-row align-top">
-                                <label class="input-label">배송주소</label>
-                                <div class="address-inputs">
-                                    <div class="zip-code-row">
-                                        <input type="text" id="zip-code" placeholder="우편번호" >
-                                        <button type="button" class="btn-zip-search">우편번호 조회</button>
-                                    </div>
-                                    <input type="text" id="address-1" placeholder="주소" class="full-width">
-                                    <input type="text" id="address-2" placeholder="상세주소" class="full-width">
-                                </div>
-                            </div>
-                            <!-- 배송 메시지 -->
-                            <div class="input-row">
-                                <label for="delivery-message" class="input-label">배송 메시지</label>
-                                <input type="text" id="delivery-message" placeholder="배송 메시지를 입력해주세요." class="full-width">
-                            </div>
+                        </div>
+                        <!-- 배송 메시지 -->
+                        <div class="input-row">
+                            <label for="delivery-message" class="input-label">배송 메시지</label>
+                            <input type="text" id="delivery-message" placeholder="배송 메시지를 입력해주세요." class="full-width">
                         </div>
                     </div>
                 </div>
@@ -165,7 +200,6 @@
     </main>
     
     <footer id="footer">
-        <!-- Reused from cart/index.html structure (simplified if needed, or JS loaded) -->
         <div class="container">
             <div class="footer-top-inner">
                 <div class="footer-links">

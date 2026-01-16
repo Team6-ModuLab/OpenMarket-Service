@@ -2,7 +2,7 @@
 .order-page {
     padding-bottom: 100px;
     background-color: #f2f2f2;
-    min-height: calc(100vh - 300px); /* Adjust based on header/footer */
+    min-height: calc(100vh - 300px);
     padding-top: 50px;
 }
 
@@ -16,9 +16,15 @@
 .order-section {
     background: #fff;
     border-radius: 10px;
-    padding: 20px; /* Reduced padding initially, inner parts might need more */
+    padding: 20px;
     margin-bottom: 30px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* 🆕 배송정보 섹션 (헤더만 있는 경우) */
+.delivery-info-section {
+    padding: 20px;
+    margin-bottom: 10px;
 }
 
 .section-header {
@@ -44,7 +50,7 @@
     margin-bottom: 16px;
 }
 
-.col-info { flex: 4; text-align: center; } /* Adjusted alignment */
+.col-info { flex: 4; text-align: center; }
 .col-discount { flex: 1; }
 .col-shipping { flex: 1; }
 .col-price { flex: 1; }
@@ -52,9 +58,9 @@
 .order-item {
     display: flex;
     align-items: center;
-    padding: 16px 10px; /* added horizontal padding */
+    padding: 16px 10px;
     border-bottom: 1px solid #C4C4C4;
-    font-size: 16px; /* Reduced font size slightly */
+    font-size: 16px;
 }
 
 .order-item:last-child {
@@ -64,12 +70,12 @@
 .order-item .col-info {
     display: flex;
     align-items: center;
-    gap: 15px; /* Spacing between image and text */
+    gap: 15px;
     text-align: left;
 }
 
 .item-image {
-    width: 80px; /* Fixed size */
+    width: 80px;
     height: 80px; 
     object-fit: cover;
     border-radius: 4px;
@@ -80,7 +86,7 @@
 .item-details {
     display: flex;
     flex-direction: column;
-    gap: 4px; /* Spacing between lines */
+    gap: 4px;
 }
 
 .item-seller {
@@ -130,19 +136,13 @@
     padding: 10px;
 }
 
+.form-content {
+    /* 🆕 form-group 제거하고 바로 form-content 사용 */
+}
+
 .line-divider {
     border-bottom: 2px solid #C4C4C4;
     margin: 20px 0;
-}
-
-.form-group header {
-    font-size: 18px;
-    font-weight: 500;
-    border-bottom: 2px solid #C4C4C4;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    box-shadow: none; /* Reset header style reuse if leaked */
-    background: transparent;
 }
 
 .input-row {
@@ -160,25 +160,34 @@
     font-size: 16px;
     font-weight: 500;
     flex-shrink: 0;
-    padding-top: 13px; /* visual alignment with input border */
+    padding-top: 13px;
 }
 
-.input-row input[type="text"] {
+.input-row input[type="text"],
+.input-row input[type="email"] {
     height: 40px;
     border: 1px solid #C4C4C4;
     padding: 0 10px;
     font-size: 16px;
-    flex: 1; /* default flex */
+    max-width: 334px; /* 기본값: 334px */
+    width: 100%;
+    border-radius: 4px;
+}
+
+/* 🆕 배송 메시지는 더 길게 */
+#delivery-message {
+    max-width: 1000px !important; /* 강제 적용 */
 }
 
 .phone-inputs {
     display: flex;
     align-items: center;
     gap: 10px;
+    max-width: 334px; /* 🆕 전체 너비 제한 */
 }
 
 .phone-inputs input {
-    width: 80px; /* specific width for phone parts */
+    width: 80px;
     text-align: center;
 }
 
@@ -186,7 +195,13 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    flex: 1;
+    width: 100%;
+}
+
+/* 🆕 주소와 상세주소만 길게 */
+.address-inputs input[type="text"]:not(.zip-code-row input) {
+    width: 100%;
+    max-width: 1000px;
 }
 
 .zip-code-row {
@@ -195,8 +210,7 @@
 }
 
 .zip-code-row input {
-    width: 150px;
-    flex: none; /* override flex:1 */
+    width: 170px; /* 🆕 우편번호는 짧게 (원래대로) */
 }
 
 .btn-zip-search {
@@ -208,17 +222,20 @@
     border-radius: 4px;
     cursor: pointer;
     font-weight: 500;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .full-width {
     width: 100%;
+    max-width: 1000px;
 }
 
 /* Layout for Bottom Section */
 .order-bottom-layout {
     display: flex;
     gap: 30px;
-    align-items: flex-start; /* Important for sticky */
+    align-items: flex-start;
 }
 
 .payment-method-section {
@@ -231,8 +248,8 @@
     flex-wrap: wrap;
     padding: 10px;
     border-bottom: 2px solid #C4C4C4;
-     padding-bottom: 20px;
-     margin-bottom: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .payment-option {
@@ -255,14 +272,13 @@
 
 /* Final Payment Aside */
 .final-payment-aside {
-    width: 400px; /* Fixed width */
+    width: 400px;
     background: #fff;
     border-radius: 10px;
     padding: 30px 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    /* Sticky implementation? */
     position: sticky;
-    top: 20px; /* Stick to top (adjust if header is sticky) */
+    top: 20px;
 }
 
 .final-payment-aside h2 {
@@ -298,7 +314,7 @@
 
 .total-amount {
     font-size: 24px;
-    color: #EB5757; /* Red for payment amount */
+    color: #EB5757;
 }
 
 .agreement-area {
@@ -328,5 +344,5 @@
 }
 
 .btn-pay:hover {
-    background-color: #1a9c3b; /* Slightly darker green */
+    background-color: #1a9c3b;
 }
