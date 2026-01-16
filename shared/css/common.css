@@ -9,7 +9,6 @@
     --font-family: 'Spoqa Han Sans Neo', sans-serif;
 }
 
-/* Sticky Footer Pattern - 줌 대응 레이아웃 */
 html {
     height: 100%;
 }
@@ -18,7 +17,7 @@ body {
     font-family: var(--font-family);
     color: var(--color-main-text);
     min-height: 100%;
-    min-width: 900px; /* viewport가 이보다 좁으면 가로 스크롤 발생 */
+    min-width: 900px;
     display: flex;
     flex-direction: column;
 }
@@ -34,7 +33,6 @@ main {
     padding: 0 20px;
 }
 
-/* Common Header */
 header {
     background-color: #fff;
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
@@ -50,7 +48,6 @@ header {
 
 .logo img {
     height: 40px; 
-    /* Placeholder size, adjust based on actual image */
 }
 
 .search-bar {
@@ -76,7 +73,6 @@ header {
     background: url('../assets/icons/icon-search.svg') no-repeat center/contain;
 }
 
-/* User Menu (Cart, MyPage, Login) */
 .user-menu {
     display: flex;
     gap: 26px;
@@ -97,8 +93,6 @@ header {
     height: 32px;
 }
 
-/* Footer (Simple placeholder) */
-/* Footer */
 #footer {
     flex-shrink: 0;
     background-color: var(--color-bg-grey);
@@ -134,7 +128,7 @@ header {
 
 .footer-links .divider {
     margin: 0 14px;
-    color: #C4C4C4; /* Or simpler separator */
+    color: #C4C4C4;
     font-size: 12px;
 }
 
@@ -153,16 +147,15 @@ header {
 .footer-bottom .company-name {
     font-weight: 700;
     margin-bottom: 12px;
-    color: var(--color-sub-text); /* Usually slightly lighter or strictly match design */
+    color: var(--color-sub-text);
 }
 
-/* Adjust colors based on image if needed. Image text looks grey-ish. */
 .footer-links a {
     color: #000;
 }
 
 #footer {
-    color: var(--color-sub-text); /* Base text color for address */
+    color: var(--color-sub-text);
 }
 
 .footer-bottom .company-name {
@@ -174,12 +167,10 @@ address {
     line-height: 24px;
 }
 
-/* Hidden Utility Class */
 .hidden {
     display: none !important;
 }
 
-/* User Menu Dropdown */
 .user-menu-item {
     position: relative;
 }
@@ -196,14 +187,13 @@ address {
     box-shadow: 0 0 6px rgba(0,0,0,0.1);
     z-index: 100;
     padding: 10px 0;
-    display: none; /* Toggled by JS */
+    display: none;
 }
 
 .user-dropdown.show {
     display: block;
 }
 
-/* Triangle for dropdown */
 .user-dropdown::before {
     content: '';
     position: absolute;
@@ -213,20 +203,37 @@ address {
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
     border-bottom: 8px solid #fff;
-    filter: drop-shadow(0 -1px 0 #C4C4C4); /* Rough border simulation */
+    filter: drop-shadow(0 -1px 0 #C4C4C4);
 }
 
 .user-dropdown button {
     display: block;
-    width: 100%;
+    width: calc(100% - 20px);
+    margin: 5px 10px;
     padding: 10px 0;
     font-size: 14px;
     color: #767676;
     background: #fff;
     text-align: center;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    border-radius: 10px;
 }
 
-.user-dropdown button:hover {
+.user-dropdown button:hover,
+.user-dropdown button:focus {
     color: #000;
-    background: #F2F2F2;
+    background: #fff;
+    border: 1px solid #000;
+}
+
+.user-dropdown button:disabled {
+    border: 1px solid transparent;
+}
+
+.user-dropdown button:disabled:hover {
+    color: #999;
+    cursor: not-allowed;
+    border: 1px solid transparent;
+    background: #fff;
 }

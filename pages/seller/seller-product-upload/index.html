@@ -42,6 +42,7 @@
                             <img src="../../../shared/assets/icons/icon-image.svg" alt="" class="icon-placeholder">
                         </div>
                         <input type="file" id="img-upload" accept="image/jpg,image/jpeg,image/png,image/gif" hidden>
+                        <p class="error-message" id="image-error"></p>
                     </div>
 
                     <div class="input-fields-area">
@@ -51,6 +52,7 @@
                                 <input type="text" id="product-name" maxlength="20" required>
                                 <span class="char-count"><span id="name-length">0</span>/20</span>
                             </div>
+                            <p class="error-message" id="name-error"></p>
                         </div>
 
                         <div class="input-group">
@@ -59,6 +61,7 @@
                                 <input type="text" id="product-price" required>
                                 <span class="unit">원</span>
                             </div>
+                            <p class="error-message" id="price-error"></p>
                         </div>
 
                         <div class="input-group">
@@ -76,6 +79,7 @@
                                 <input type="text" id="shipping-fee" required>
                                 <span class="unit">원</span>
                             </div>
+                            <p class="error-message" id="shipping-fee-error"></p>
                         </div>
 
                         <div class="input-group">
@@ -84,6 +88,7 @@
                                 <input type="text" id="stock" required>
                                 <span class="unit">개</span>
                             </div>
+                            <p class="error-message" id="stock-error"></p>
                         </div>
                     </div>
                 </div>
@@ -93,6 +98,7 @@
                     <div class="editor-area">
                         <textarea id="product-info" placeholder="상품 상세 정보를 입력해주세요." required></textarea>
                     </div>
+                    <p class="error-message" id="info-error"></p>
                 </div>
 
                 <div class="form-actions">
