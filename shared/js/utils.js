@@ -96,8 +96,7 @@ function updateHeader() {
 
         // Logout
         btnLogout.addEventListener('click', () => {
-             localStorage.removeItem('access');
-             localStorage.removeItem('userType');
+             AuthService.clearAuth();
              alert('로그아웃 되었습니다.');
              window.location.href = `${getPagesBasePath()}../index.html`;
         });
@@ -204,6 +203,8 @@ function setupSearch(searchResultPath = '') {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // access 토큰 없고 refresh 토큰 있으면 자동 갱신 시도
+    await AuthService.initAuth();
     updateHeader();
 });
