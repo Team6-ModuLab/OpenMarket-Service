@@ -166,9 +166,9 @@ const Modal = {
                 font-size: 16px;
             }
             .modal-btn--confirm {
-                background: var(--color-primary, #21bf48);
-                color: #fff;
-                border: none;
+            background: var(--color-primary, #21bf48) !important;
+            color: #fff !important;
+            border: none !important;
             }
             .modal-btn--confirm:hover {
                 background: #1ca73e;
