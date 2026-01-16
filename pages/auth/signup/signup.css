@@ -371,6 +371,10 @@ label {
     margin-top: 30px;
 }
 
+#signup-bottom-form {
+    width: 100%;
+}
+
 .seller-only-fields {
     display: block;
 }

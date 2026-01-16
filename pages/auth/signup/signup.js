@@ -94,7 +94,7 @@ idCheckBtn.addEventListener('click', async () => {
         const data = await response.json();
         console.log('Response:', response.status, data);
         if (response.ok) {
-            showSuccess(idMessage, data.message || '멋진 아이디네요 :)');
+            showSuccess(idMessage, data.message || '사용 가능한 아이디입니다.');
             isIdChecked = true;
             lastCheckedId = username;
             fieldStates.userId = true;
@@ -362,7 +362,6 @@ if (businessCheckBtn) {
     });
 }
 
-// 스토어 이름 - 빈 값만 체크
 if (storeName) {
     storeName.addEventListener('input', () => {
         fieldStates.store = storeName.value.trim().length > 0;
@@ -412,7 +411,9 @@ signupForm.addEventListener('submit', async (e) => {
             : `${BASE_URL}/accounts/seller/signup/`;
         if (currentUserType === 'SELLER') {
             signupData.company_registration_number = businessNumber.value.replace(/-/g, '');
-            signupData.store_name = storeName.value.trim();
+            const baseStoreName = storeName.value.trim();
+            const timestamp = Date.now();
+            signupData.store_name = `${baseStoreName}_${timestamp}`;
         }
         const response = await fetch(endpoint, {
             method: 'POST',
@@ -436,6 +437,14 @@ signupForm.addEventListener('submit', async (e) => {
         alert('서버 연결에 실패했습니다.');
     }
 });
+
+const signupBottomForm = document.getElementById('signup-bottom-form');
+if (signupBottomForm) {
+    signupBottomForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        signupForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+    });
+}
 
 function showError(el, msg) {
     el.textContent = msg;
