@@ -19,6 +19,18 @@ const Utils = (function() {
         MODAL_CSS: 'modal-css'
     };
 
+    // 드롭다운 외부 클릭 리스너 등록 여부 (private)
+    let isDropdownListenerRegistered = false;
+
+    // 드롭다운 외부 클릭 핸들러 (private)
+    function handleDropdownOutsideClick(e) {
+        const btnMyPage = document.querySelector('#btn-mypage');
+        const dropdown = document.querySelector('.user-dropdown');
+        if (btnMyPage && dropdown && !btnMyPage.contains(e.target)) {
+            dropdown.classList.remove('show');
+        }
+    }
+
     // 아이콘 경로 상수 (private)
     const ICON_BASE_PATH = '../../../shared/assets/icons';
     const ICONS = {
@@ -176,11 +188,11 @@ const Utils = (function() {
                 });
             }
 
-            document.addEventListener('click', (e) => {
-                if (!btnMyPage.contains(e.target)) {
-                    dropdown.classList.remove('show');
-                }
-            });
+            // 드롭다운 외부 클릭 리스너 (한 번만 등록)
+            if (!isDropdownListenerRegistered) {
+                document.addEventListener('click', handleDropdownOutsideClick);
+                isDropdownListenerRegistered = true;
+            }
 
             btnLogout.addEventListener('click', () => {
                  AuthService.clearAuth();
