@@ -167,52 +167,65 @@ flowchart TB
 #### 로그인
 > 구매자/판매자 로그인 페이지
 
-![로그인 화면](./docs/visuals/login.png)
+![로그인 화면](./docs/visuals/로그인.png)
 
 #### 회원가입
 > 구매자/판매자 탭 선택 후 회원가입
 
-![회원가입 화면](./docs/visuals/signup.png)
+| 구매자 회원가입 | 판매자 회원가입 |
+|:---:|:---:|
+| ![구매자 회원가입](./docs/visuals/회원가입-구매자.png) | ![판매자 회원가입](./docs/visuals/회원가입-판매자.png) |
 
-#### 상품 목록
+#### 상품 목록 (메인)
 > 메인 페이지 - 배너 슬라이더와 전체 상품 목록
 
-![상품 목록 화면](./docs/visuals/product-list.png)
+| 비로그인 | 구매자 로그인 | 판매자 로그인 |
+|:---:|:---:|:---:|
+| ![비로그인](./docs/visuals/상품목록-no.png) | ![구매자](./docs/visuals/상품목록-구매자.png) | ![판매자](./docs/visuals/상품목록-판매자.png) |
+
+#### 상품 검색
+> 키워드로 상품 검색
+
+![상품 검색 화면](./docs/visuals/제품검색.png)
 
 #### 상품 상세
 > 상품 정보, 수량 선택, 장바구니/바로구매 버튼
 
-![상품 상세 화면](./docs/visuals/product-detail.png)
+![상품 상세 화면](./docs/visuals/상품상세-구매자.png)
 
 #### 장바구니
 > 담은 상품 목록, 수량 조절, 선택 주문
 
-![장바구니 화면](./docs/visuals/cart.png)
+![장바구니 화면](./docs/visuals/장바구니.png)
 
-#### 주문
+#### 주문/결제
 > 배송지 입력, 결제 수단 선택, 최종 결제
 
-![주문 화면](./docs/visuals/order.png)
+| 주문 정보 입력 | 최종 결제 확인 |
+|:---:|:---:|
+| ![주문 결제](./docs/visuals/주문결제.png) | ![최종 결제 모달](./docs/visuals/최종결제모달창.png) |
 
 #### 마이페이지
 > 주문 내역 목록 조회
 
-![마이페이지 화면](./docs/visuals/mypage.png)
+![마이페이지 화면](./docs/visuals/마이페이지.png)
 
 #### 주문 상세
 > 개별 주문의 상세 정보 확인
 
-![주문 상세 화면](./docs/visuals/order-detail.png)
+![주문 상세 화면](./docs/visuals/주문상세내역.png)
 
 #### 판매자 센터
 > 등록한 상품 목록 관리
 
-![판매자 센터 화면](./docs/visuals/seller-center.png)
+![판매자 센터 화면](./docs/visuals/판매자센터.png)
 
 #### 상품 등록/수정
 > 상품 정보 및 이미지 등록/수정
 
-![상품 등록 화면](./docs/visuals/seller-product-upload.png)
+| 상품 등록 | 상품 수정 |
+|:---:|:---:|
+| ![상품 등록](./docs/visuals/상품등록.png) | ![상품 수정](./docs/visuals/상품수정.png) |
 
 ---
 
@@ -517,53 +530,27 @@ refactor: 매직 스트링을 상수로 추출
 
 ---
 
-## 추가로 채워야 할 정보 체크리스트
-
-- [ ] 배포 URL 추가 (GitHub Pages / Netlify / Vercel)
-- [ ] 메인 화면 스크린샷 (`docs/visuals/main-screenshot.png`)
-- [ ] MindMeister 유저 시나리오 맵 (`docs/visuals/mindmeister-user-scenario.png`)
-- [ ] 시연 GIF (`docs/visuals/demo.gif`)
-- [ ] Wiki 페이지 생성 및 링크 추가
-- [ ] 팀원 실명 확인 및 수정 (강민기, 권하리 등)
-- [ ] 라이선스 명시 (MIT / Apache 2.0 등)
-- [ ] 추가 트러블슈팅 사례 작성
-- [ ] 테스트 계정 정보 추가 (구매자/판매자)
-
-### 페이지별 스크린샷 체크리스트
-
-- [ ] 로그인 (`docs/visuals/login.png`)
-- [ ] 회원가입 (`docs/visuals/signup.png`)
-- [ ] 상품 목록 (`docs/visuals/product-list.png`)
-- [ ] 상품 상세 (`docs/visuals/product-detail.png`)
-- [ ] 장바구니 (`docs/visuals/cart.png`)
-- [ ] 주문 (`docs/visuals/order.png`)
-- [ ] 마이페이지 (`docs/visuals/mypage.png`)
-- [ ] 주문 상세 (`docs/visuals/order-detail.png`)
-- [ ] 판매자 센터 (`docs/visuals/seller-center.png`)
-- [ ] 상품 등록/수정 (`docs/visuals/seller-product-upload.png`)
-
----
-
-## 이미지 파일 경로/명명 규칙
+## 이미지 파일 경로
 
 ```
 docs/
 └── visuals/
-    ├── main-screenshot.png           # 메인 화면 스크린샷
-    ├── mindmeister-user-scenario.png # MindMeister 유저 시나리오 맵
-    ├── demo.gif                      # 주요 기능 시연 GIF
-    │
-    │   # 페이지별 스크린샷
-    ├── login.png                     # 로그인 페이지
-    ├── signup.png                    # 회원가입 페이지
-    ├── product-list.png              # 상품 목록 페이지
-    ├── product-detail.png            # 상품 상세 페이지
-    ├── cart.png                      # 장바구니 페이지
-    ├── order.png                     # 주문 페이지
-    ├── mypage.png                    # 마이페이지
-    ├── order-detail.png              # 주문 상세 페이지
-    ├── seller-center.png             # 판매자 센터
-    └── seller-product-upload.png     # 상품 등록/수정 페이지
+    ├── 로그인.png                # 로그인 페이지
+    ├── 회원가입-구매자.png        # 구매자 회원가입
+    ├── 회원가입-판매자.png        # 판매자 회원가입
+    ├── 상품목록-no.png           # 상품 목록 (비로그인)
+    ├── 상품목록-구매자.png        # 상품 목록 (구매자)
+    ├── 상품목록-판매자.png        # 상품 목록 (판매자)
+    ├── 제품검색.png              # 상품 검색 결과
+    ├── 상품상세-구매자.png        # 상품 상세 페이지
+    ├── 장바구니.png              # 장바구니 페이지
+    ├── 주문결제.png              # 주문/결제 페이지
+    ├── 최종결제모달창.png         # 최종 결제 확인 모달
+    ├── 마이페이지.png            # 마이페이지
+    ├── 주문상세내역.png          # 주문 상세 내역
+    ├── 판매자센터.png            # 판매자 센터
+    ├── 상품등록.png              # 상품 등록 페이지
+    └── 상품수정.png              # 상품 수정 페이지
 ```
 
 ---
