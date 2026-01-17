@@ -162,8 +162,57 @@ flowchart TB
     style K fill:#e8f5e9
 ```
 
-![Screen Design](./docs/visuals/screen-design.png)
-> *Figma 화면 설계 캡처를 `docs/visuals/screen-design.png`에 저장*
+### 페이지별 화면
+
+#### 로그인
+> 구매자/판매자 로그인 페이지
+
+![로그인 화면](./docs/visuals/login.png)
+
+#### 회원가입
+> 구매자/판매자 탭 선택 후 회원가입
+
+![회원가입 화면](./docs/visuals/signup.png)
+
+#### 상품 목록
+> 메인 페이지 - 배너 슬라이더와 전체 상품 목록
+
+![상품 목록 화면](./docs/visuals/product-list.png)
+
+#### 상품 상세
+> 상품 정보, 수량 선택, 장바구니/바로구매 버튼
+
+![상품 상세 화면](./docs/visuals/product-detail.png)
+
+#### 장바구니
+> 담은 상품 목록, 수량 조절, 선택 주문
+
+![장바구니 화면](./docs/visuals/cart.png)
+
+#### 주문
+> 배송지 입력, 결제 수단 선택, 최종 결제
+
+![주문 화면](./docs/visuals/order.png)
+
+#### 마이페이지
+> 주문 내역 목록 조회
+
+![마이페이지 화면](./docs/visuals/mypage.png)
+
+#### 주문 상세
+> 개별 주문의 상세 정보 확인
+
+![주문 상세 화면](./docs/visuals/order-detail.png)
+
+#### 판매자 센터
+> 등록한 상품 목록 관리
+
+![판매자 센터 화면](./docs/visuals/seller-center.png)
+
+#### 상품 등록/수정
+> 상품 정보 및 이미지 등록/수정
+
+![상품 등록 화면](./docs/visuals/seller-product-upload.png)
 
 ---
 
@@ -473,13 +522,25 @@ refactor: 매직 스트링을 상수로 추출
 - [ ] 배포 URL 추가 (GitHub Pages / Netlify / Vercel)
 - [ ] 메인 화면 스크린샷 (`docs/visuals/main-screenshot.png`)
 - [ ] MindMeister 유저 시나리오 맵 (`docs/visuals/mindmeister-user-scenario.png`)
-- [ ] Figma 화면 설계 캡처 (`docs/visuals/screen-design.png`)
 - [ ] 시연 GIF (`docs/visuals/demo.gif`)
 - [ ] Wiki 페이지 생성 및 링크 추가
 - [ ] 팀원 실명 확인 및 수정 (강민기, 권하리 등)
 - [ ] 라이선스 명시 (MIT / Apache 2.0 등)
 - [ ] 추가 트러블슈팅 사례 작성
 - [ ] 테스트 계정 정보 추가 (구매자/판매자)
+
+### 페이지별 스크린샷 체크리스트
+
+- [ ] 로그인 (`docs/visuals/login.png`)
+- [ ] 회원가입 (`docs/visuals/signup.png`)
+- [ ] 상품 목록 (`docs/visuals/product-list.png`)
+- [ ] 상품 상세 (`docs/visuals/product-detail.png`)
+- [ ] 장바구니 (`docs/visuals/cart.png`)
+- [ ] 주문 (`docs/visuals/order.png`)
+- [ ] 마이페이지 (`docs/visuals/mypage.png`)
+- [ ] 주문 상세 (`docs/visuals/order-detail.png`)
+- [ ] 판매자 센터 (`docs/visuals/seller-center.png`)
+- [ ] 상품 등록/수정 (`docs/visuals/seller-product-upload.png`)
 
 ---
 
@@ -488,10 +549,21 @@ refactor: 매직 스트링을 상수로 추출
 ```
 docs/
 └── visuals/
-    ├── main-screenshot.png          # 메인 화면 스크린샷
+    ├── main-screenshot.png           # 메인 화면 스크린샷
     ├── mindmeister-user-scenario.png # MindMeister 유저 시나리오 맵
-    ├── screen-design.png            # Figma 화면 설계 캡처
-    └── demo.gif                     # 주요 기능 시연 GIF
+    ├── demo.gif                      # 주요 기능 시연 GIF
+    │
+    │   # 페이지별 스크린샷
+    ├── login.png                     # 로그인 페이지
+    ├── signup.png                    # 회원가입 페이지
+    ├── product-list.png              # 상품 목록 페이지
+    ├── product-detail.png            # 상품 상세 페이지
+    ├── cart.png                      # 장바구니 페이지
+    ├── order.png                     # 주문 페이지
+    ├── mypage.png                    # 마이페이지
+    ├── order-detail.png              # 주문 상세 페이지
+    ├── seller-center.png             # 판매자 센터
+    └── seller-product-upload.png     # 상품 등록/수정 페이지
 ```
 
 ---
