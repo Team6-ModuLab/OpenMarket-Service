@@ -1,0 +1,436 @@
+.logo-link {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.logo-link:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 200px;
+    margin-bottom: 60px;
+}
+
+.logo img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.signup-box {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    overflow: visible;
+    background-color: #ffffff;
+}
+
+.tab-container {
+    display: flex;
+    margin: -1px -1px 0 -1px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #c4c4c4;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    font-size: 16px;
+    color: #767676;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.tab-btn:first-child {
+    border-right: 1px solid #c4c4c4;
+}
+
+.tab-btn.active {
+    background-color: #f2f2f2;
+    color: #000000;
+    font-weight: 700;
+}
+
+.tab-btn:hover {
+    background-color: #f8f8f8;
+}
+
+.signup-form {
+    padding: 36px;
+    border: 1px solid #c4c4c4;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+label {
+    display: block;
+    font-size: 16px;
+    color: #767676;
+    margin-bottom: 10px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #21BF48;
+}
+
+.input-field.error {
+    border-color: #EB5757;
+}
+
+.input-field.success {
+    border-color: #21BF48;
+}
+
+.password-input-container {
+    position: relative;
+}
+
+.password-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-image: url('../../../shared/assets/icons/icon-check-off.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: block;
+}
+
+.password-icon.show {
+    background-image: url('../../../shared/assets/icons/icon-check-on.svg');
+}
+
+.input-with-button {
+    display: flex;
+    gap: 12px;
+}
+
+.input-with-button .input-field {
+    flex: 1;
+}
+
+.check-btn {
+    padding: 16px 24px;
+    background-color: #21BF48;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0;
+}
+
+.check-btn:hover {
+    background-color: #1FA03F;
+}
+
+.validation-message {
+    margin-top: 8px;
+    font-size: 14px;
+    min-height: 20px;
+}
+
+.validation-message.error {
+    color: #EB5757;
+}
+
+.validation-message.success {
+    color: #21BF48;
+}
+
+.phone-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select-trigger {
+    width: 100%;
+    padding: 16px;
+    padding-right: 50px;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.3s ease;
+    position: relative;
+}
+
+.custom-select-trigger::after {
+    content: '';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #767676;
+    transition: transform 0.3s ease;
+}
+
+.custom-select.open .custom-select-trigger::after {
+    border-top: none;
+    border-bottom: 5px solid #767676;
+    transform: translateY(-50%);
+}
+
+.custom-select-trigger:hover,
+.custom-select.open .custom-select-trigger {
+    border-color: #21BF48;
+}
+
+.custom-options {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    max-height: 184px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-select.open .custom-options {
+    display: block;
+}
+
+.custom-option {
+    padding: 14px 16px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.custom-option:hover {
+    background-color: #f8f8f8;
+}
+
+.custom-option.selected {
+    background-color: #E8F5E9;
+    border-bottom: 2px solid #21BF48;
+}
+
+.custom-options::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-options::-webkit-scrollbar-thumb {
+    background: #c4c4c4;
+    border-radius: 4px;
+}
+
+.select-field option {
+    text-align: center;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.phone-input {
+    width: 100%;
+    text-align: center;
+}
+
+.checkbox-group {
+    margin-top: 30px;
+    margin-bottom: 16px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    position: relative;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    margin-top: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url('../../../shared/assets/icons/check-box.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+}
+
+.checkbox-container input[type="checkbox"]:checked {
+    background-image: url('../../../shared/assets/icons/check-fill-box.svg');
+}
+
+.checkbox-text {
+    font-size: 16px;
+    color: #767676;
+    line-height: 1.5;
+}
+
+.link-text {
+    color: #767676;
+    text-decoration: underline;
+    font-weight: 400;
+}
+
+.link-text:hover {
+    color: #767676;
+}
+
+.signup-btn {
+    width: 100%;
+    padding: 19px;
+    background-color: #c4c4c4;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: not-allowed;
+    transition: background-color 0.3s ease;
+}
+
+.signup-btn.active {
+    background-color: #21BF48;
+    cursor: pointer;
+}
+
+.signup-btn.active:hover {
+    background-color: #1FA03F;
+}
+
+#signup-submit {
+    margin-top: 30px;
+}
+
+#signup-bottom-form {
+    width: 100%;
+}
+
+.seller-only-fields {
+    display: block;
+}
+
+.seller-only-fields.hidden {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 20px 16px;
+    }
+
+    .logo {
+        width: 150px;
+        margin-bottom: 40px;
+    }
+
+    .tab-btn {
+        padding: 16px 12px;
+        font-size: 14px;
+    }
+
+    .signup-form {
+        padding: 24px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    .input-field,
+    .select-field {
+        padding: 14px;
+        font-size: 14px;
+    }
+
+    .check-btn {
+        padding: 14px 20px;
+        font-size: 14px;
+    }
+
+    .validation-message {
+        font-size: 13px;
+    }
+
+    .phone-container {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .checkbox-text {
+        font-size: 14px;
+    }
+
+    .signup-btn {
+        padding: 16px;
+        font-size: 16px;
+    }
+}

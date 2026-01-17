@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU - 회원가입</title>
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <div class="container">
+        <a href="../login/index.html" class="logo-link">
+            <div class="logo">
+                <img src="../../../shared/assets/icons/Logo-hodu.png" alt="HODU 로고">
+            </div>
+        </a>
+
+        <div class="signup-box">
+            <div class="tab-container">
+                <button type="button" class="tab-btn active" id="buyer-tab" data-type="BUYER">
+                    구매회원가입
+                </button>
+                <button type="button" class="tab-btn" id="seller-tab" data-type="SELLER">
+                    판매회원가입
+                </button>
+            </div>
+
+            <form class="signup-form" id="signup-form">
+                <div class="form-group">
+                    <label for="user-id">아이디</label>
+                    <div class="input-with-button">
+                        <input type="text" id="user-id" class="input-field" autocomplete="off">
+                        <button type="button" class="check-btn" id="id-check-btn">중복확인</button>
+                    </div>
+                    <p class="validation-message" id="id-message"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <div class="password-input-container">
+                        <input type="password" id="password" class="input-field" autocomplete="new-password">
+                        <span class="password-icon" id="password-icon"></span>
+                    </div>
+                    <p class="validation-message" id="password-validation-message"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="password-confirm">비밀번호 재확인</label>
+                    <div class="password-input-container">
+                        <input type="password" id="password-confirm" class="input-field" autocomplete="new-password">
+                        <span class="password-icon" id="password-confirm-icon"></span>
+                    </div>
+                    <p class="validation-message" id="password-message"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">이름</label>
+                    <input type="text" id="name" class="input-field" autocomplete="name">
+                    <p class="validation-message" id="name-message"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone-prefix">휴대폰번호</label>
+                    <div class="phone-container">
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select" id="phone-prefix-custom">
+                                <div class="custom-select-trigger">010</div>
+                                <div class="custom-options">
+                                    <div class="custom-option selected" data-value="010">010</div>
+                                    <div class="custom-option" data-value="011">011</div>
+                                    <div class="custom-option" data-value="016">016</div>
+                                    <div class="custom-option" data-value="017">017</div>
+                                    <div class="custom-option" data-value="018">018</div>
+                                    <div class="custom-option" data-value="019">019</div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="phone-prefix" value="010">
+                        </div>
+                        <input type="text" id="phone-middle" class="input-field phone-input" maxlength="4" inputmode="numeric">
+                        <input type="text" id="phone-last" class="input-field phone-input" maxlength="4" inputmode="numeric">
+                    </div>
+                    <p class="validation-message" id="phone-message"></p>
+                </div>
+
+                <div class="seller-only-fields hidden">
+                    <div class="form-group">
+                        <label for="business-number">사업자 등록번호</label>
+                        <div class="input-with-button">
+                            <input type="text" id="business-number" class="input-field" maxlength="12" inputmode="numeric" placeholder="000-00-00000">
+                            <button type="button" class="check-btn" id="business-check-btn">인증</button>
+                        </div>
+                        <p class="validation-message" id="business-message"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="store-name">스토어 이름</label>
+                        <input type="text" id="store-name" class="input-field" maxlength="20">
+                        <p class="validation-message" id="store-message"></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="form-group checkbox-group">
+            <label class="checkbox-container">
+                <input type="checkbox" id="terms-agree">
+                <span class="checkbox-text">
+                    호두샵의 <a href="#" class="link-text">이용약관</a> 및 
+                    <a href="#" class="link-text">개인정보처리방침</a>에 대한 내용을 확인하였고 동의합니다.
+                </span>
+            </label>
+        </div>
+        
+        <button type="button" class="signup-btn" id="signup-submit" disabled>가입하기</button>
+    </div>
+
+    <script src="../../../shared/js/constants.js"></script>
+    <script src="signup.js"></script>
+</body>
+</html>

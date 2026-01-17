@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU - Open Market</title>
+    <link rel="stylesheet" href="../../../shared/css/reset.css">
+    <link rel="stylesheet" href="../../../shared/css/common.css">
+    <link rel="stylesheet" href="./product-list.css">
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="./index.html" class="logo">
+                <img src="../../../shared/assets/icons/Logo-hodu.png" alt="HODU">
+            </a>
+            <div class="search-bar">
+            <input type="text" id="search-input" placeholder="상품을 검색해보세요!">
+            <button type="button" id="search-btn"></button>
+            </div>
+            <div class="user-menu">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="banner-section" aria-label="이벤트 배너">
+            <div class="banner-container">
+                <div class="banner-track" id="banner-track">
+                </div>
+                <button type="button" class="banner-btn banner-btn-prev" aria-label="이전 배너">
+                    <img src="../../../shared/assets/icons/icon-swiper-1.svg" alt="">
+                </button>
+                <button type="button" class="banner-btn banner-btn-next" aria-label="다음 배너">
+                    <img src="../../../shared/assets/icons/icon-swiper-2.svg" alt="">
+                </button>
+            </div>
+            <div class="banner-dots" id="banner-dots">
+            </div>
+        </section>
+
+        <div class="container">
+            <section class="product-list-wrapper">
+        <ul id="product-list" class="product-grid">
+        </ul>
+            </section>
+        </div>
+    </main>
+
+    <footer id="footer">
+    </footer>
+
+    <script src="../../../shared/js/constants.js"></script>
+    <script src="../../../shared/js/components/Modal.js"></script>
+    <script src="../../../shared/js/auth.js"></script>
+    <script src="../../../shared/js/api.js"></script>
+    <script src="../../../shared/js/utils.js"></script>
+    <script src="./product-list.js"></script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get('id');
+
+let product = null;
+let quantity = 1;
+
+const detailArea = document.getElementById('product-detail-area');
+
+async function getRealProductDetail(id) {
+    const response = await fetch(`${CONFIG.API_BASE_URL}/products/${id}/`);
+    if (!response.ok) {
+        throw new Error('상품을 찾을 수 없습니다.');
+    }
+    return await response.json();
+}
+
+async function loadProduct() {
+    if (!productId) {
+        alert('잘못된 접근입니다.');
+        window.location.href = '../list/index.html';
+        return;
+    }
+
+    try {
+        product = await getRealProductDetail(productId);
+        console.log('상품 정보:', product);
+        renderDetail();
+    } catch (error) {
+        console.error('상품 불러오기 실패:', error);
+        alert('상품 정보를 불러올 수 없습니다.');
+        window.location.href = '../list/index.html';
+    }
+}
+
+function renderDetail() {
+    quantity = 1;
+    const userType = localStorage.getItem(STORAGE_KEYS.USER_TYPE);
+    const loggedInSeller = localStorage.getItem(STORAGE_KEYS.ACCOUNT_NAME) || localStorage.getItem('username');
+    const isMyProduct = (userType === USER_TYPES.SELLER && product.seller && (product.seller.username === loggedInSeller || product.seller.account_name === loggedInSeller));
+    let actionButtonsHTML = '';
+
+    if (userType === USER_TYPES.SELLER) {
+        if (isMyProduct) {
+            actionButtonsHTML = `
+                <div class="action-buttons">
+                    <button class="btn-cart" type="button" disabled style="background:#ccc; cursor:not-allowed;">장바구니</button>
+                    <button class="btn-buy" type="button" disabled style="background:#ccc; cursor:not-allowed;">바로 구매</button>
+                </div>
+                <p style="color:#EB5757; margin-top:10px; font-size:14px;">판매자는 상품을 구매할 수 없습니다.</p>
+                <div style="margin-top: 10px; display:flex; gap:14px;">
+                    <button id="btn-edit-product" style="flex:1; background:var(--color-primary); color:#fff; padding:19px 0; border:none; font-size:18px; font-weight:700; border-radius:5px; cursor:pointer;">수정</button>
+                    <button id="btn-delete-product" style="flex:1; background:#fff; color:#767676; border:1px solid #c4c4c4; padding:19px 0; font-size:18px; font-weight:700; border-radius:5px; cursor:pointer;">삭제</button>
+                </div>
+            `;
+        } else {
+            actionButtonsHTML = `
+                <div class="action-buttons">
+                    <button class="btn-buy" type="button" disabled style="background:#ccc; cursor:not-allowed;">바로 구매</button>
+                    <button class="btn-cart" type="button" disabled style="background:#ccc; cursor:not-allowed;">장바구니</button>
+                </div>
+                <p style="color:#EB5757; margin-top:20px; font-size:14px;">판매자는 상품을 구매할 수 없습니다.</p>
+            `;
+        }
+    } else {
+        actionButtonsHTML = `
+            <div class="action-buttons">
+                <button class="btn-buy" type="button">바로 구매</button>
+                <button class="btn-cart" type="button">장바구니</button>
+            </div>
+        `;
+    }
+
+    detailArea.innerHTML = `
+        <div class="product-main">
+            <div class="detail-img">
+                <img src="${product.image}" alt="${product.name}">
+            </div>
+            <div class="detail-info">
+                <p class="detail-seller">${product.seller?.store_name || ''}</p>
+                <h2 class="detail-name">${product.name}</h2>
+                <p class="detail-price">${formatPrice(product.price)}<span>원</span></p>
+                <p class="delivery-info">
+                    택배배송 / ${product.shipping_fee > 0 ? formatPrice(product.shipping_fee) + '원' : '무료배송'}
+                </p>
+                <div class="quantity-control">
+                    <button id="btn-minus" type="button" ${userType === USER_TYPES.SELLER ? 'disabled style="background:#ccc; cursor:not-allowed;"' : ''}>-</button>
+                    <input type="text" id="quantity-input" value="1" readonly>
+                    <button id="btn-plus" type="button" ${userType === USER_TYPES.SELLER ? 'disabled style="background:#ccc; cursor:not-allowed;"' : ''}>+</button>
+                </div>
+                <div class="total-price-area">
+                    <p>총 상품 금액</p>
+                    <div class="total-price-wrapper">
+                        <span class="total-number-items">총 수량 <span id="total-qty">1</span>개</span>
+                        <span class="total-price-val" id="total-price">${formatPrice(product.price)}<span>원</span></span>
+                    </div>
+                </div>
+
+                ${Number(product.stock ?? 0) <= 0 ? `<p class="stock-alert">현재 재고가 없습니다.</p>` : ``}
+                ${actionButtonsHTML}
+            </div>
+        </div>
+
+        <div class="product-tabs">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="detail">상세</button>
+                <button class="tab-btn" data-tab="review">리뷰</button>
+                <button class="tab-btn" data-tab="qna">Q&A</button>
+                <button class="tab-btn" data-tab="return">반품/교환정보</button>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-panel active" id="tab-detail">
+                    <p>${product.info || '상품 상세 정보입니다.'}</p>
+                </div>
+                <div class="tab-panel" id="tab-review"><p>리뷰가 없습니다.</p></div>
+                <div class="tab-panel" id="tab-qna"><p>Q&A가 없습니다.</p></div>
+                <div class="tab-panel" id="tab-return">
+                    <h3>반품/교환 안내</h3>
+                    <p>교환 및 반품이 가능한 경우</p>
+                    <ul>
+                        <li>상품을 공급받으신 날로부터 7일 이내</li>
+                        <li>상품이 표시·광고 내용과 다른 경우</li>
+                    </ul>
+                    <p>교환 및 반품이 불가능한 경우</p>
+                    <ul>
+                        <li>고객님의 책임있는 사유로 상품이 훼손된 경우</li>
+                        <li>포장을 개봉하여 사용 후 상품 가치가 현저히 감소한 경우</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    `;
+
+    if (userType !== USER_TYPES.SELLER) {
+        document.getElementById('btn-minus').addEventListener('click', () => updateQuantity(-1));
+        document.getElementById('btn-plus').addEventListener('click', () => updateQuantity(1));
+    }
+    if (userType === USER_TYPES.SELLER) {
+        if (isMyProduct) {
+            document.getElementById('btn-edit-product').addEventListener('click', () => {
+                window.location.href = `../../seller/seller-product-upload/index.html?id=${product.id}`;
+            });
+            document.getElementById('btn-delete-product').addEventListener('click', async () => {
+                if (confirm('정말 삭제하시겠습니까?')) {
+                    try {
+                        await API.deleteProduct(product.id);
+                        alert('상품이 삭제되었습니다.');
+                        window.location.href = '../../seller/seller-center/index.html';
+                    } catch (err) {
+                        alert(err.message);
+                    }
+                }
+            });
+        }
+    } else {
+        document.querySelector('.btn-buy').addEventListener('click', handleBuy);
+        document.querySelector('.btn-cart').addEventListener('click', handleCart);
+    }
+    checkStockLimit();
+    setupTabs();
+}
+
+function updateQuantity(change) {
+    const stock = Number(product.stock ?? 0);
+    const newQty = quantity + change;
+
+    if (newQty < 1) return;
+    if (newQty > stock) return;
+
+    quantity = newQty;
+    document.getElementById('quantity-input').value = String(quantity);
+    document.getElementById('total-qty').innerText = String(quantity);
+    document.getElementById('total-price').innerHTML = `${formatPrice(product.price * quantity)}<span>원</span>`;
+    checkStockLimit();
+}
+
+function checkStockLimit() {
+    const btnMinus = document.getElementById('btn-minus');
+    const btnPlus = document.getElementById('btn-plus');
+    const stock = Number(product.stock ?? 0);
+    btnMinus.disabled = quantity <= 1;
+    btnPlus.disabled = stock <= 0 || quantity >= stock;
+}
+
+function handleBuy() {
+    const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
+    if (!token) {
+        Modal.showLoginModal();
+        return;
+    }
+
+    const stock = Number(product.stock ?? 0);
+    if (stock <= 0 || quantity > stock) {
+        Modal.showStockExceededModal();
+        return;
+    }
+
+    const orderData = {
+        order_kind: 'direct_order',
+        product_id: product.id,
+        quantity: quantity,
+        item_info: {
+            product_id: product.id,
+            name: product.name,
+            price: product.price,
+            shipping_fee: product.shipping_fee,
+            image: product.image,
+            seller: product.seller?.store_name || '판매자'
+        }
+    };
+
+    localStorage.setItem(STORAGE_KEYS.ORDER_DATA, JSON.stringify(orderData));
+    window.location.href = '../../order/index.html';
+}
+
+function handleCart() {
+    const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
+    if (!token) {
+        Modal.showLoginModal();
+        return;
+    }
+
+    const stock = Number(product.stock ?? 0);
+    if (stock <= 0 || quantity > stock) {
+        Modal.showStockExceededModal();
+        return;
+    }
+    const added = addToCart(productId, quantity);
+    Modal.showCartSuccessModal(added);
+}
+
+function addToCart(productId, qty) {
+    let cart = JSON.parse(localStorage.getItem(STORAGE_KEYS.CART) || '[]');
+    const existingIndex = cart.findIndex(item => item.productId === productId);
+    if (existingIndex > -1) {
+        cart[existingIndex].quantity += qty;
+        localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(cart));
+        return false;
+    } else {
+        cart.push({ productId: productId, quantity: qty });
+        localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(cart));
+        return true;
+    }
+}
+
+function setupTabs() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanels.forEach(panel => panel.classList.remove('active'));
+
+            button.classList.add('active');
+            const tabName = button.getAttribute('data-tab');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        });
+    });
+}
+
+loadProduct();
+setupSearch('../list/index.html');

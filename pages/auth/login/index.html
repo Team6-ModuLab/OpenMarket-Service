@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU - 로그인</title>
+    <link rel="stylesheet" href="../../../shared/css/reset.css">
+    <link rel="stylesheet" href="../../../shared/css/common.css">
+    <link rel="stylesheet" href="./login.css">
+</head>
+<body>
+    <header class="auth-header">
+        <a href="../../products/list/index.html">
+            <img src="../../../shared/assets/icons/Logo-hodu.png" alt="HODU">
+        </a>
+    </header>
+
+    <main class="auth-container">
+        <div class="auth-box">
+            <p class="login-letter">로그인</p>
+            
+            <form id="login-form">
+                <div class="input-group">
+                    <input type="text" id="username" placeholder="아이디" >
+                    <p class="error-msg" id="error-id">아이디를 입력해주세요.</p>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="비밀번호">
+                    <p class="error-msg" id="error-pw">비밀번호를 입력해주세요.</p>
+                </div>
+                
+                <p class="login-error-msg hidden" id="login-fail-msg">아이디 또는 비밀번호가 일치하지 않습니다.</p>
+
+                <button type="submit" class="btn-submit">로그인</button>
+            </form>
+
+            <div class="auth-links">
+                <a href="../signup/index.html">회원가입</a>
+                <span>|</span>
+                <a href="#">비밀번호 찾기</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../../shared/js/constants.js"></script>
+    <script src="../../../shared/js/auth.js"></script>
+    <script src="../../../shared/js/api.js"></script>
+    <script src="./login.js"></script>
+</body>
+</html>
