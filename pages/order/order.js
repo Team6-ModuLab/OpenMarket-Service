@@ -102,6 +102,7 @@ function renderOrderItems() {
                     <div class="item-details">
                         <span class="item-seller">${item.seller || item.store_name}</span>
                         <span class="item-name">${item.name}</span>
+                        <span class="item-price">${formatPrice(price)}원</span>
                         <span class="item-qty">수량: ${quantity}개</span>
                     </div>
                 </div>

@@ -102,6 +102,16 @@
     color: #767676;
 }
 
+.item-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+}
+
+.item-qty {
+    margin-top: 12px;
+}
+
 .order-item .col-discount,
 .order-item .col-shipping,
 .order-item .col-price {
