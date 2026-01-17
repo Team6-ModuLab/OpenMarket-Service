@@ -55,6 +55,14 @@ HODU(호두샵)는 **판매자**와 **구매자**를 위한 직관적인 오픈�
 <table align="center">
   <tr>
     <td align="center" width="200">
+      <a href="https://github.com/Magnesium03">
+        <img src="https://avatars.githubusercontent.com/u/241383935" width="100" height="100" style="border-radius:50%"/><br/>
+        <b>팀장 강민기</b>
+      </a><br/>
+      <sub>Magnesium03</sub><br/>
+      <sub>로그인 / 판매자 센터 / 마이페이지 / 주문결제</sub>
+    </td>
+    <td align="center" width="200">
       <a href="https://github.com/TaeyeongHan2">
         <img src="https://avatars.githubusercontent.com/u/174395160" width="100" height="100" style="border-radius:50%"/><br/>
         <b>한태영</b>
@@ -65,18 +73,10 @@ HODU(호두샵)는 **판매자**와 **구매자**를 위한 직관적인 오픈�
     <td align="center" width="200">
       <a href="https://github.com/hieonjin">
         <img src="https://avatars.githubusercontent.com/u/241421095" width="100" height="100" style="border-radius:50%"/><br/>
-        <b>hieonjin</b>
+        <b>조현진</b>
       </a><br/>
       <sub>hieonjin</sub><br/>
       <sub>회원가입 / 주문 페이지</sub>
-    </td>
-    <td align="center" width="200">
-      <a href="https://github.com/Magnesium03">
-        <img src="https://avatars.githubusercontent.com/u/241383935" width="100" height="100" style="border-radius:50%"/><br/>
-        <b>강민기</b>
-      </a><br/>
-      <sub>Magnesium03</sub><br/>
-      <sub>로그인 / 판매자 센터 / 마이페이지 / 주문결제</sub>
     </td>
     <td align="center" width="200">
       <a href="https://github.com/psw89pxcj8-cyber">
@@ -94,7 +94,7 @@ HODU(호두샵)는 **판매자**와 **구매자**를 위한 직관적인 오픈�
 | 팀원 | 커밋 수 | 주요 작업 영역 | 역할 근거 |
 |------|---------|---------------|-----------|
 | 한태영 | 74 | `shared/js/`, `pages/products/list/`, `pages/cart/` | 공통 유틸/API/인증 모듈 및 상품 목록 페이지 주도 |
-| hieonjin | 46 | `pages/auth/signup/`, `pages/order/` | 회원가입 페이지 전체 구현 및 주문 기능 참여 |
+| 조현진 | 46 | `pages/auth/signup/`, `pages/order/` | 회원가입 페이지 전체 구현 및 주문 기능 참여 |
 | 강민기 | 32 | `pages/seller/`, `pages/auth/login/` | 로그인, 판매자 센터, 상품 등록/수정, 마이페이지, 주문결제 기능 담당 |
 | 권하리 | 28 | `pages/products/detail/`, `pages/order/` | 상품 상세 페이지 UI 및 주문 CSS 담당 |
 
@@ -113,8 +113,9 @@ HODU(호두샵)는 **판매자**와 **구매자**를 위한 직관적인 오픈�
 ### 판매자 플로우
 
 1. 판매자 계정으로 로그인
-2. 판매자 센터에서 상품 관리
-3. 새 상품 등록 또는 기존 상품 수정/삭제
+2. 상품 목록 페이지에서 판매자 센터 버튼 클릭
+3. 판매자 센터에서 상품 관리
+4. 새 상품 등록 또는 기존 상품 수정/삭제
 
 ![User Scenario Map](./docs/visuals/mindmeister-user-scenario.png)
 > *MindMeister에서 유저 시나리오 맵을 PNG로 내보내어 `docs/visuals/mindmeister-user-scenario.png`에 저장*
@@ -152,7 +153,8 @@ flowchart TB
 
     B --> C
     C -->|구매자| B
-    C -->|판매자| J
+    C -->|판매자| B
+    B --> J
 
     style A fill:#e1f5fe
     style B fill:#fff3e0
