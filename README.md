@@ -1,16 +1,293 @@
 # HODU (호두샵)
 
-> 판매자와 구매자를 연결하는 오픈마켓 서비스 플랫폼
+<div align="center">
 
-온라인에서 상품을 쉽게 등록하고 판매할 수 있으며, 구매자는 다양한 상품을 검색하고 장바구니에 담아 주문할 수 있는 오픈마켓 서비스입니다.
+![HODU Logo](./shared/assets/icons/Logo-hodu.png)
 
-![메인 화면](./docs/images/main-screenshot.png)
+### 판매자와 구매자를 연결하는 오픈마켓 서비스 플랫폼
+
+**"온라인에서 쉽게 팔고, 편하게 사자"**
+
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+
+</div>
 
 ---
 
-## 데모 / 배포 링크
+## 프로젝트 소개
 
-> (추후 추가)
+> 오픈마켓에서 물건을 사고팔 때 불편하셨던 적 있으신가요?
+
+HODU(호두샵)는 **판매자**와 **구매자**를 위한 직관적인 오픈마켓 서비스입니다.
+
+| 문제 | 해결 |
+|------|------|
+| 복잡한 상품 등록 과정 | 판매자 센터에서 간편하게 상품 등록/수정/삭제 |
+| 불편한 장바구니 관리 | 로컬 장바구니로 빠른 상품 관리 |
+| 번거로운 로그인 유지 | JWT 기반 자동 토큰 갱신으로 끊김 없는 경험 |
+
+![메인 화면](./docs/visuals/main-screenshot.png)
+> *메인 화면 스크린샷을 `docs/visuals/main-screenshot.png`에 저장해주세요*
+
+---
+
+## 배포 링크 / 데모 / Wiki
+
+| 항목 | 링크 |
+|------|------|
+| 배포 URL | (추후 추가) |
+| 데모 영상 | (추후 추가) |
+| Wiki | (추후 추가) |
+| GitHub | [Team6-ModuLab/OpenMarket-Service](https://github.com/Team6-ModuLab/OpenMarket-Service) |
+
+---
+
+## 팀 소개
+
+<div align="center">
+
+### Team 6 - ModuLab
+
+</div>
+
+<table align="center">
+  <tr>
+    <td align="center" width="200">
+      <a href="https://github.com/TaeyeongHan2">
+        <img src="https://avatars.githubusercontent.com/u/174395160" width="100" height="100" style="border-radius:50%"/><br/>
+        <b>한태영</b>
+      </a><br/>
+      <sub>TaeyeongHan2</sub><br/>
+      <sub>공통 모듈 / 상품 목록 / API 설계</sub>
+    </td>
+    <td align="center" width="200">
+      <a href="https://github.com/hieonjin">
+        <img src="https://avatars.githubusercontent.com/u/241421095" width="100" height="100" style="border-radius:50%"/><br/>
+        <b>hieonjin</b>
+      </a><br/>
+      <sub>hieonjin</sub><br/>
+      <sub>회원가입 / 주문 페이지</sub>
+    </td>
+    <td align="center" width="200">
+      <a href="https://github.com/Magnesium03">
+        <img src="https://avatars.githubusercontent.com/u/241383935" width="100" height="100" style="border-radius:50%"/><br/>
+        <b>강민기</b>
+      </a><br/>
+      <sub>Magnesium03</sub><br/>
+      <sub>판매자 센터 / 상품 등록</sub>
+    </td>
+    <td align="center" width="200">
+      <a href="https://github.com/psw89pxcj8-cyber">
+        <img src="https://avatars.githubusercontent.com/u/241722985" width="100" height="100" style="border-radius:50%"/><br/>
+        <b>권하리</b>
+      </a><br/>
+      <sub>psw89pxcj8-cyber</sub><br/>
+      <sub>상품 상세 / 주문 상세</sub>
+    </td>
+  </tr>
+</table>
+
+### 역할 분담 (커밋 분석 기반)
+
+| 팀원 | 커밋 수 | 주요 작업 영역 | 역할 근거 |
+|------|---------|---------------|-----------|
+| 한태영 | 74 | `shared/js/`, `pages/products/list/`, `pages/cart/` | 공통 유틸/API/인증 모듈 및 상품 목록 페이지 주도 |
+| hieonjin | 46 | `pages/auth/signup/`, `pages/order/` | 회원가입 페이지 전체 구현 및 주문 기능 참여 |
+| 강민기 | 32 | `pages/seller/`, `pages/auth/login/` | 판매자 센터, 상품 등록/수정 기능 담당 |
+| 권하리 | 28 | `pages/products/detail/`, `pages/order/` | 상품 상세 페이지 UI 및 주문 CSS 담당 |
+
+---
+
+## 사용자 시나리오
+
+### 구매자 플로우
+
+1. 상품 목록에서 원하는 상품 검색/탐색
+2. 상품 상세 페이지에서 정보 확인
+3. 장바구니에 담거나 바로 구매
+4. 주문 정보 입력 후 결제 완료
+5. 마이페이지에서 주문 내역 확인
+
+### 판매자 플로우
+
+1. 판매자 계정으로 로그인
+2. 판매자 센터에서 상품 관리
+3. 새 상품 등록 또는 기존 상품 수정/삭제
+
+![User Scenario Map](./docs/visuals/mindmeister-user-scenario.png)
+> *MindMeister에서 유저 시나리오 맵을 PNG로 내보내어 `docs/visuals/mindmeister-user-scenario.png`에 저장*
+
+---
+
+## 화면 설계 (IA/화면 흐름)
+
+```mermaid
+flowchart TB
+    subgraph 진입점
+        A[index.html] --> B[상품 목록<br/>products/list]
+    end
+
+    subgraph 인증
+        C[로그인<br/>auth/login]
+        D[회원가입<br/>auth/signup]
+        C <--> D
+    end
+
+    subgraph 구매자 흐름
+        B --> E[상품 상세<br/>products/detail]
+        E --> F[장바구니<br/>cart]
+        E --> G[주문<br/>order]
+        F --> G
+        G --> H[마이페이지<br/>mypage]
+        H --> I[주문 상세<br/>mypage/order-detail]
+    end
+
+    subgraph 판매자 흐름
+        J[판매자 센터<br/>seller/seller-center]
+        K[상품 등록/수정<br/>seller/seller-product-upload]
+        J <--> K
+    end
+
+    B --> C
+    C -->|구매자| B
+    C -->|판매자| J
+
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#f3e5f5
+    style D fill:#f3e5f5
+    style J fill:#e8f5e9
+    style K fill:#e8f5e9
+```
+
+![Screen Design](./docs/visuals/screen-design.png)
+> *Figma 화면 설계 캡처를 `docs/visuals/screen-design.png`에 저장*
+
+---
+
+## 아키텍처 설계
+
+```mermaid
+flowchart TB
+    subgraph Pages["페이지 (pages/)"]
+        P1[auth/login]
+        P2[auth/signup]
+        P3[products/list]
+        P4[products/detail]
+        P5[cart]
+        P6[order]
+        P7[mypage]
+        P8[seller/seller-center]
+        P9[seller/seller-product-upload]
+    end
+
+    subgraph Shared["공통 모듈 (shared/js/)"]
+        S1[constants.js<br/>API URL, 상수]
+        S2[api.js<br/>API 호출]
+        S3[auth.js<br/>토큰 관리]
+        S4[utils.js<br/>헤더/푸터, 유틸]
+        S5[Modal.js<br/>모달 컴포넌트]
+    end
+
+    subgraph External["외부 서비스"]
+        E1[Open Market API<br/>wenivops.co.kr]
+        E2[LocalStorage<br/>토큰/장바구니 저장]
+    end
+
+    P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8 & P9 --> S4
+    S4 --> S1
+    S4 --> S3
+    S2 --> S1
+    S2 --> S3
+    P1 & P2 --> S2
+    P3 & P4 & P5 & P6 & P7 & P8 & P9 --> S2
+    S2 <--> E1
+    S3 <--> E2
+    P5 <--> E2
+
+    style Shared fill:#e3f2fd
+    style External fill:#fce4ec
+```
+
+### 모듈별 책임
+
+| 모듈 | 책임 |
+|------|------|
+| `constants.js` | API URL, Storage Key, 사용자 타입, 에러 메시지 등 상수 정의 |
+| `api.js` | 상품/주문/인증 API 호출 함수 (REST 통신) |
+| `auth.js` | JWT 토큰 저장/갱신/삭제, 인증된 fetch 요청 |
+| `utils.js` | 동적 헤더/푸터 생성, 경로 계산, 가격 포맷팅 |
+| `Modal.js` | 로그인 유도, 삭제 확인 등 재사용 가능한 모달 |
+
+---
+
+## API / 인증 흐름
+
+```mermaid
+sequenceDiagram
+    participant U as 사용자
+    participant C as 클라이언트
+    participant A as AuthService
+    participant S as API 서버
+
+    Note over U,S: 로그인 흐름
+    U->>C: 로그인 요청
+    C->>S: POST /accounts/login/
+    S-->>C: Access Token + Refresh Token
+    C->>A: 토큰 저장 (LocalStorage)
+
+    Note over U,S: 인증된 API 호출
+    U->>C: 데이터 요청
+    C->>A: fetchWithAuth()
+    A->>S: GET /api + Bearer Token
+
+    alt Access Token 유효
+        S-->>C: 200 OK + 데이터
+    else Access Token 만료 (401)
+        S-->>A: 401 Unauthorized
+        A->>S: POST /accounts/token/refresh/
+        S-->>A: 새 Access Token
+        A->>A: 토큰 갱신
+        A->>S: GET /api + 새 Bearer Token
+        S-->>C: 200 OK + 데이터
+    else Refresh Token 만료
+        S-->>A: 401 Unauthorized
+        A->>A: clearAuth()
+        A-->>U: 로그인 페이지로 이동
+    end
+```
+
+### 주요 API 엔드포인트
+
+| 기능 | Method | Endpoint |
+|------|--------|----------|
+| 상품 목록 조회 | GET | `/products/` |
+| 상품 상세 조회 | GET | `/products/{id}/` |
+| 로그인 | POST | `/accounts/login/` |
+| 토큰 갱신 | POST | `/accounts/token/refresh/` |
+| 상품 등록 | POST | `/products/` |
+| 상품 수정 | PUT | `/products/{id}/` |
+| 상품 삭제 | DELETE | `/products/{id}/` |
+| 주문 생성 | POST | `/order/` |
+| 주문 목록 조회 | GET | `/order/` |
+
+---
+
+## 기술 스택
+
+<div align="center">
+
+| 구분 | 기술 |
+|:----:|:----:|
+| **Frontend** | ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) |
+| **API 통신** | Fetch API (REST) |
+| **인증** | JWT (Access/Refresh Token) |
+| **저장소** | LocalStorage |
+| **개발 서버** | VS Code Live Server |
+
+</div>
 
 ---
 
@@ -20,7 +297,7 @@
 
 | 기능 | 설명 |
 |------|------|
-| 상품 목록 조회 | 등록된 전체 상품을 목록으로 확인 |
+| 상품 목록 조회 | 등록된 전체 상품을 목록으로 확인, 배너 슬라이더 |
 | 상품 검색 | 키워드로 원하는 상품 검색 |
 | 상품 상세 보기 | 상품의 상세 정보, 가격, 재고 확인 |
 | 장바구니 | 상품을 담고 수량 조절, 선택 주문 |
@@ -40,20 +317,8 @@
 | 기능 | 설명 |
 |------|------|
 | 회원가입 | 구매자/판매자 유형 선택하여 가입 |
-| 로그인/로그아웃 | JWT 기반 인증 (Access/Refresh Token) |
+| 로그인/로그아웃 | JWT 기반 인증 (자동 토큰 갱신) |
 | 반응형 헤더 | 로그인 상태와 사용자 유형에 따른 동적 메뉴 |
-
----
-
-## 기술 스택
-
-| 구분 | 기술 |
-|------|------|
-| **Frontend** | Vanilla JavaScript (ES6+), HTML5, CSS3 |
-| **API 통신** | Fetch API (REST) |
-| **인증** | JWT (Access Token + Refresh Token) |
-| **로컬 저장소** | LocalStorage |
-| **개발 서버** | Live Server / npx serve |
 
 ---
 
@@ -66,82 +331,31 @@ OpenMarket-Service/
 ├── pages/                              # 페이지별 HTML/JS/CSS
 │   ├── auth/
 │   │   ├── login/                      # 로그인 페이지
-│   │   │   ├── index.html
-│   │   │   ├── login.js
-│   │   │   └── login.css
 │   │   └── signup/                     # 회원가입 페이지
-│   │       ├── index.html
-│   │       ├── signup.js
-│   │       └── signup.css
-│   │
 │   ├── products/
 │   │   ├── list/                       # 상품 목록 페이지
-│   │   │   ├── index.html
-│   │   │   ├── product-list.js
-│   │   │   └── product-list.css
 │   │   └── detail/                     # 상품 상세 페이지
-│   │       ├── index.html
-│   │       ├── product-detail.js
-│   │       └── product-detail.css
-│   │
 │   ├── cart/                           # 장바구니 페이지
-│   │   ├── index.html
-│   │   ├── cart.js
-│   │   └── cart.css
-│   │
 │   ├── order/                          # 주문 페이지
-│   │   ├── index.html
-│   │   ├── order.js
-│   │   └── order.css
-│   │
 │   ├── mypage/                         # 마이페이지
-│   │   ├── index.html
-│   │   ├── mypage.js
-│   │   ├── mypage.css
 │   │   └── order-detail/               # 주문 상세 페이지
-│   │       ├── index.html
-│   │       ├── order-detail.js
-│   │       └── order-detail.css
-│   │
 │   └── seller/
 │       ├── seller-center/              # 판매자 센터
-│       │   ├── index.html
-│       │   ├── seller-center.js
-│       │   └── seller-center.css
 │       └── seller-product-upload/      # 상품 등록/수정
-│           ├── index.html
-│           ├── seller-product-upload.js
-│           └── seller-product-upload.css
 │
 ├── shared/                             # 공통 모듈
-│   ├── assets/
-│   │   └── icons/                      # 아이콘 이미지 (SVG)
-│   ├── components/
-│   │   ├── header/                     # 공통 헤더 컴포넌트
-│   │   └── footer/                     # 공통 푸터 컴포넌트
-│   ├── css/
-│   │   ├── reset.css                   # CSS 리셋
-│   │   ├── common.css                  # 공통 스타일
-│   │   └── auth.css                    # 인증 페이지 공통 스타일
+│   ├── assets/icons/                   # 아이콘 이미지 (SVG)
+│   ├── css/                            # 공통 스타일
 │   └── js/
-│       ├── constants.js                # 상수 정의 (API URL, 키 등)
+│       ├── constants.js                # 상수 정의
 │       ├── api.js                      # API 호출 함수
-│       ├── auth.js                     # 인증 서비스 (토큰 관리)
-│       ├── utils.js                    # 유틸리티 함수 (헤더/푸터, 경로 등)
-│       └── components/
-│           └── Modal.js                # 모달 컴포넌트
+│       ├── auth.js                     # 인증 서비스
+│       ├── utils.js                    # 유틸리티 함수
+│       └── components/Modal.js         # 모달 컴포넌트
 │
 └── docs/                               # 문서 및 이미지
+    └── visuals/                        # 발표용 시각 자료
 ```
-
-### 핵심 디렉토리 설명
-
-| 디렉토리 | 설명 |
-|----------|------|
-| `pages/` | 각 페이지별 독립적인 HTML, JS, CSS 파일 관리 |
-| `shared/js/` | API 호출, 인증, 유틸리티 등 전역에서 사용하는 공통 로직 |
-| `shared/css/` | 리셋 및 공통 스타일 정의 |
-| `shared/assets/` | 아이콘 등 정적 리소스 |
 
 ---
 
@@ -156,86 +370,79 @@ cd OpenMarket-Service
 
 ### 2. 로컬 서버 실행
 
-**방법 A: npx serve 사용**
-```bash
-npx serve .
-```
-
-**방법 B: VS Code Live Server 확장 사용**
+**VS Code Live Server 사용**
 - VS Code에서 프로젝트 열기
 - Live Server 확장 설치
 - `index.html` 파일 우클릭 → "Open with Live Server"
 
 ### 3. 접속
 
-- 브라우저에서 `http://localhost:3000` (serve) 또는 `http://localhost:5500` (Live Server) 접속
-- 자동으로 상품 목록 페이지(`/pages/products/list/index.html`)로 이동
+- 브라우저에서 `http://localhost:5500` 접속
+- 자동으로 상품 목록 페이지로 이동
 
 ---
 
-## 환경 변수 / 설정
+## 프로젝트 일정 / 진행 과정
 
-| 항목 | 값 | 설명 |
-|------|-----|------|
-| `API_BASE_URL` | `https://api.wenivops.co.kr/services/open-market` | API 서버 주소 (constants.js에 정의) |
+> 개발 기간: 2026.01.12 ~ 2026.01.17 (6일)
 
-> 별도 `.env` 파일 설정은 불필요합니다. API 주소는 `shared/js/constants.js`에서 관리됩니다.
-
----
-
-## API 연동
-
-### Base URL
+```mermaid
+gantt
+    title HODU 프로젝트 타임라인
+    dateFormat  YYYY-MM-DD
+    section 1일차 (1/12-13)
+    프로젝트 세팅/구조 설계    :2026-01-12, 2d
+    section 2일차 (1/14)
+    페이지 UI 구현           :2026-01-14, 1d
+    section 3일차 (1/15)
+    API 연동/기능 구현        :2026-01-15, 1d
+    section 4일차 (1/16)
+    인증/리팩토링/버그픽스     :2026-01-16, 1d
+    section 5일차 (1/17)
+    최종 정리/문서화          :2026-01-17, 1d
 ```
-https://api.wenivops.co.kr/services/open-market
-```
 
-### 주요 엔드포인트
+### 주차별 마일스톤
 
-| 기능 | Method | Endpoint |
-|------|--------|----------|
-| 상품 목록 조회 | GET | `/products/` |
-| 상품 상세 조회 | GET | `/products/{id}/` |
-| 로그인 | POST | `/accounts/login/` |
-| 토큰 갱신 | POST | `/accounts/token/refresh/` |
-| 판매자 상품 목록 | GET | `/{seller_name}/products/` |
-| 상품 등록 | POST | `/products/` |
-| 상품 수정 | PUT | `/products/{id}/` |
-| 상품 삭제 | DELETE | `/products/{id}/` |
-| 주문 생성 | POST | `/order/` |
-| 주문 목록 조회 | GET | `/order/` |
-| 주문 상세 조회 | GET | `/order/{id}/` |
-| 주문 취소 | DELETE | `/order/{id}/` |
-
-### 인증 흐름
-
-1. **로그인**: `/accounts/login/`으로 username, password 전송 → Access Token, Refresh Token 발급
-2. **인증 요청**: `Authorization: Bearer {access_token}` 헤더 포함
-3. **토큰 만료 시**: 401 응답 → Refresh Token으로 `/accounts/token/refresh/` 호출 → 새 Access Token 발급
-4. **Refresh 실패**: 자동 로그아웃 처리
+| 일자 | 커밋 수 | 주요 작업 |
+|------|---------|----------|
+| 1/12~13 | 28 | 프로젝트 초기 세팅, 폴더 구조 설계, 기본 UI 골격 |
+| 1/14 | 38 | 상품 목록/상세, 회원가입, 로그인 페이지 UI 구현 |
+| 1/15 | 29 | API 연동, 장바구니, 주문 기능 구현 |
+| 1/16 | 76 | Access Token 자동 갱신, 코드 리팩토링, 버그 수정, 판매자 기능 완성 |
+| 1/17 | 9 | 최종 정리, 불필요 파일 제거, README 작성 |
 
 ---
 
-## 팀 / 역할
+## 트러블슈팅 / 회고
 
-| 담당 | 기능 | 브랜치 |
-|------|------|--------|
-| 팀원 1 | 로그인 페이지 | `feature/login` |
-| 팀원 2 | 회원가입 페이지 | `feature/signup` |
-| 팀원 3 | 상품 목록 페이지 | `feature/product-list` |
-| 팀원 4 | 상품 상세 페이지 | `feature/product-detail` |
+### 1. Access Token 자동 갱신 이슈
+- **문제**: 토큰 만료 시 여러 API 요청이 동시에 refresh를 시도하여 충돌
+- **해결**: `isRefreshing` 플래그와 `refreshQueue`로 동시 갱신 방지 및 대기 큐 구현
 
-> (추후 팀원 이름 추가)
+### 2. 이벤트 리스너 중복 등록
+- **문제**: 드롭다운 메뉴 이벤트가 페이지 이동 시 중복 등록
+- **해결**: `isDropdownClickListenerRegistered` 플래그로 전역 리스너 중복 방지
+
+### 3. 경로 계산 복잡성
+- **문제**: 페이지 깊이에 따라 상대 경로가 달라져 리소스 로딩 실패
+- **해결**: `getPagesBasePath()`, `getSharedBasePath()` 함수로 동적 경로 계산
+
+### 4. 판매자/구매자 UI 분기
+- **문제**: 같은 헤더에서 사용자 타입별로 다른 메뉴 표시 필요
+- **해결**: `USER_TYPES` 상수와 `updateHeader()` 함수로 동적 메뉴 생성
 
 ---
 
-## 코딩 컨벤션 / 커밋 컨벤션
+## 브랜치 전략 / 커밋 컨벤션
 
 ### 브랜치 전략
 
 - `main`: 프로덕션 배포용
 - `dev`: 개발 통합 브랜치
 - `feature/*`: 기능 개발 브랜치
+- `refactor/*`: 리팩토링 브랜치
+- `fix/*`: 버그 수정 브랜치
 
 ### 커밋 메시지 형식
 
@@ -246,54 +453,62 @@ https://api.wenivops.co.kr/services/open-market
 [Login] 로그인 폼 UI 구현
 [Signup] 비밀번호 유효성 검사 추가
 [ProductList] 상품 목록 API 연동
-[ProductDetail] 상품 상세 정보 표시
 [Shared] API 유틸리티 함수 추가
-[Cart] 장바구니 수량 조절 기능 구현
+feat: Access Token 자동 갱신 기능 구현
+fix: 드롭다운 이벤트 리스너 중복 등록 방지
+refactor: 매직 스트링을 상수로 추출
 ```
 
-### 작업 규칙
+---
 
-1. **독립 작업 원칙**: 각 팀원은 자신의 작업 폴더 내 파일만 수정
-2. **공통 코드 수정**: `shared/` 폴더 수정 시 팀원들과 사전 협의
-3. **PR 기반 병합**: main/dev 브랜치에 직접 push 금지, PR을 통한 코드 리뷰 후 병합
+## 시연 영상
+
+![Demo GIF](./docs/visuals/demo.gif)
+> *주요 기능 시연 GIF를 `docs/visuals/demo.gif`에 저장*
 
 ---
 
-## 페이지 접근 경로
+## 추가로 채워야 할 정보 체크리스트
 
-| 페이지 | 경로 |
-|--------|------|
-| 메인 (상품 목록) | `/` → 자동 리다이렉트 |
-| 상품 목록 | `/pages/products/list/index.html` |
-| 상품 상세 | `/pages/products/detail/index.html?id={product_id}` |
-| 로그인 | `/pages/auth/login/index.html` |
-| 회원가입 | `/pages/auth/signup/index.html` |
-| 장바구니 | `/pages/cart/index.html` |
-| 주문 | `/pages/order/index.html` |
-| 마이페이지 | `/pages/mypage/index.html` |
-| 주문 상세 | `/pages/mypage/order-detail/index.html?id={order_id}` |
-| 판매자 센터 | `/pages/seller/seller-center/index.html` |
-| 상품 등록 | `/pages/seller/seller-product-upload/index.html` |
+- [ ] 배포 URL 추가 (GitHub Pages / Netlify / Vercel)
+- [ ] 메인 화면 스크린샷 (`docs/visuals/main-screenshot.png`)
+- [ ] MindMeister 유저 시나리오 맵 (`docs/visuals/mindmeister-user-scenario.png`)
+- [ ] Figma 화면 설계 캡처 (`docs/visuals/screen-design.png`)
+- [ ] 시연 GIF (`docs/visuals/demo.gif`)
+- [ ] Wiki 페이지 생성 및 링크 추가
+- [ ] 팀원 실명 확인 및 수정 (강민기, 권하리 등)
+- [ ] 라이선스 명시 (MIT / Apache 2.0 등)
+- [ ] 추가 트러블슈팅 사례 작성
+- [ ] 테스트 계정 정보 추가 (구매자/판매자)
 
 ---
 
-## 트러블슈팅 / 회고
+## 이미지 파일 경로/명명 규칙
 
-> (추후 추가)
+```
+docs/
+└── visuals/
+    ├── main-screenshot.png          # 메인 화면 스크린샷
+    ├── mindmeister-user-scenario.png # MindMeister 유저 시나리오 맵
+    ├── screen-design.png            # Figma 화면 설계 캡처
+    └── demo.gif                     # 주요 기능 시연 GIF
+```
 
 ---
 
-## 추가로 필요한 정보 체크리스트
+## Mermaid 다이어그램 목록
 
-README를 더 풍성하게 만들기 위해 다음 정보를 추가해주세요:
+| 다이어그램 | 유형 | 설명 |
+|-----------|------|------|
+| 화면 설계 (IA) | flowchart | 페이지 간 이동 흐름 |
+| 아키텍처 설계 | flowchart | 모듈 간 의존/데이터 흐름 |
+| API/인증 흐름 | sequenceDiagram | 토큰 갱신 및 인증 시퀀스 |
+| 프로젝트 타임라인 | gantt | 일자별 개발 진행 현황 |
 
-- [ ] **프로젝트 스크린샷**: `./docs/images/` 폴더에 주요 화면 캡처 이미지 추가
-- [ ] **데모 배포 URL**: GitHub Pages, Netlify, Vercel 등 배포 시 URL 추가
-- [ ] **팀원 정보**: 팀원 이름, GitHub 프로필 링크
-- [ ] **개발 기간**: 프로젝트 진행 기간 (예: 2024.01.01 ~ 2024.02.28)
-- [ ] **라이선스**: MIT, Apache 2.0 등 라이선스 명시
-- [ ] **트러블슈팅 사례**: 개발 중 겪은 이슈와 해결 방법 2~4개
-- [ ] **시연 GIF**: 주요 기능 동작 화면 GIF 파일 (`./docs/images/demo.gif`)
-- [ ] **기획서/디자인 링크**: Figma, Notion 등 외부 문서 링크
-- [ ] **Node.js 버전**: 권장 Node.js 버전 (serve 사용 시)
-- [ ] **브라우저 지원 범위**: 지원하는 브라우저 목록 (Chrome, Firefox, Safari 등)
+---
+
+<div align="center">
+
+Made with by **Team 6 - ModuLab**
+
+</div>
