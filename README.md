@@ -530,7 +530,13 @@ gantt
 
 ## 시연 영상
 
-![Demo GIF](./docs/visuals/Team6%20시연영상.mov)
+<div align="center">
+
+[![시연 영상](https://img.youtube.com/vi/_jerVHr4nQU/maxresdefault.jpg)](https://youtu.be/_jerVHr4nQU)
+
+*클릭하면 YouTube에서 시연 영상을 볼 수 있습니다*
+
+</div>
 
 ---
 
