@@ -76,7 +76,7 @@ HODU(호두샵)는 **판매자**와 **구매자**를 위한 직관적인 오픈�
         <b>강민기</b>
       </a><br/>
       <sub>Magnesium03</sub><br/>
-      <sub>판매자 센터 / 상품 등록</sub>
+      <sub>로그인 / 판매자 센터 / 마이페이지 / 주문결제</sub>
     </td>
     <td align="center" width="200">
       <a href="https://github.com/psw89pxcj8-cyber">
@@ -95,7 +95,7 @@ HODU(호두샵)는 **판매자**와 **구매자**를 위한 직관적인 오픈�
 |------|---------|---------------|-----------|
 | 한태영 | 74 | `shared/js/`, `pages/products/list/`, `pages/cart/` | 공통 유틸/API/인증 모듈 및 상품 목록 페이지 주도 |
 | hieonjin | 46 | `pages/auth/signup/`, `pages/order/` | 회원가입 페이지 전체 구현 및 주문 기능 참여 |
-| 강민기 | 32 | `pages/seller/`, `pages/auth/login/` | 판매자 센터, 상품 등록/수정 기능 담당 |
+| 강민기 | 32 | `pages/seller/`, `pages/auth/login/` | 로그인, 판매자 센터, 상품 등록/수정, 마이페이지, 주문결제 기능 담당 |
 | 권하리 | 28 | `pages/products/detail/`, `pages/order/` | 상품 상세 페이지 UI 및 주문 CSS 담당 |
 
 ---
