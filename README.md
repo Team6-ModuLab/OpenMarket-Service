@@ -544,17 +544,6 @@ sequenceDiagram
 
 ---
 
-## Mermaid 다이어그램 목록
-
-| 다이어그램 | 유형 | 설명 |
-|-----------|------|------|
-| 화면 설계 (IA) | flowchart | 페이지 간 이동 흐름 |
-| 아키텍처 설계 | flowchart | 모듈 간 의존/데이터 흐름 |
-| API/인증 흐름 | sequenceDiagram | 토큰 갱신 및 인증 시퀀스 |
-| 프로젝트 타임라인 | gantt | 일자별 개발 진행 현황 |
-
----
-
 <div align="center">
 
 Made with by **Team 6 - ModuLab**
