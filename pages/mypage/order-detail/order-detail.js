@@ -1,7 +1,4 @@
-// order-detail.js
-
 document.addEventListener('DOMContentLoaded', async () => {
-    // Get Order ID from URL
     const params = new URLSearchParams(window.location.search);
     const orderId = params.get('id');
 
@@ -17,52 +14,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         const order = await API.getOrder(orderId);
         console.log('Order Detail:', order);
 
-        // Render strict strict API fields
-        // {
-        //     "id": Int,
-        //     "order_number": String,
-        //     "payment_method": ...,
-        //     "order_status": ...,
-        //     "order_type": ...,
-        //     "total_price": Int,
-        //     "order_items": [...],
-        //     "receiver": String,
-        //     "receiver_phone_number": String,
-        //     "address": String,
-        //     "delivery_message": String | null,
-        //     "created_at": Time
-        // }
-
         const date = new Date(order.created_at).toLocaleString();
         const totalPrice = order.total_price.toLocaleString();
-        
-        const statusMap = {
-            'card': '신용카드',
-            'deposit': '무통장입금',
-            'phone': '휴대폰결제',
-            'naverpay': '네이버페이',
-            'kakaopay': '카카오페이',
-            'payment_pending': '입금 확인 중',
-            'payment_complete': '결제 완료',
-            'preparing': '배송 준비 중',
-            'shipping': '배송 중',
-            'delivered': '배송 완료',
-            'delivered': '배송 완료',
-            'cancled': '주문 취소',
-            'cancelled': '주문 취소' // Include correct spelling just in case
-        };
 
-        const paymentMethod = statusMap[order.payment_method] || order.payment_method;
-        const status = statusMap[order.order_status] || order.order_status;
+        const paymentMethod = PAYMENT_METHOD_TEXT[order.payment_method] || order.payment_method;
+        const status = ORDER_STATUS_TEXT[order.order_status] || order.order_status;
 
-        // Render Items
         let itemsHtml = '';
         if (order.order_items && order.order_items.length > 0) {
             order.order_items.forEach(item => {
                 const product = item.product;
                 const productName = product.product_name || product.name || '상품명 없음';
-                // Note: API spec for Product object isn't fully detailed here but usually contain image/name
-                const imgSrc = product.image || '../../../shared/assets/icons/icon-image.png';
+                const imgSrc = product.image || getSharedBasePath() + 'assets/icons/icon-image.png';
                 const quantity = item.ordered_quantity;
                 const unitPrice = item.ordered_unit_price.toLocaleString();
                 const itemTotal = item.item_total_price.toLocaleString();
@@ -112,8 +75,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             </section>
 
             <section>
-                <div class="section-title">배송지 정보</div>
-                <table class="info-table">
                 <div class="section-title">배송지 정보</div>
                 <table class="info-table">
                     <tr>

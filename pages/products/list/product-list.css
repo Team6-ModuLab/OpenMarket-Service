@@ -1,13 +1,10 @@
-/* css/list.css */
-
-/* ===== Banner Slider Styles (Center/Peek Layout) ===== */
 .banner-section {
     width: 100%;
     max-width: 1280px;
     margin: 0 auto clamp(30px, 4vw, 60px);
     padding: 0 24px;
     box-sizing: border-box;
-    overflow: hidden; /* prevent horizontal scroll from peek slides */
+    overflow: hidden;
 }
 
 .banner-container {
@@ -121,7 +118,6 @@
     background-color: #21BF48;
 }
 
-/* ===== Banner Responsive ===== */
 @media (max-width: 1024px) {
     .banner-section {
         padding: 0 16px;
@@ -225,10 +221,9 @@
     }
 }
 
-/* ===== Product Grid Styles ===== */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 items per row as per screenshot roughly, or auto-fit */
+    grid-template-columns: repeat(3, 1fr);
     gap: clamp(20px, 4vw, 60px);
     padding: clamp(24px, 5vw, 80px) 0;
 }
@@ -285,7 +280,6 @@
     margin-left: 2px;
 }
 
-/* ===== 검색 결과 없을 때 ===== */
 .no-results {
     grid-column: 1 / -1;
     text-align: center;

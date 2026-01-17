@@ -1,6 +1,3 @@
-// js/index.js
-
-// ===== Banner Slider (Center/Peek Layout) =====
 let bannerProducts = [];
 let currentSlide = 0;
 let slideInterval = null;
@@ -14,8 +11,6 @@ async function initBanner() {
     try {
         const products = await API.getProducts();
         bannerProducts = products.slice(0, SLIDE_COUNT);
-
-        // Create slides
         bannerProducts.forEach((product, index) => {
             const slide = document.createElement('div');
             slide.className = `banner-slide${index === 0 ? ' active' : ''}`;
@@ -26,7 +21,6 @@ async function initBanner() {
             bannerTrack.appendChild(slide);
         });
 
-        // Create dots
         bannerProducts.forEach((_, index) => {
             const dot = document.createElement('button');
             dot.className = `banner-dot${index === 0 ? ' active' : ''}`;
@@ -35,22 +29,16 @@ async function initBanner() {
             bannerDots.appendChild(dot);
         });
 
-        // Setup controls
         document.querySelector('.banner-btn-prev').addEventListener('click', prevSlide);
         document.querySelector('.banner-btn-next').addEventListener('click', nextSlide);
 
-        // Initial position
         updateSlide();
-
-        // Start autoplay
         startAutoPlay();
 
-        // Pause on hover
         const bannerContainer = document.querySelector('.banner-container');
         bannerContainer.addEventListener('mouseenter', stopAutoPlay);
         bannerContainer.addEventListener('mouseleave', startAutoPlay);
 
-        // Recalculate on resize
         window.addEventListener('resize', updateSlide);
 
     } catch (error) {
@@ -65,12 +53,10 @@ function updateSlide() {
 
     if (slides.length === 0) return;
 
-    // Update active class on slides
     slides.forEach((slide, index) => {
         slide.classList.toggle('active', index === currentSlide);
     });
 
-    // Calculate translateX for center/peek layout
     const containerWidth = document.querySelector('.banner-container').offsetWidth;
     const slide = slides[0];
     const slideStyle = getComputedStyle(slide);
@@ -78,13 +64,11 @@ function updateSlide() {
     const slideMargin = parseFloat(slideStyle.marginLeft) + parseFloat(slideStyle.marginRight);
     const totalSlideWidth = slideWidth + slideMargin;
 
-    // Center the current slide: offset to center first slide, then move by slide index
     const centerOffset = (containerWidth - slideWidth) / 2 - parseFloat(slideStyle.marginLeft);
     const translateX = centerOffset - (currentSlide * totalSlideWidth);
 
     bannerTrack.style.transform = `translateX(${translateX}px)`;
 
-    // Update dots
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentSlide);
     });
@@ -117,16 +101,15 @@ function stopAutoPlay() {
     }
 }
 
-// ===== Product List =====
 async function renderProducts(searchQuery = '') {
     const productList = document.getElementById('product-list');
-    
+
     try {
-        let url = 'https://api.wenivops.co.kr/services/open-market/products/';
+        let url = `${CONFIG.API_BASE_URL}/products/`;
         if (searchQuery) {
             url += `?search=${encodeURIComponent(searchQuery)}`;
         }
-        
+
         const response = await fetch(url);
         const data = await response.json();
         const products = data.results;
@@ -167,16 +150,13 @@ async function renderProducts(searchQuery = '') {
     }
 }
 
-
 const urlParams = new URLSearchParams(window.location.search);
 const searchQuery = urlParams.get('search') || '';
-
 const searchInput = document.getElementById('search-input');
 if (searchInput && searchQuery) {
     searchInput.value = searchQuery;
 }
 
-// Initial Load
 initBanner();
 renderProducts(searchQuery);
 setupSearch();

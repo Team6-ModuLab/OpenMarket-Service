@@ -19,7 +19,6 @@
                 <button type="button"></button>
             </div>
             <div class="user-menu">
-                <!-- Injected via utils.js -->
             </div>
         </div>
     </header>
@@ -28,7 +27,6 @@
         <div class="container">
             <h1 class="cart-page__title">장바구니</h1>
 
-            <!-- 테이블 헤더 -->
             <div class="cart-page__table-header">
                 <div class="cart-page__col cart-page__col--check">
                     <label class="cart-page__checkbox">
@@ -41,18 +39,14 @@
                 <div class="cart-page__col cart-page__col--price">상품금액</div>
             </div>
 
-            <!-- 장바구니 아이템 리스트 -->
             <div class="cart-page__items" id="cart-items">
-                <!-- JS에서 렌더링 -->
             </div>
 
-            <!-- 빈 장바구니 상태 -->
             <div class="cart-page__empty hidden" id="cart-empty">
                 <p class="cart-page__empty-title">장바구니에 담긴 상품이 없습니다.</p>
                 <p class="cart-page__empty-subtitle">원하는 상품을 장바구니에 담아보세요!</p>
             </div>
 
-            <!-- 합계 박스 -->
             <div class="cart-page__summary" id="cart-summary">
                 <div class="cart-page__summary-item">
                     <span class="cart-page__summary-label">총 상품금액</span>
@@ -78,7 +72,6 @@
                 </div>
             </div>
 
-            <!-- 주문하기 버튼 -->
             <div class="cart-page__order-wrap" id="order-btn-wrap">
                 <button type="button" class="cart-page__order-btn" id="order-btn">주문하기</button>
             </div>
@@ -86,10 +79,8 @@
     </main>
 
     <footer id="footer">
-        <!-- Injected via footer.js -->
     </footer>
 
-    <!-- 삭제 확인 모달 -->
     <div class="cart-page__modal-overlay hidden" id="delete-modal">
         <div class="cart-page__modal">
             <button class="cart-page__modal-close" id="modal-close">
@@ -103,6 +94,8 @@
         </div>
     </div>
 
+    <script src="../../shared/js/constants.js"></script>
+    <script src="../../shared/js/components/Modal.js"></script>
     <script src="../../shared/js/auth.js"></script>
     <script src="../../shared/js/api.js"></script>
     <script src="../../shared/js/utils.js"></script>

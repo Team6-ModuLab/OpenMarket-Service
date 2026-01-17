@@ -19,7 +19,6 @@
                 <button type="button"></button>
             </div>
             <div class="user-menu">
-                <!-- Injected via utils.js -->
             </div>
         </div>
     </header>
@@ -28,47 +27,40 @@
         <div class="container">
             <h1 class="order-page__title">주문/결제하기</h1>
 
-            <!-- 주문 상품 정보 -->
             <section class="order-section">
                 <div class="section-header">
                     <h2>주문 상품 정보</h2>
                 </div>
-                <!-- 테이블 헤더 -->
+
                 <div class="order-table-header">
                     <div class="col-info">상품정보</div>
                     <div class="col-discount">할인</div>
                     <div class="col-shipping">배송비</div>
                     <div class="col-price">주문금액</div>
                 </div>
-                <!-- 주문 아이템 리스트 -->
                 <div id="order-items-list" class="order-items-list">
-                    <!-- JS 렌더링 -->
                 </div>
                 <div class="order-total-price">
                     총 주문 금액 <span id="total-order-price">0원</span>
                 </div>
             </section>
 
-            <!-- 배송정보 (섹션 헤더만) -->
             <section class="order-section delivery-info-section">
                 <div class="section-header">
                     <h2>배송정보</h2>
                 </div>
             </section>
 
-            <!-- 주문자 정보 -->
             <section class="order-section">
                 <div class="section-header">
                     <h2>주문자 정보</h2>
                 </div>
                 <div class="delivery-form">
                     <div class="form-content">
-                        <!-- 이름 -->
                         <div class="input-row">
                             <label for="orderer-name" class="input-label">이름</label>
                             <input type="text" id="orderer-name" required>
                         </div>
-                        <!-- 휴대폰 -->
                         <div class="input-row">
                             <label for="orderer-phone" class="input-label">휴대폰</label>
                             <div class="phone-inputs">
@@ -79,7 +71,6 @@
                                 <input type="text" id="orderer-phone-3" maxlength="4">
                             </div>
                         </div>
-                        <!-- 이메일 -->
                         <div class="input-row">
                             <label for="orderer-email" class="input-label">이메일</label>
                             <input type="email" id="orderer-email" class="full-width">
@@ -87,20 +78,16 @@
                     </div>
                 </div>
             </section>
-
-            <!-- 배송지 정보 -->
             <section class="order-section">
                 <div class="section-header">
                     <h2>배송지 정보</h2>
                 </div>
                 <div class="delivery-form">
                     <div class="form-content">
-                        <!-- 수령인 -->
                         <div class="input-row">
                             <label for="receiver-name" class="input-label">수령인</label>
                             <input type="text" id="receiver-name" required>
                         </div>
-                        <!-- 휴대폰 -->
                         <div class="input-row">
                             <label for="receiver-phone" class="input-label">휴대폰</label>
                             <div class="phone-inputs">
@@ -111,7 +98,6 @@
                                 <input type="text" id="phone-3" maxlength="4">
                             </div>
                         </div>
-                        <!-- 배송주소 -->
                         <div class="input-row align-top">
                             <label class="input-label">배송주소</label>
                             <div class="address-inputs">
@@ -123,7 +109,6 @@
                                 <input type="text" id="address-2" placeholder="상세주소" class="full-width">
                             </div>
                         </div>
-                        <!-- 배송 메시지 -->
                         <div class="input-row">
                             <label for="delivery-message" class="input-label">배송 메시지</label>
                             <input type="text" id="delivery-message" placeholder="배송 메시지를 입력해주세요." class="full-width">
@@ -133,7 +118,6 @@
             </section>
 
             <div class="order-bottom-layout">
-                <!-- 결제 수단 -->
                 <section class="order-section payment-method-section">
                     <div class="section-header">
                         <h2>결제 수단</h2>
@@ -161,8 +145,6 @@
                         </div>
                     </div>
                 </section>
-
-                <!-- 최종 결제 정보 (Sticky Right) -->
                 <aside class="final-payment-aside">
                     <h2>최종 결제 정보</h2>
                     <div class="payment-summary">
@@ -183,7 +165,6 @@
                             <span class="total-amount" id="final-total-price">0원</span>
                         </div>
                     </div>
-                    
                     <div class="agreement-area">
                         <label>
                             <input type="checkbox" id="agree-all">
@@ -191,24 +172,22 @@
                             주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.
                         </label>
                     </div>
-
                     <button type="button" class="btn-pay" id="btn-pay">결제하기</button>
                 </aside>
             </div>
-
         </div>
     </main>
-    
+
     <footer id="footer">
-        <!-- Injected via footer.js -->
     </footer>
 
+    <script src="../../shared/js/constants.js"></script>
+    <script src="../../shared/js/components/Modal.js"></script>
     <script src="../../shared/js/auth.js"></script>
     <script src="../../shared/js/api.js"></script>
     <script src="../../shared/js/utils.js"></script>
     <script src="./order.js"></script>
 
-    <!-- 🆕 최종 결제 확인 모달 -->
     <div id="payment-confirm-modal" class="payment-modal-overlay hidden">
         <div class="payment-modal-content">
             <h2 class="payment-modal-title">최종결제 정보</h2>

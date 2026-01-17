@@ -2,50 +2,42 @@ let orderData = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     loadOrderData();
-    loadUserInfo(); 
+    loadUserInfo();
     setupModalListeners();
-    console.log(localStorage)
+    console.log(localStorage);
 });
 
 function setupModalListeners() {
-    // 결제하기 버튼 (모달 표시)
     document.getElementById('btn-pay').addEventListener('click', () => {
-        // 1. 유효성 검사
         if (!validateOrderForm()) {
             return;
         }
 
-        // 2. 모달에 금액 정보 표시
         updateModalPrices();
 
-        // 3. 모달 표시
         showPaymentModal();
     });
-    
-    // 모달 외부 클릭 시 닫기
+
     document.getElementById('payment-confirm-modal').addEventListener('click', (e) => {
         if (e.target.id === 'payment-confirm-modal') {
             hidePaymentModal();
         }
     });
 
-    // 모달의 결제하기 버튼 (실제 결제 처리)
     document.getElementById('btn-modal-pay').addEventListener('click', async () => {
         await processPayment();
     });
 }
 
 function loadUserInfo() {
-    const buyerName = localStorage.getItem('buyerName');
-    
+    const buyerName = localStorage.getItem(STORAGE_KEYS.BUYER_NAME);
+
     if (buyerName) {
-        // 주문자 정보에 자동 입력
         const ordererNameInput = document.getElementById('orderer-name');
         if (ordererNameInput) {
             ordererNameInput.value = buyerName;
         }
-        
-        // 수령인 정보에도 자동 입력
+
         const receiverNameInput = document.getElementById('receiver-name');
         if (receiverNameInput) {
             receiverNameInput.value = buyerName;
@@ -54,7 +46,7 @@ function loadUserInfo() {
 }
 
 function loadOrderData() {
-    const data = localStorage.getItem('order_data');
+    const data = localStorage.getItem(STORAGE_KEYS.ORDER_DATA);
 
     if (!data) {
         alert('주문 정보가 없습니다. 메인 페이지로 이동합니다.');
@@ -73,7 +65,6 @@ function loadOrderData() {
     }
 }
 
-// 주문 상품 렌더링
 function renderOrderItems() {
     const listContainer = document.getElementById('order-items-list');
     let itemsInfo = [];
@@ -94,16 +85,14 @@ function renderOrderItems() {
 
     const itemsHTML = itemsInfo.map(item => {
         const rawQuantity = item.quantity || orderData.quantity;
-        const quantity = Number(rawQuantity); 
-        
+        const quantity = Number(rawQuantity);
+
         const price = Number(item.price);
         const shippingFee = Number(item.shipping_fee);
 
-        // 상품 금액 합계
         const itemTotalPrice = price * quantity;
         totalProductPrice += itemTotalPrice;
-        
-        // 배송비 (개별 배송비 가정)
+
         totalShippingFee += shippingFee;
 
         return `
@@ -125,13 +114,11 @@ function renderOrderItems() {
 
     listContainer.innerHTML = itemsHTML;
 
-    // 하단 금액 업데이트
     document.getElementById('total-order-price').innerText = formatPrice(totalProductPrice + totalShippingFee) + '원';
-    
+
     updateFinalPaymentSummary(totalProductPrice, totalShippingFee);
 }
 
-// 최종 금액 업데이트
 function updateFinalPaymentSummary(productPrice, shippingFee) {
     const totalPrice = productPrice + shippingFee;
 
@@ -143,10 +130,7 @@ function updateFinalPaymentSummary(productPrice, shippingFee) {
     orderData._totalPrice = totalPrice;
 }
 
-
-
 function validateOrderForm() {
-    // 주문자 정보 유효성 검사
     const ordererName = document.getElementById('orderer-name').value.trim();
     const ordererPhone2 = document.getElementById('orderer-phone-2').value.trim();
     const ordererPhone3 = document.getElementById('orderer-phone-3').value.trim();
@@ -165,7 +149,6 @@ function validateOrderForm() {
         return false;
     }
 
-    // 배송지 정보 유효성 검사
     const receiverName = document.getElementById('receiver-name').value.trim();
     const phone2 = document.getElementById('phone-2').value.trim();
     const phone3 = document.getElementById('phone-3').value.trim();
@@ -193,7 +176,6 @@ function validateOrderForm() {
     return true;
 }
 
-
 function updateModalPrices() {
     const productPrice = document.getElementById('final-product-price').innerText;
     const discount = document.getElementById('final-discount').innerText;
@@ -206,26 +188,19 @@ function updateModalPrices() {
     document.getElementById('modal-total-price').innerText = totalPrice;
 }
 
-
 function showPaymentModal() {
     const modal = document.getElementById('payment-confirm-modal');
     modal.classList.remove('hidden');
 }
-
 
 function hidePaymentModal() {
     const modal = document.getElementById('payment-confirm-modal');
     modal.classList.add('hidden');
 }
 
-// 실제 결제 처리 함수
 async function processPayment() {
-    console.log();
-    
-    // 모달 닫기
     hidePaymentModal();
 
-    // 데이터 수집
     const ordererPhone1 = document.getElementById('orderer-phone-1').value.trim();
     const ordererPhone2 = document.getElementById('orderer-phone-2').value.trim();
     const ordererPhone3 = document.getElementById('orderer-phone-3').value.trim();
@@ -243,11 +218,7 @@ async function processPayment() {
     const fullAddress = `${address1} ${address2} [${zipCode}]`;
     const ordererName = document.getElementById('orderer-name').value.trim();
     const ordererEmail = document.getElementById('orderer-email').value.trim();
-    const ordererInfo = {
-        name: ordererName,
-        phone: ordererPhoneNumber,
-        email: ordererEmail
-    };
+
     const commonPayload = {
         receiver: receiverName,
         receiver_phone_number: receiverPhoneNumber,
@@ -256,13 +227,10 @@ async function processPayment() {
         payment_method: paymentMethod,
     };
 
-    console.log();
-
     try {
         let results = [];
-        
+
         if (orderData.order_kind === 'direct_order') {
-            // 단일 상품 직접 주문
             const payload = {
                 ...commonPayload,
                 order_type: 'direct_order',
@@ -273,7 +241,6 @@ async function processPayment() {
             const res = await API.createOrder(payload);
             results.push(res);
         } else {
-            // 장바구니 주문 (다중 상품)
             const promises = orderData.items_info.map(item => {
                 const quantity = Number(item.quantity);
                 const price = Number(item.price);
@@ -293,19 +260,18 @@ async function processPayment() {
             results = await Promise.all(promises);
         }
 
-        // 결과 처리
         const failedOrders = results.filter(r => !r.success);
-        
+
         if (failedOrders.length === 0) {
             alert('모든 주문이 정상적으로 처리되었습니다.');
-            
+
             if (orderData.order_kind === 'cart_order') {
                 removePurchasedItemsFromCart(orderData.cart_items);
             } else if (orderData.order_kind === 'direct_order') {
                 removePurchasedItemsFromCart([orderData.product_id]);
             }
-            
-            localStorage.removeItem('order_data');
+
+            localStorage.removeItem(STORAGE_KEYS.ORDER_DATA);
             window.location.href = '../../index.html';
         } else {
             console.error('일부 또는 전체 주문 실패:', failedOrders);
@@ -319,10 +285,10 @@ async function processPayment() {
 }
 
 function removePurchasedItemsFromCart(purchasedIds) {
-    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    
+    let cart = JSON.parse(localStorage.getItem(STORAGE_KEYS.CART) || '[]');
+
     const idSet = new Set(purchasedIds.map(id => String(id)));
     cart = cart.filter(item => !idSet.has(String(item.productId)));
-    
-    localStorage.setItem('cart', JSON.stringify(cart));
+
+    localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(cart));
 }

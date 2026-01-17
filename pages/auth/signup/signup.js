@@ -1,4 +1,3 @@
-const BASE_URL = 'https://api.wenivops.co.kr/services/open-market';
 const buyerTab = document.getElementById('buyer-tab');
 const sellerTab = document.getElementById('seller-tab');
 const sellerFields = document.querySelector('.seller-only-fields');
@@ -84,7 +83,7 @@ idCheckBtn.addEventListener('click', async () => {
     }
     idCheckBtn.disabled = true;
     try {
-        const response = await fetch(`${BASE_URL}/accounts/validate-username/`, {
+        const response = await fetch(`${CONFIG.API_BASE_URL}/accounts/validate-username/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -227,7 +226,7 @@ phoneMiddle.addEventListener('input', (e) => {
         e.target.value = e.target.value.slice(0, 4);
     }
     clearMessage(phoneMessage);
-    if (e.target.value.length >= 3 && phoneLast.value.length === 4) {
+    if (e.target.value.length >= 4 && phoneLast.value.length === 4) {
         fieldStates.phone = true;
         showSuccess(phoneMessage, '휴대폰 번호가 입력되었습니다.');
     } else {
@@ -248,7 +247,7 @@ phoneLast.addEventListener('input', (e) => {
         e.target.value = e.target.value.slice(0, 4);
     }
     clearMessage(phoneMessage);
-    if (e.target.value.length === 4 && phoneMiddle.value.length >= 3) {
+    if (e.target.value.length === 4 && phoneMiddle.value.length >= 4) {
         fieldStates.phone = true;
         showSuccess(phoneMessage, '휴대폰 번호가 입력되었습니다.');
     } else {
@@ -267,7 +266,7 @@ async function checkPhone() {
     }
     console.log('휴대폰 중복 확인 시작:', fullPhone);
     try {
-        const response = await fetch(`${BASE_URL}/accounts/validate-phone/`, {
+        const response = await fetch(`${CONFIG.API_BASE_URL}/accounts/validate-phone/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -332,7 +331,7 @@ if (businessCheckBtn) {
         }
         businessCheckBtn.disabled = true;
         try {
-            const response = await fetch(`${BASE_URL}/accounts/seller/validate-registration-number/`, {
+            const response = await fetch(`${CONFIG.API_BASE_URL}/accounts/seller/validate-registration-number/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -407,14 +406,12 @@ signupForm.addEventListener('submit', async (e) => {
     };
     try {
         const endpoint = currentUserType === 'BUYER' 
-            ? `${BASE_URL}/accounts/buyer/signup/`
-            : `${BASE_URL}/accounts/seller/signup/`;
+            ? `${CONFIG.API_BASE_URL}/accounts/buyer/signup/`
+            : `${CONFIG.API_BASE_URL}/accounts/seller/signup/`;
         if (currentUserType === 'SELLER') {
-            signupData.company_registration_number = businessNumber.value.replace(/-/g, '');
-            const baseStoreName = storeName.value.trim();
-            const timestamp = Date.now();
-            signupData.store_name = `${baseStoreName}_${timestamp}`;
-        }
+    signupData.company_registration_number = businessNumber.value.replace(/-/g, '');
+    signupData.store_name = storeName.value.trim();
+}
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
