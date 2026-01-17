@@ -68,7 +68,7 @@ HODU(호두샵)는 **판매자**와 **구매자**를 위한 직관적인 오픈�
         <b>한태영</b>
       </a><br/>
       <sub>TaeyeongHan2</sub><br/>
-      <sub>공통 모듈 / 상품 목록 / API 설계</sub>
+      <sub>공통 모듈 / 상품 목록 / 장바구니</sub>
     </td>
     <td align="center" width="200">
       <a href="https://github.com/hieonjin">
@@ -117,7 +117,7 @@ HODU(호두샵)는 **판매자**와 **구매자**를 위한 직관적인 오픈�
 3. 판매자 센터에서 상품 관리
 4. 새 상품 등록 또는 기존 상품 수정/삭제
 
-![User Scenario Map](./docs/visuals/mindmeister-user-scenario.png)
+![User Scenario Map](./docs/visuals/user-scenario.png)
 > *MindMeister에서 유저 시나리오 맵을 PNG로 내보내어 `docs/visuals/mindmeister-user-scenario.png`에 저장*
 
 ---
