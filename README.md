@@ -312,6 +312,70 @@ style Auth fill:#f3e5f5
 
 ---
 
+## 사용자 시나리오
+
+### 구매자 플로우
+
+1. 상품 목록에서 원하는 상품 검색/탐색
+2. 상품 상세 페이지에서 정보 확인
+3. 장바구니에 담거나 바로 구매
+4. 주문 정보 입력 후 결제 완료
+5. 마이페이지에서 주문 내역 확인
+
+### 판매자 플로우
+
+1. 판매자 계정으로 로그인
+2. 상품 목록 페이지에서 판매자 센터 버튼 클릭
+3. 판매자 센터에서 상품 관리
+4. 새 상품 등록 또는 기존 상품 수정/삭제
+
+![User Scenario Map](./docs/visuals/user-scenario.png)
+
+---
+
+## 화면 설계 (IA/화면 흐름)
+
+```mermaid
+flowchart TB
+    subgraph 진입점
+        A[index.html] --> B[상품 목록<br/>products/list]
+    end
+
+    subgraph 인증
+        C[로그인<br/>auth/login]
+        D[회원가입<br/>auth/signup]
+        C <--> D
+    end
+
+    subgraph 구매자 흐름
+        B --> E[상품 상세<br/>products/detail]
+        E --> F[장바구니<br/>cart]
+        E --> G[주문<br/>order]
+        F --> G
+        G --> H[마이페이지<br/>mypage]
+        H --> I[주문 상세<br/>mypage/order-detail]
+    end
+
+    subgraph 판매자 흐름
+        J[판매자 센터<br/>seller/seller-center]
+        K[상품 등록/수정<br/>seller/seller-product-upload]
+        J <--> K
+    end
+
+    B --> C
+    C -->|구매자| B
+    C -->|판매자| B
+    B --> J
+
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#f3e5f5
+    style D fill:#f3e5f5
+    style J fill:#e8f5e9
+    style K fill:#e8f5e9
+```
+---
+
 ## 주요 기능
 
 ### 공통
@@ -386,71 +450,6 @@ style Auth fill:#f3e5f5
 | 상품 등록 | 상품 수정 |
 |:---:|:---:|
 | ![상품 등록](./docs/visuals/상품등록.png) | ![상품 수정](./docs/visuals/상품수정.png) |
-
----
-
-## 사용자 시나리오
-
-### 구매자 플로우
-
-1. 상품 목록에서 원하는 상품 검색/탐색
-2. 상품 상세 페이지에서 정보 확인
-3. 장바구니에 담거나 바로 구매
-4. 주문 정보 입력 후 결제 완료
-5. 마이페이지에서 주문 내역 확인
-
-### 판매자 플로우
-
-1. 판매자 계정으로 로그인
-2. 상품 목록 페이지에서 판매자 센터 버튼 클릭
-3. 판매자 센터에서 상품 관리
-4. 새 상품 등록 또는 기존 상품 수정/삭제
-
-![User Scenario Map](./docs/visuals/user-scenario.png)
-
----
-
-## 화면 설계 (IA/화면 흐름)
-
-```mermaid
-flowchart TB
-    subgraph 진입점
-        A[index.html] --> B[상품 목록<br/>products/list]
-    end
-
-    subgraph 인증
-        C[로그인<br/>auth/login]
-        D[회원가입<br/>auth/signup]
-        C <--> D
-    end
-
-    subgraph 구매자 흐름
-        B --> E[상품 상세<br/>products/detail]
-        E --> F[장바구니<br/>cart]
-        E --> G[주문<br/>order]
-        F --> G
-        G --> H[마이페이지<br/>mypage]
-        H --> I[주문 상세<br/>mypage/order-detail]
-    end
-
-    subgraph 판매자 흐름
-        J[판매자 센터<br/>seller/seller-center]
-        K[상품 등록/수정<br/>seller/seller-product-upload]
-        J <--> K
-    end
-
-    B --> C
-    C -->|구매자| B
-    C -->|판매자| B
-    B --> J
-
-    style A fill:#e1f5fe
-    style B fill:#fff3e0
-    style C fill:#f3e5f5
-    style D fill:#f3e5f5
-    style J fill:#e8f5e9
-    style K fill:#e8f5e9
-```
 
 ---
 
