@@ -36,9 +36,9 @@ HODU(호두샵)는 **판매자**와 **구매자**를 위한 직관적인 오픈�
 
 | 항목 | 링크 |
 |------|------|
-| 배포 URL | (추후 추가) |
-| 데모 영상 | (추후 추가) |
-| Wiki | (추후 추가) |
+| 배포 URL | [Team6-ModuLab/GitHub Pages](https://team6-modulab.github.io/OpenMarket-Service/) |
+| 시연 영상 | [Team6-ModuLab/Demonstration video](https://youtu.be/_jerVHr4nQU) |
+| Wiki | [Team6-ModuLab/Wiki](https://github.com/Team6-ModuLab/OpenMarket-Service/wiki) |
 | GitHub | [Team6-ModuLab/OpenMarket-Service](https://github.com/Team6-ModuLab/OpenMarket-Service) |
 
 ---
@@ -530,8 +530,7 @@ gantt
 
 ## 시연 영상
 
-![Demo GIF](./docs/visuals/demo.gif)
-> *주요 기능 시연 GIF를 `docs/visuals/demo.gif`에 저장*
+![Demo GIF](./docs/visuals/Team6%20시연영상.mov)
 
 ---
 
