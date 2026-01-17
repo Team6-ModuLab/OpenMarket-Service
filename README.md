@@ -118,7 +118,6 @@ HODU(호두샵)는 **판매자**와 **구매자**를 위한 직관적인 오픈�
 4. 새 상품 등록 또는 기존 상품 수정/삭제
 
 ![User Scenario Map](./docs/visuals/user-scenario.png)
-> *MindMeister에서 유저 시나리오 맵을 PNG로 내보내어 `docs/visuals/mindmeister-user-scenario.png`에 저장*
 
 ---
 
@@ -163,6 +162,8 @@ flowchart TB
     style J fill:#e8f5e9
     style K fill:#e8f5e9
 ```
+
+---
 
 ### 페이지별 화면
 
@@ -234,45 +235,96 @@ flowchart TB
 ## 아키텍처 설계
 
 ```mermaid
-flowchart TB
-    subgraph Pages["페이지 (pages/)"]
-        P1[auth/login]
-        P2[auth/signup]
-        P3[products/list]
-        P4[products/detail]
-        P5[cart]
-        P6[order]
-        P7[mypage]
-        P8[seller/seller-center]
-        P9[seller/seller-product-upload]
-    end
+flowchart LR
+%% ======================
+%% Layout: Pages -> Shared -> External
+%% ======================
 
-    subgraph Shared["공통 모듈 (shared/js/)"]
-        S1[constants.js<br/>API URL, 상수]
-        S2[api.js<br/>API 호출]
-        S3[auth.js<br/>토큰 관리]
-        S4[utils.js<br/>헤더/푸터, 유틸]
-        S5[Modal.js<br/>모달 컴포넌트]
-    end
+subgraph Pages["Pages (pages/)"]
+direction TB
+L[auth/login]
+SU[auth/signup]
+PL[products/list]
+PD[products/detail]
+C[cart]
+O[order]
+M[mypage]
+SC[seller/seller-center]
+PU[seller/seller-product-upload]
+end
 
-    subgraph External["외부 서비스"]
-        E1[Open Market API<br/>wenivops.co.kr]
-        E2[LocalStorage<br/>토큰/장바구니 저장]
-    end
+subgraph Shared["Shared Modules (shared/js/)"]
+direction TB
 
-    P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8 & P9 --> S4
-    S4 --> S1
-    S4 --> S3
-    S2 --> S1
-    S2 --> S3
-    P1 & P2 --> S2
-    P3 & P4 & P5 & P6 & P7 & P8 & P9 --> S2
-    S2 <--> E1
-    S3 <--> E2
-    P5 <--> E2
+subgraph UI["UI / Layout"]
+direction TB
+U[utils.js<br/>헤더/푸터 렌더 + 공통 이벤트]
+MO[Modal.js<br/>모달 컴포넌트]
+end
 
-    style Shared fill:#e3f2fd
-    style External fill:#fce4ec
+subgraph Net["Network / Data"]
+direction TB
+API[api.js<br/>fetch 래퍼 + API 호출]
+CONST[constants.js<br/>BASE_URL, Endpoints, 상수]
+end
+
+subgraph Auth["Auth"]
+direction TB
+A[auth.js<br/>토큰 저장/조회/갱신]
+end
+end
+
+subgraph External["External"]
+direction TB
+S[LocalStorage<br/>토큰/장바구니]
+SV[Open Market API<br/>wenivops.co.kr]
+end
+
+%% ======================
+%% Page -> Shared dependencies
+%% ======================
+L --> API
+SU --> API
+
+PL --> U
+PD --> U
+C --> U
+O --> U
+M --> U
+SC --> U
+PU --> U
+
+PL --> API
+PD --> API
+C --> API
+O --> API
+M --> API
+SC --> API
+PU --> API
+
+%% ======================
+%% Shared internal dependencies
+%% ======================
+U --> A
+API --> CONST
+API --> A
+
+%% ======================
+%% External connections
+%% ======================
+API <--> SV
+A <--> S
+C <--> S
+
+%% ======================
+%% Styling
+%% ======================
+style Pages fill:#fffde7
+style Shared fill:#e3f2fd
+style External fill:#fce4ec
+style UI fill:#e8f5e9
+style Net fill:#e0f7fa
+style Auth fill:#f3e5f5
 ```
 
 ### 모듈별 책임
