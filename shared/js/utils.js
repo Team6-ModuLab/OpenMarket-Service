@@ -183,7 +183,7 @@ function setupMyPageDropdown(btnMyPage) {
     btnLogout?.addEventListener('click', () => {
         AuthService.clearAuth();
         alert('로그아웃 되었습니다.');
-        window.location.href = `${getPagesBasePath()}../index.html`;
+        window.location.href = `${getPagesBasePath()}products/list/index.html`;
     });
 }
 
