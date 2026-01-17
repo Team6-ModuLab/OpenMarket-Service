@@ -236,89 +236,63 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-%% ======================
-%% Layout: Pages -> Shared -> External
-%% ======================
 
 subgraph Pages["Pages (pages/)"]
 direction TB
-L[auth/login]
-SU[auth/signup]
-PL[products/list]
-PD[products/detail]
-C[cart]
-O[order]
-M[mypage]
-SC[seller/seller-center]
-PU[seller/seller-product-upload]
+P[All Pages]
+PUI["UI 필요한 페이지들<br/>(list/detail/cart/order/mypage/seller...)"]
+PA["API 호출하는 페이지들<br/>(login/signup 포함 대부분)"]
 end
 
-subgraph Shared["Shared Modules (shared/js/)"]
+subgraph Shared["Shared (shared/js/)"]
 direction TB
 
 subgraph UI["UI / Layout"]
 direction TB
-U[utils.js<br/>헤더/푸터 렌더 + 공통 이벤트]
+U[utils.js<br/>헤더/푸터 + 공통 이벤트]
 MO[Modal.js<br/>모달 컴포넌트]
 end
 
 subgraph Net["Network / Data"]
 direction TB
 API[api.js<br/>fetch 래퍼 + API 호출]
-CONST[constants.js<br/>BASE_URL, Endpoints, 상수]
+CONST[constants.js<br/>BASE_URL / Endpoints]
 end
 
 subgraph Auth["Auth"]
 direction TB
 A[auth.js<br/>토큰 저장/조회/갱신]
 end
+
 end
 
 subgraph External["External"]
 direction TB
-S[LocalStorage<br/>토큰/장바구니]
+LS[LocalStorage<br/>토큰/장바구니]
 SV[Open Market API<br/>wenivops.co.kr]
 end
 
-%% ======================
-%% Page -> Shared dependencies
-%% ======================
-L --> API
-SU --> API
+%% Pages grouping
+P --> PUI
+P --> PA
 
-PL --> U
-PD --> U
-C --> U
-O --> U
-M --> U
-SC --> U
-PU --> U
+%% Hub -> modules (선 최소화)
+PUI --> U
+PUI --> MO
+PA --> API
 
-PL --> API
-PD --> API
-C --> API
-O --> API
-M --> API
-SC --> API
-PU --> API
-
-%% ======================
-%% Shared internal dependencies
-%% ======================
-U --> A
+%% Shared internal
 API --> CONST
 API --> A
+U --> A
 
-%% ======================
-%% External connections
-%% ======================
+%% External
 API <--> SV
-A <--> S
-C <--> S
+A <--> LS
 
-%% ======================
-%% Styling
-%% ======================
+%% cart만 localStorage 직접 사용한다면 별도 표기 (선 1개만 추가)
+PUI -. "cart only" .-> LS
+
 style Pages fill:#fffde7
 style Shared fill:#e3f2fd
 style External fill:#fce4ec
